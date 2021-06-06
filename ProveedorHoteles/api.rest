@@ -1,0 +1,50 @@
+###
+GET http://localhost:3002/api/hoteles
+
+###
+PUT http://localhost:3002/api/hoteles
+Content-Type: application/json
+
+{
+    "precio_noche": 111
+}
+
+###
+DELETE http://localhost:3002/api/hoteles
+
+
+
+###
+GET http://localhost:3002/api/hoteles/60ba434198fa1812e08de72d
+
+###
+POST http://localhost:3002/api/hoteles
+Content-Type: application/json
+
+{
+    "nombre": "HotelAlicante",
+    "precio_noche": 50,
+    "localidad": "Alicante",
+    "disponible": true
+}
+
+###
+PUT http://localhost:3002/api/hoteles/60ba434198fa1812e08de72d
+Content-Type: application/json
+
+{
+    "precio_noche": 99
+}
+###
+DELETE http://localhost:3002/api/hoteles/60ba434198fa1812e08de72d
+
+
+
+###
+GET http://localhost:3002/api/hoteles/precio/10
+
+###
+GET http://localhost:3002/api/hoteles/localidad/Alicante
+
+###
+GET http://localhost:3002/api/hoteles/nombre/HotelAlicante

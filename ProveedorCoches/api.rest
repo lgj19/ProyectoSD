@@ -1,0 +1,58 @@
+###
+GET http://localhost:3001/api/coches
+
+###
+PUT http://localhost:3001/api/coches
+Content-Type: application/json
+
+{
+    "precio": 111
+}
+
+###
+DELETE http://localhost:3001/api/coches/
+
+
+
+###
+GET http://localhost:3001/api/coches/60b9f3520c8aa718dcf0b069
+
+###
+POST http://localhost:3001/api/coches
+Content-Type: application/json
+
+{
+    "marca": "Jaguar",
+    "modelo": "Model Y",
+    "asientos": 2,
+    "precio": 888,
+    "localidad": "Alicante",
+    "disponible": false
+}
+
+###
+PUT http://localhost:3001/api/coches/60ba0b08a131f40914ac767e
+Content-Type: application/json
+
+{
+    "precio": 99
+}
+###
+DELETE http://localhost:3001/api/coches/60b9eed489af813534eebadb
+
+
+
+###
+GET http://localhost:3001/api/coches/precio/1000
+
+###
+GET http://localhost:3001/api/coches/modelo/Model%20Y
+
+###
+GET http://localhost:3001/api/coches/localidad/Alicante
+
+###
+GET http://localhost:3001/api/coches/marca/Jaguar
+
+###
+GET http://localhost:3001/api/coches/asientos/2

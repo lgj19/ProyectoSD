@@ -1,0 +1,61 @@
+###
+GET http://localhost:3003/api/vuelos
+
+###
+PUT http://localhost:3003/api/vuelos
+Content-Type: application/json
+
+{
+    "precio": 333
+}
+
+###
+DELETE http://localhost:3003/api/vuelos
+
+
+
+###
+GET http://localhost:3003/api/vuelos/60b9f3520c8aa718dcf0b069
+
+###
+POST http://localhost:3003/api/vuelos
+Content-Type: application/json
+
+{
+    "empresa": "Ryanair",
+    "origen": "Madrid",
+    "destino": "Alicante",
+    "precio": 400,
+    "fecha": "30-10-2021",
+    "disponible": true
+}
+
+###
+PUT http://localhost:3003/api/vuelos/60ba61cd3988fe20d88a4b32
+Content-Type: application/json
+
+{
+    "precio": 444
+}
+###
+DELETE http://localhost:3003/api/vuelos/60ba61e53988fe20d88a4b33
+
+
+
+###
+GET http://localhost:3003/api/vuelos/precio/450
+
+###
+GET http://localhost:3003/api/vuelos/empresa/Ryanair
+
+###
+GET http://localhost:3003/api/vuelos/origen/Alicante
+
+###
+GET http://localhost:3003/api/vuelos/destino/Alicante
+
+###
+GET http://localhost:3003/api/vuelos/fecha/30-10-2021
+
+###
+GET http://localhost:3003/api/vuelos/disponible/true
