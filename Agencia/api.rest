@@ -1,0 +1,59 @@
+###
+GET http://localhost:3000/api/agencia/usuario
+
+###
+PUT http://localhost:3000/api/agencia/usuario
+Content-Type: application/json
+
+{
+    "email": "ejemplo@ua.es"
+}
+
+###
+DELETE http://localhost:3000/api/agencia/usuario
+
+
+
+###
+GET http://localhost:3000/api/agencia/usuario/ID
+
+###
+POST http://localhost:3000/api/agencia/usuario
+Content-Type: application/json
+
+{
+    "usuario": {
+        "nombre": "Adam",
+        "apellidos": "Brahim García",
+        "email": "abg194@alu.ua.es",
+        "usuario": "abg194",
+        "password": "1234",
+    }
+}
+
+###
+PUT http://localhost:3001/api/coches/60ba0b08a131f40914ac767e
+Content-Type: application/json
+
+{
+    "precio": 99
+}
+###
+DELETE http://localhost:3001/api/coches/60b9eed489af813534eebadb
+
+
+
+###
+GET http://localhost:3001/api/coches/precio/1000
+
+###
+GET http://localhost:3001/api/coches/modelo/Model%20Y
+
+###
+GET http://localhost:3001/api/coches/localidad/Alicante
+
+###
+GET http://localhost:3001/api/coches/marca/Jaguar
+
+###
+GET http://localhost:3001/api/coches/asientos/2
