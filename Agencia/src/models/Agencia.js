@@ -1,19 +1,8 @@
-const Coche = require('../../../ProveedorCoches/src/models/Coche')
-const Hotel = require('../../../ProveedorHoteles/src/models/Hotel')
-const Vuelo = require('../../../ProveedorVuelos/src/models/Vuelo')
 const { Schema, model } = require('mongoose');
+const { Usuario } = require('./Usuario')
 
 const agenciaSchema = new Schema({
-    usuario: {
-        nombre: {type: String, required: true},
-        apellidos: {type: String, required: true},
-        email: {type: String, required: true},
-        usuario: {type: String, required: true},
-        password: {type: String, required: true},
-        reserva_hotel: {type: Hotel.schema, required: false},
-        reserva_vuelo: {type: Vuelo.schema, required: false},
-        reserva_coche: {type: Coche.schema, required: false}
-    },
+    usuarios: [{ type: Schema.Types.ObjectId, ref: 'Usuario' }]
 }, {
     timestamps: true,
     versionKey: false

@@ -1,8 +1,8 @@
 
 //Initializations
-const express =require('express');
+const express = require('express');
 const morgan = require('morgan');
-
+const cors = require('cors');
 const app = express();
 
 
@@ -12,6 +12,7 @@ app.set('json spaces',2);
 
 
 //Middleware
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());

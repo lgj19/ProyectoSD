@@ -1,6 +1,7 @@
 
 //Inicialización de variables
 const cochesCtrl = {};
+const { json } = require('express');
 //const { rawListeners } = require('../app');
 const Coche = require('../models/Coche');
 
@@ -16,45 +17,93 @@ cochesCtrl.saludoInicio = (req, res) =>
 
 // URL -> /api/coches/
 
-cochesCtrl.getCoches = async (req, res) => {
-    const coches = await Coche.find()
-    res.json(coches)
+cochesCtrl.getCoches = async (req, res, next) => {
+    await Coche.find((err, elementos) => {
+        if(err) return next(err);
+
+        console.log(elementos);
+        res.json({
+            result: 'Coches recuperados correctamente.',
+            elementos: elementos
+        });
+    });
 }
 
-cochesCtrl.postCoche = async(req,res) => {
+cochesCtrl.postCoche = async(req,res, next) => {
     const newCoche = new Coche(req.body)
 
-    await newCoche.save()
+    await newCoche.save((err, cocheNuevo) => {
+        if(err) return next(err);
 
-    res.json({status: 'Coche guardado correctamente.'})
+        console.log(cocheNuevo);
+        res.status(201).json({
+            result: 'OK',
+            elemento: cocheNuevo
+        });
+    });
 }
 
-cochesCtrl.putCoches = async(req, res) => {
-    await Coche.updateMany({ }, req.body);
-    res.json({status: 'Coches actualizados correctamente.'})
+cochesCtrl.putCoches = async(req, res, next) => {
+    await Coche.updateMany({ }, req.body, (err, coches) => {
+        if(err) return next(err);
+
+        console.log(coches);
+        res.json({
+            result: 'OK',
+            elementos: coches
+        });
+    });
 }
 
-cochesCtrl.deleteCoches = async(req, res) => {
-    await Coche.deleteMany();
-    res.json({status: 'Coches borrados correctamente.'})
+cochesCtrl.deleteCoches = async(req, res, next) => {
+    await Coche.deleteMany((err, coches) => {
+        if(err) return next();
+
+        console.log(coches);
+        res.json({
+            result: 'OK',
+            elementos: coches
+        });
+    });
 }
 
 
 // URL -> /api/coches/:id
 
-cochesCtrl.getCocheId = async (req,res) => {
-    const coche = await Coche.findById(req.params.id)
-    res.send(coche)
+cochesCtrl.getCocheId = async (req,res, next) => {
+    await Coche.findById(req.params.id, (err, coche) => {
+        if(err) return next(err);
+
+        console.log(coche);
+        res.json({
+            result: 'OK',
+            elemento: coche
+        });
+    });
 }
 
-cochesCtrl.putCocheId = async (req,res) => {
-    await Coche.findByIdAndUpdate(req.params.id, req.body)
-    res.json({status: 'Coche actualizado correctamente.'})
+cochesCtrl.putCocheId = async (req,res, next) => {
+    await Coche.findByIdAndUpdate(req.params.id, req.body, (err, coche) => {
+        if(err) return next(err);
+
+        console.log(coche);
+        res.json({
+            result: 'OK',
+            elemento: coche
+        });
+    });
 }
 
-cochesCtrl.deleteCocheId = async (req,res) => {
-    await Coche.findByIdAndDelete(req.params.id)
-    res.json({status: 'Coche eliminado de la BD correctamente.'})
+cochesCtrl.deleteCocheId = async (req,res, next) => {
+    await Coche.findByIdAndDelete(req.params.id, (err, coche) => {
+        if(err) return next(err);
+
+        console.log(coche);
+        res.json({
+            result: 'OK',
+            elemento: coche
+        });
+    });
 }
 
 
@@ -68,19 +117,33 @@ cochesCtrl.getCocheDisponible = async(req, res) => {
 
 // URL -> /api/coches/precio/:precio
 
-cochesCtrl.getCochePrecio = async(req, res) => {
-    const coches = await Coche.find({ "precio": { $lte: req.params.precio },
-        "disponible": true })
-    res.send(coches)
+cochesCtrl.getCochePrecio = async(req, res, next) => {
+    await Coche.find({ "precio": { $lte: req.params.precio },
+        "disponible": true }, (err, coches) => {
+            if(err) return next(err);
+
+            console.log(coches);
+            res.json({
+                result: 'OK',
+                elementos: coches
+            });
+        });
 }
 
 
 // URL -> /api/coches/marca/:marca
 
 cochesCtrl.getCocheMarca = async(req, res) => {
-    const coches = await Coche.find({ "marca": req.params.marca,
-    "disponible": true })
-    res.send(coches)
+    await Coche.find({ "marca": req.params.marca,
+    "disponible": true }, (err, coches) => {
+        if(err) return next(err);
+
+        console.log(coches);
+        res.json({
+            result: 'OK',
+            elementos: coches
+        });
+    });
 }
 
 
@@ -88,8 +151,15 @@ cochesCtrl.getCocheMarca = async(req, res) => {
 
 cochesCtrl.getCocheLocalidad = async(req, res) => {
     const coches = await Coche.find({ "localidad": req.params.localidad,
-    "disponible": true })
-    res.send(coches)
+    "disponible": true }, (err, coches) => {
+        if(err) return next(err);
+
+        console.log(coches);
+        res.json({
+            result: 'OK',
+            elementos: coches
+        });
+    });
 }
 
 
@@ -97,8 +167,15 @@ cochesCtrl.getCocheLocalidad = async(req, res) => {
 
 cochesCtrl.getCocheModelo = async(req, res) => {
     const coches = await Coche.find({ "modelo": req.params.modelo,
-    "disponible": true })
-    res.send(coches)
+    "disponible": true }, (err, coches) => {
+        if(err) return next(err);
+
+        console.log(coches);
+        res.json({
+            result: 'OK',
+            elementos: coches
+        });
+    });
 }
 
 
@@ -106,8 +183,15 @@ cochesCtrl.getCocheModelo = async(req, res) => {
 
 cochesCtrl.getCocheAsientos = async(req, res) => {
     const coches = await Coche.find({ "asientos": { $lte: req.params.asientos },
-    "disponible": true })
-    res.send(coches)
+    "disponible": true }, (err, coches) => {
+        if(err) return next(err);
+
+        console.log(coches);
+        res.json({
+            result: 'OK',
+            elementos: coches
+        });
+    });
 }
 
 module.exports = cochesCtrl;

@@ -22,13 +22,11 @@ POST http://localhost:3000/api/agencia/usuario
 Content-Type: application/json
 
 {
-    "usuario": {
         "nombre": "Adam",
         "apellidos": "Brahim García",
-        "email": "abg194@alu.ua.es",
-        "usuario": "abg194",
-        "password": "1234",
-    }
+        "email": "lgj19@alu.ua.es",
+        "usuario": "lgj19",
+        "password": "1234"
 }
 
 ###
