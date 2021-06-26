@@ -63,6 +63,30 @@ cochesCtrl.putCoches = async (req, res, next) => {
     });
 }
 
+cochesCtrl.deleteCoches = async (req, res, next) => {
+    const laColeccion = req.params.colecciones;
+    const elId = req.params.id;
+    const URL = `${URL_WS_COCHES}/${laColeccion}/${elId}`;
+
+    fetch(URL, {
+        method: 'DELETE'
+    })
+    .then( (resp) => {
+        if(resp.status == 200)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: 'Coche eliminado.',
+            coleccion: laColeccion,
+            elemento: json.elemento
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
 
 // URL -> /api/agencia/coches/disponible/:disponible
 cochesCtrl.getCocheDisponible = async(req, res) => {
