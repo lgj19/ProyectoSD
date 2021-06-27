@@ -33,6 +33,35 @@ cochesCtrl.getCoches = async (req, res, next) => {
     });
 }
 
+cochesCtrl.postCoches = async (req, res, next) => {
+    const laColeccion = req.params.colecciones;
+    const elElemento = req.body;
+    const URL = `${URL_WS_COCHES}/${laColeccion}`;
+
+    fetch(URL, {
+        method: 'POST',
+        body: JSON.stringify(elElemento),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then( (resp) => {
+        if(resp.status == 201)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: 'Coche modificado.',
+            coleccion: laColeccion,
+            elemento: json.elemento
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
+
 cochesCtrl.putCoches = async (req, res, next) => {
     const laColeccion = req.params.colecciones;
     const elId = req.params.id;

@@ -1,15 +1,18 @@
 const config = require('../config')
 const Usuario = require('../models/Usuario')
+const jwt = require('jsonwebtoken')
+const Role = require('../models/Role')
 
 const authJwt = {}
 
 authJwt.verifyToken = async (req, res, next) => {
     try {
-        const token = req.headers["access-token"];
+        const token = req.headers.authorization.split(" ")[1];
 
         if(!token) return res.status(403).json({message: "No token provided."});
 
-        const decoded = jwt.verify(token, config.SECRET);
+        const decoded = jwt.verify(token, config.SECRET, { //Creamos el token
+            expiresIn: 86400});
         req.userId = decoded.id;
 
         const usuario = await Usuario.findById(req.userId, { password: 0});

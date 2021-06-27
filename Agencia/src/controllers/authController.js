@@ -4,6 +4,7 @@ const authCtrl = {};
 const Usuario = require('../models/Usuario');
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const Role = require('../models/Role')
 
 //Login & signup
 
@@ -19,6 +20,9 @@ authCtrl.signUp = async(req, res, next) => {
     if(roles){ //Si no es admin, se le asigna el de usuario.
         const foundRoles = await Role.find({name: {$in: roles}})
         nuevoUsuario.roles = foundRoles.map(role => role._id)
+    }else{
+        const foundRoles = await Role.find({name: "user"});
+        nuevoUsuario.roles = foundRoles.map(role => role._id);
     }
     
     const usuarioGuardado = await nuevoUsuario.save()
@@ -29,7 +33,7 @@ authCtrl.signUp = async(req, res, next) => {
     res.json(token)
 }
 authCtrl.signIn = async(req, res, next) => {
-    const userFound = await Usuario.findOne({email: req.body.email})
+    const userFound = await Usuario.findOne({usuario: req.body.usuario})
         .populate("roles");
     if(!userFound) return res.status(400).json({message:"User not found."});
 
