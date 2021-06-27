@@ -175,4 +175,28 @@ cochesCtrl.getCocheAsientos = async(req, res) => {
     });
 }
 
+
+cochesCtrl.getCochesByAsiLocEst = async (req, res, next) => {
+    const laColeccion = req.params.colecciones;
+    const localidad = req.params.localidad;
+    const asientos = req.params.asientos;
+    const URL = `${URL_WS_COCHES}/${laColeccion}/localidad/${localidad}/asientos/${asientos}`;
+
+    fetch(URL).then( (resp) => {
+        if(resp.status == 200)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: 'Coches DISPONIBLES del proveedor filtrados por: LOCALIDAD y ASIENTOS recuperados correctamente.',
+            coleccion: laColeccion,
+            elementos: json.elementos
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
+
 module.exports = cochesCtrl;

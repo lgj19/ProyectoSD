@@ -6,7 +6,7 @@ const cochesSchema = new Schema({
     asientos: {type: Number, required: true},
     precio: {type: Number, required: true},
     localidad: {type: String, required: true},
-    disponible: {type: Boolean, required: true}
+    estado: {type: String, required: true}
 }, {
     timestamps: true,
     versionKey: false

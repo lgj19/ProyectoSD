@@ -20,7 +20,8 @@ router.get('/coches/marca/:marca', cochesCtrl.getCocheMarca)
 router.get('/coches/localidad/:localidad', cochesCtrl.getCocheLocalidad)
 router.get('/coches/modelo/:modelo', cochesCtrl.getCocheModelo)
 router.get('/coches/asientos/:asientos', cochesCtrl.getCocheAsientos)
+router.get('/coches/disponible/:disponible', cochesCtrl.getCocheDisponible)
 
-router.all('/api/coches/disponible/:disponible', cochesCtrl.getCocheDisponible)
+router.get('/coches/localidad/:localidad/asientos/:asientos', cochesCtrl.getCochesByLocAsiEst)
 
 module.exports = router;

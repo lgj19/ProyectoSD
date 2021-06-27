@@ -109,7 +109,7 @@ cochesCtrl.deleteCocheId = async (req,res, next) => {
 
 // URL -> /api/coches/disponible/:disponible
 cochesCtrl.getCocheDisponible = async(req, res) => {
-    const coches = await Coche.find({ "disponible": req.params.disponible })
+    const coches = await Coche.find({ "estado": req.params.disponible })
     res.send(coches)
 }
 
@@ -118,8 +118,8 @@ cochesCtrl.getCocheDisponible = async(req, res) => {
 // URL -> /api/coches/precio/:precio
 
 cochesCtrl.getCochePrecio = async(req, res, next) => {
-    await Coche.find({ "precio": { $lte: req.params.precio },
-        "disponible": true }, (err, coches) => {
+    await Coche.find({ "precio": { $lte: req.params.precio } }, 
+    (err, coches) => {
             if(err) return next(err);
 
             console.log(coches);
@@ -134,8 +134,8 @@ cochesCtrl.getCochePrecio = async(req, res, next) => {
 // URL -> /api/coches/marca/:marca
 
 cochesCtrl.getCocheMarca = async(req, res) => {
-    await Coche.find({ "marca": req.params.marca,
-    "disponible": true }, (err, coches) => {
+    await Coche.find({ "marca": req.params.marca },
+    (err, coches) => {
         if(err) return next(err);
 
         console.log(coches);
@@ -150,8 +150,8 @@ cochesCtrl.getCocheMarca = async(req, res) => {
 // URL -> /api/coches/localidad/:localidad
 
 cochesCtrl.getCocheLocalidad = async(req, res) => {
-    const coches = await Coche.find({ "localidad": req.params.localidad,
-    "disponible": true }, (err, coches) => {
+    const coches = await Coche.find({ "localidad": req.params.localidad }, 
+    (err, coches) => {
         if(err) return next(err);
 
         console.log(coches);
@@ -166,8 +166,8 @@ cochesCtrl.getCocheLocalidad = async(req, res) => {
 // URL -> /api/coches/modelo/:modelo
 
 cochesCtrl.getCocheModelo = async(req, res) => {
-    const coches = await Coche.find({ "modelo": req.params.modelo,
-    "disponible": true }, (err, coches) => {
+    const coches = await Coche.find({ "modelo": req.params.modelo }, 
+    (err, coches) => {
         if(err) return next(err);
 
         console.log(coches);
@@ -182,13 +182,26 @@ cochesCtrl.getCocheModelo = async(req, res) => {
 // URL -> /api/coches/asientos/:asientos
 
 cochesCtrl.getCocheAsientos = async(req, res) => {
-    const coches = await Coche.find({ "asientos": { $lte: req.params.asientos },
-    "disponible": true }, (err, coches) => {
+    const coches = await Coche.find({ "asientos": { $lte: req.params.asientos } }, 
+    (err, coches) => {
         if(err) return next(err);
 
         console.log(coches);
         res.json({
             result: 'OK',
+            elementos: coches
+        });
+    });
+}
+
+cochesCtrl.getCochesByLocAsiEst = async(req, res) => {
+    const coches = await Coche.find({ "localidad": req.params.localidad, "asientos": { $gte: req.params.asientos },
+    "estado": "DISPONIBLE" }, (err, coches) => {
+        if(err) return next(err);
+
+        console.log(coches);
+        res.json({
+            result: 'Búsqueda de coches por "localidad", "asientos" y "estado=DISPONIBLE" realizada satisfactoriamente.',
             elementos: coches
         });
     });
