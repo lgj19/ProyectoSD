@@ -1,0 +1,30 @@
+ <!-- RESULTADO DE LA BÚSQUEDA -->
+
+
+
+<div class="card">
+    <div class="card-body">
+    
+        <form #reservaForm="ngForm" (ngSubmit)="addForm(reservaForm)">
+            <h5>Coches disponibles: </h5>
+            <div>
+                <ul class="list-group">
+                      <li class="list-group-item"  *ngFor="let coche of reservasService.reservasCoches">
+                        <input type="radio" [(ngModel)]="idCocheSelect" name="reservaCocheSelect" value="{{coche._id}}"/> 
+                        {{coche.localidad}}, {{coche.marca}}, {{coche.modelo}}, {{coche.asientos}}
+                      </li>
+                </ul>
+            </div>
+
+            <br><h5>Habitaciones de hotel disponibles: </h5>
+
+
+
+            <br><h5>Vuelos disponibles: </h5>
+
+            <button class="btn btn-primary mr-2 mt-4">Reservar</button>
+
+        </form>
+        
+    </div>
+</div>

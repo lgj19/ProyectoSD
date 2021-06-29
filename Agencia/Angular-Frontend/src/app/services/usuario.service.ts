@@ -7,8 +7,7 @@ import { Usuario } from '../models/usuario';
 })
 export class UsuarioService {
 
-  URL_API_AGENCIA = 'http://localhost:3000/api/agencia';
-  URL_API_AGENCIA_USUARIO = 'http://localhost:3000/api/agencia/usuario';
+  URL_API_AGENCIA_USUARIO = 'https://localhost:3000/api/agencia/usuario';
 
   usuarioSelected: Usuario = { nombre: '', apellidos:'', email:'', usuario:'', password:'' };
 

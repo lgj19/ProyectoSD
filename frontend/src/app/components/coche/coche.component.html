@@ -1,0 +1,89 @@
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="card">
+            <div class="card-body">
+                <form #cochesForm="ngForm" (ngSubmit)="addCoche(cochesForm)">
+
+                    <input type="hidden" name="_id" [(ngModel)]="cocheService.cocheSelected._id">
+                    <input type="hidden" name="estado" [(ngModel)]="cocheService.cocheSelected.estado">
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="marca" placeholder="Marca" [(ngModel)]="cocheService.cocheSelected.marca">
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="modelo" placeholder="Modelo" [(ngModel)]="cocheService.cocheSelected.modelo">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="precio" placeholder="Precio" [(ngModel)]="cocheService.cocheSelected.precio"> 
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="asientos" placeholder="Número de asientos" [(ngModel)]="cocheService.cocheSelected.asientos">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="localidad" placeholder="Localidad" [(ngModel)]="cocheService.cocheSelected.localidad">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="estado" placeholder="Estado" [(ngModel)]="cocheService.cocheSelected.estado">
+                    </div>
+
+                    <button class="btn btn-primary mr-2 mt-4">Agregar</button>
+                    <button class="btn btn-secondary mt-4"  (click)="resetForm(cochesForm)">Limpiar</button>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Marca
+                    </th>
+                    <th>
+                        Modelo
+                    </th>
+                    <th>
+                        Localidad
+                    </th>
+                    <th>
+                        Asientos
+                    </th>
+                    <th>
+                        Precio/día
+                    </th>
+                    <th>
+                        Operaciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let coche of cocheService.coches">
+                    <td>{{coche.marca}}</td>
+                    <td> {{coche.modelo}}</td>
+                    <td>{{coche.localidad}}</td>
+                    <td> {{coche.asientos}}</td>
+                    <td>{{coche.precio}}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" (click)="editCoche(coche)">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteCoche(coche._id!)">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

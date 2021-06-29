@@ -16,7 +16,13 @@ cochesCtrl.getCoches = async (req, res, next) => {
     const laColeccion = req.params.colecciones;
     const URL = `${URL_WS_COCHES}/${laColeccion}`;
 
-    fetch(URL).then( (resp) => {
+    fetch(URL, { 
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        }
+     }).then( (resp) => {
         if(resp.status == 200)
             return resp.json();
         throw Error(resp.status);
@@ -25,7 +31,7 @@ cochesCtrl.getCoches = async (req, res, next) => {
         res.json({
             result: 'Coches del proveedor recuperados.',
             coleccion: laColeccion,
-            elementos: json.elementos
+            elementos: json.elementos,
         });
     })
     .catch((error) => {
@@ -42,7 +48,8 @@ cochesCtrl.postCoches = async (req, res, next) => {
         method: 'POST',
         body: JSON.stringify(elElemento),
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
         }
     })
     .then( (resp) => {
@@ -72,7 +79,8 @@ cochesCtrl.putCoches = async (req, res, next) => {
         method: 'PUT',
         body: JSON.stringify(elElemento),
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
         }
     })
     .then( (resp) => {
@@ -98,7 +106,11 @@ cochesCtrl.deleteCoches = async (req, res, next) => {
     const URL = `${URL_WS_COCHES}/${laColeccion}/${elId}`;
 
     fetch(URL, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        }
     })
     .then( (resp) => {
         if(resp.status == 200)
@@ -211,7 +223,13 @@ cochesCtrl.getCochesByAsiLocEst = async (req, res, next) => {
     const asientos = req.params.asientos;
     const URL = `${URL_WS_COCHES}/${laColeccion}/localidad/${localidad}/asientos/${asientos}`;
 
-    fetch(URL).then( (resp) => {
+    fetch(URL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        }
+    }).then( (resp) => {
         if(resp.status == 200)
             return resp.json();
         throw Error(resp.status);
@@ -220,7 +238,7 @@ cochesCtrl.getCochesByAsiLocEst = async (req, res, next) => {
         res.json({
             result: 'Coches DISPONIBLES del proveedor filtrados por: LOCALIDAD y ASIENTOS recuperados correctamente.',
             coleccion: laColeccion,
-            elementos: json.elementos
+            elementos: json.elementos,
         });
     })
     .catch((error) => {

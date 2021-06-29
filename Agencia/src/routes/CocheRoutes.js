@@ -11,7 +11,7 @@ router.put('/:colecciones/:id', [authJwt.verifyToken, authJwt.isAdmin], cochesCt
 router.delete('/:colecciones/:id', [authJwt.verifyToken, authJwt.isAdmin], cochesCtrl.deleteCoches)
 
 
-router.get('/:colecciones/:localidad/:asientos', authJwt.verifyToken, cochesCtrl.getCochesByAsiLocEst)
+router.get('/:colecciones/localidad/:localidad/asientos/:asientos', authJwt.verifyToken, cochesCtrl.getCochesByAsiLocEst)
 
 
 module.exports = router;

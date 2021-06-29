@@ -1,0 +1,93 @@
+<div class="card">
+    <div class="card-body">
+    
+        <form #reservaForm="ngForm" (ngSubmit)="addForm(reservaForm)">
+
+            <div class="form-group">
+                <label for="destino">Destino: </label>
+                <input type="text" class="form-control" name="destino" placeholder="Destino" [(ngModel)]="reservasService.data.destino">
+            </div>
+            
+            <div class="form-group">
+                <input type="number" class="form-control" name="personas" placeholder="Personas" [(ngModel)]="reservasService.data.personas">
+            </div>
+
+            <div class="form-group">
+                <input type="date" class="form-control" name="fechaOrigen" placeholder="Fecha de Origen (dd/mm/yyyy)" [(ngModel)]="reservasService.data.fechaOrigen"> 
+            </div>
+
+            <div class="form-group">
+                <input type="date" class="form-control" name="fechaDestino" placeholder="Fecha de Destino (dd/mm/yyyy)" [(ngModel)]="reservasService.data.fechaDestino"> 
+            </div>
+
+            <label> Tipo de viaje: </label>
+            <div *ngIf="reservasService.data.tipoViaje == ''" class="alert alert-warning" role="alert">
+                Es necesario seleccionar un tipo de viaje.
+            </div>
+            <div>
+                <ul class="list-group">
+                      <li class="list-group-item"  *ngFor="let item of tiposViaje">
+                        <input type="radio" [(ngModel)]="reservasService.data.tipoViaje" name="tipoViaje" value="{{item.value}}"/> 
+                        {{item.name}}
+                      </li>
+                </ul>
+            </div>
+
+                       <!-- Reservas -->
+            <br><label> Tipo de Reserva: </label>
+            <div *ngIf="!reservasService.data.tipoReserva.includes(true)" class="alert alert-warning" role="alert">
+                Es necesario seleccionar al menos un tipo de reserva.
+            </div>
+            <div>
+                <li class="list-group-item">
+                    <input
+                    mdbCheckbox
+                    class="form-check-input"
+                    type="checkbox"
+                    value="coche"
+                    id="coche"
+                    [(ngModel)]="reservasService.data.tipoReserva[0]"
+                    name="data.tipoReserva[0]"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault" >
+                    Coche
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input
+                    mdbCheckbox
+                    class="form-check-input"
+                    type="checkbox"
+                    value="vuelo"
+                    id="vuelo"
+                    [checked]="true"
+                    [(ngModel)]="reservasService.data.tipoReserva[1]"
+                    name="data.tipoReserva[1]"
+                    />
+                    <label class="form-check-label" for="flexCheckChecked">
+                    Vuelo
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input
+                mdbCheckbox
+                class="form-check-input"
+                type="checkbox"
+                value="hotel"
+                id="hotel"
+                [checked]="true"
+                [(ngModel)]="reservasService.data.tipoReserva[2]"
+                name="data.tipoReserva[2]"
+                />
+                <label class="form-check-label" for="flexCheckChecked">
+                Hotel
+                </label>
+                </li>
+            </div>
+
+            <button class="btn btn-primary mr-2 mt-4">Buscar Reservas</button>
+
+        </form>
+        
+    </div>
+</div>

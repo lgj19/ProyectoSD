@@ -35,12 +35,12 @@ authCtrl.signUp = async(req, res, next) => {
 authCtrl.signIn = async(req, res, next) => {
     const userFound = await Usuario.findOne({usuario: req.body.usuario})
         .populate("roles");
-    if(!userFound) return res.status(400).json({message:"User not found."});
+    if(!userFound) return res.status(401).json({message:"User not found."});
 
     //Comprobamos la contraseña
     const matchPassword = await Usuario.comparePassword(req.body.password, userFound.password);
 
-    if(!matchPassword) return res.satatus(401).json({token: null, message: "Invalid password"});
+    if(!matchPassword) return res.status(401).json({token: null, message: "Invalid password"});
 
     //Creamos el token
     const token = jwt.sign({id: userFound._id}, config.SECRET, { 
