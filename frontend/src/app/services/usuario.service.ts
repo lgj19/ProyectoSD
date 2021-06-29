@@ -14,7 +14,7 @@ export class UsuarioService {
   usuarios: Usuario[] = [];
 
   constructor(private http: HttpClient) { }
-  
+
   //CRUD basic
 
   getUsuarios() {

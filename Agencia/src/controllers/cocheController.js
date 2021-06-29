@@ -5,16 +5,41 @@ const { json } = require('express');
 const Coche = require('../models/Coche');
 const fetch = require('node-fetch');
 
-const URL_WS_COCHES = "http://localhost:3001/api/";
+const URL_WS_COCHES = "http://localhost:3001/api/coches";
 
 //Controladores de la API
 
 
 // URL -> /api/agencia/coches/
 
+cochesCtrl.getCoche = async (req, res, next) => {
+    const elId = req.params.id;
+    const URL = `${URL_WS_COCHES}/${elId}`;
+
+    fetch(URL, { 
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        }
+     }).then( (resp) => {
+        if(resp.status == 200)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: 'Coche del proveedor recuperado por ID.',
+            elemento: json.elemento,
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
+
 cochesCtrl.getCoches = async (req, res, next) => {
-    const laColeccion = req.params.colecciones;
-    const URL = `${URL_WS_COCHES}/${laColeccion}`;
+    const URL = `${URL_WS_COCHES}`;
 
     fetch(URL, { 
         method: 'GET',
@@ -30,7 +55,6 @@ cochesCtrl.getCoches = async (req, res, next) => {
     .then( json => {
         res.json({
             result: 'Coches del proveedor recuperados.',
-            coleccion: laColeccion,
             elementos: json.elementos,
         });
     })
@@ -40,9 +64,8 @@ cochesCtrl.getCoches = async (req, res, next) => {
 }
 
 cochesCtrl.postCoches = async (req, res, next) => {
-    const laColeccion = req.params.colecciones;
     const elElemento = req.body;
-    const URL = `${URL_WS_COCHES}/${laColeccion}`;
+    const URL = `${URL_WS_COCHES}`;
 
     fetch(URL, {
         method: 'POST',
@@ -59,8 +82,7 @@ cochesCtrl.postCoches = async (req, res, next) => {
     })
     .then( json => {
         res.json({
-            result: 'Coche modificado.',
-            coleccion: laColeccion,
+            result: 'Coche nuevo.',
             elemento: json.elemento
         });
     })
@@ -70,10 +92,9 @@ cochesCtrl.postCoches = async (req, res, next) => {
 }
 
 cochesCtrl.putCoches = async (req, res, next) => {
-    const laColeccion = req.params.colecciones;
     const elId = req.params.id;
     const elElemento = req.body;
-    const URL = `${URL_WS_COCHES}/${laColeccion}/${elId}`;
+    const URL = `${URL_WS_COCHES}/${elId}`;
 
     fetch(URL, {
         method: 'PUT',
@@ -91,7 +112,6 @@ cochesCtrl.putCoches = async (req, res, next) => {
     .then( json => {
         res.json({
             result: 'Coche modificado.',
-            coleccion: laColeccion,
             elemento: json.elemento
         });
     })
@@ -101,9 +121,8 @@ cochesCtrl.putCoches = async (req, res, next) => {
 }
 
 cochesCtrl.deleteCoches = async (req, res, next) => {
-    const laColeccion = req.params.colecciones;
     const elId = req.params.id;
-    const URL = `${URL_WS_COCHES}/${laColeccion}/${elId}`;
+    const URL = `${URL_WS_COCHES}/${elId}`;
 
     fetch(URL, {
         method: 'DELETE',
@@ -120,7 +139,6 @@ cochesCtrl.deleteCoches = async (req, res, next) => {
     .then( json => {
         res.json({
             result: 'Coche eliminado.',
-            coleccion: laColeccion,
             elemento: json.elemento
         });
     })
@@ -129,6 +147,37 @@ cochesCtrl.deleteCoches = async (req, res, next) => {
     });
 }
 
+
+cochesCtrl.getCochesByAsiLocEst = async (req, res, next) => {
+    const localidad = req.params.localidad;
+    const asientos = req.params.asientos;
+    const URL = `${URL_WS_COCHES}/localidad/${localidad}/asientos/${asientos}`;
+
+    fetch(URL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        }
+    }).then( (resp) => {
+        if(resp.status == 200)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: 'Coches DISPONIBLES del proveedor filtrados por: LOCALIDAD y ASIENTOS recuperados correctamente.',
+            elementos: json.elementos,
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
+
+module.exports = cochesCtrl;
+
+/*
 // URL -> /api/agencia/coches/disponible/:disponible
 cochesCtrl.getCocheDisponible = async(req, res) => {
     const coches = await Coche.find({ "disponible": req.params.disponible })
@@ -215,35 +264,4 @@ cochesCtrl.getCocheAsientos = async(req, res) => {
         });
     });
 }
-
-
-cochesCtrl.getCochesByAsiLocEst = async (req, res, next) => {
-    const laColeccion = req.params.colecciones;
-    const localidad = req.params.localidad;
-    const asientos = req.params.asientos;
-    const URL = `${URL_WS_COCHES}/${laColeccion}/localidad/${localidad}/asientos/${asientos}`;
-
-    fetch(URL, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': req.headers.authorization
-        }
-    }).then( (resp) => {
-        if(resp.status == 200)
-            return resp.json();
-        throw Error(resp.status);
-    })
-    .then( json => {
-        res.json({
-            result: 'Coches DISPONIBLES del proveedor filtrados por: LOCALIDAD y ASIENTOS recuperados correctamente.',
-            coleccion: laColeccion,
-            elementos: json.elementos,
-        });
-    })
-    .catch((error) => {
-        next(error.status);
-    });
-}
-
-module.exports = cochesCtrl;
+*/

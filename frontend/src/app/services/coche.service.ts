@@ -40,7 +40,7 @@ export class CocheService {
   }
 
   putCoche(coche: Coche) {
-    return this.http.put(`${this.URL_API_AGENCIA_COCHE}/${coche._id!}`, coche);
+    return this.http.put<any>(`${this.URL_API_AGENCIA_COCHE}/${coche._id!}`, coche);
   }
 
   deleteCoche(_id: string) {
@@ -49,6 +49,18 @@ export class CocheService {
 
   getCochesByLocByAsi(localidad: string, asientos: number){
     return this.http.get<any>(`${this.URL_API_AGENCIA_COCHE}/localidad/${localidad}/asientos/${asientos}`);
+  }
+
+  cambiarAReservado(cocheId: string){
+    this.getCoche(cocheId).subscribe(
+       res => {
+         res.elemento.estado = 'RESERVADO';
+         this.putCoche(res.elemento).subscribe(
+           res => console.log('modificación del coche a RESERVADO.'),
+           err => console.log(err)
+         )
+      });
+    
   }
 
 }

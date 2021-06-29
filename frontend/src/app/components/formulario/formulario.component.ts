@@ -24,27 +24,9 @@ export class FormularioComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  /*validateForm(form: NgForm): Boolean{
-    if(!this.reservasService.data.tipoReserva.includes(true)){
-      form.resetForm();
-      this.router.navigate(['/formulario']);
-      this.alertCheckboxReserva = true;
-      return false;
-    }
-    else if(this.reservasService.data.tipoViaje == ''){
-      form.reset();
-      this.router.navigate(['/formulario']);
-      this.alertRadioViaje = true;
-      return false;
-    }
-
-    return true;
-  }*/
   
   addForm(form: NgForm){
-    //if(!this.validateForm(form))
-    //  return;
-      
+
     if(this.reservasService.data.tipoReserva[0]){ //Coches
       this.cocheService.getCochesByLocByAsi(this.reservasService.data.destino, Number(this.reservasService.data.personas)).subscribe(
         res => {
@@ -55,9 +37,6 @@ export class FormularioComponent implements OnInit {
     }
       
     this.router.navigate(['/reservas'])
-    //Aquí se recogerían igualmente los Vuelos y los Hoteles.
-
-    //TODO: Mostrar los resultados de la búsqueda.
   }
 
 }

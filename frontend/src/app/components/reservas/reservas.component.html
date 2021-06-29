@@ -7,6 +7,10 @@
     
         <form #reservaForm="ngForm" (ngSubmit)="addForm(reservaForm)">
             <h5>Coches disponibles: </h5>
+            <div *ngIf="reservasService.reservasCoches.length==0">
+                <p>No hay coches disponibles para el viaje.</p>
+            </div>
+            
             <div>
                 <ul class="list-group">
                       <li class="list-group-item"  *ngFor="let coche of reservasService.reservasCoches">
@@ -21,6 +25,8 @@
 
 
             <br><h5>Vuelos disponibles: </h5>
+
+            
 
             <button class="btn btn-primary mr-2 mt-4">Reservar</button>
 

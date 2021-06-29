@@ -10,6 +10,8 @@ import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { ReservasComponent } from './components/reservas/reservas.component';
 import { AuthGuard } from './auth.guard';
+import { CarroComponent } from './components/carro/carro.component';
+import { PagoComponent } from './components/pago/pago.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,16 @@ const routes: Routes = [
   {
     path: 'formulario',
     component: FormularioComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'carro',
+    component: CarroComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'pago',
+    component: PagoComponent,
     canActivate: [AuthGuard]
   },
   {
