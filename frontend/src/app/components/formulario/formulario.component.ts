@@ -37,7 +37,9 @@ export class FormularioComponent implements OnInit {
   }
 
   addForm(form: NgForm){
+    this.pedido.dias = 
     this.reservasService.data.dias = this.fechaService.calcularDias(this.reservasService.data.fechaOrigen, this.reservasService.data.fechaDestino)
+    
     this.reservasService.createReserva(this.pedido).subscribe(
       res => console.log('Reserva creada en el form.'),
       err => console.log(err)

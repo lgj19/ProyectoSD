@@ -16,79 +16,99 @@ hotelesCtrl.saludoInicio = (req, res) =>
 
 // URL -> /api/hoteles/
 
-hotelesCtrl.getHoteles = async (req, res) => {
-    const hoteles = await Hotel.find()
-    res.json(hoteles)
+hotelesCtrl.getHoteles = async (req, res, next) => {
+    await Hotel.find((err, elementos) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Hoteles recuperados correctamente.',
+            elementos: elementos
+        });
+    });
 }
 
-hotelesCtrl.postHotel = async(req,res) => {
+hotelesCtrl.postHotel = async(req,res, next) => {
     const newHotel = new Hotel(req.body)
 
-    await newHotel.save()
+    await newHotel.save((err, hotelNuevo) => {
+        if(err) return next(err);
 
-    res.json({status: 'Hotel guardado correctamente.'})
+        res.status(201).json({
+            result: 'OK',
+            elemento: hotelNuevo
+        });
+    });
 }
 
-hotelesCtrl.putHoteles = async(req, res) => {
-    await Hotel.updateMany({ }, req.body);
-    res.json({status: 'Hoteles actualizados correctamente.'})
+hotelesCtrl.putHoteles = async(req, res, next) => {
+    await Hotel.updateMany({ }, req.body, (err, hoteles) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Hoteles modificados correctamente.',
+            elementos: hoteles
+        });
+    });
 }
 
-hotelesCtrl.deleteHoteles = async(req, res) => {
-    await Hotel.deleteMany();
-    res.json({status: 'Hoteles borrados correctamente.'})
+hotelesCtrl.deleteHoteles = async(req, res, next) => {
+    await Hotel.deleteMany((err, hoteles) => {
+        if(err) return next();
+
+        res.json({
+            result: 'Hoteles eliminados correctamente.',
+            elementos: hoteles
+        });
+    });
 }
 
 
 // URL -> /api/hoteles/:id
 
-hotelesCtrl.getHotelId = async (req,res) => {
-    const hotel = await Hotel.findById(req.params.id)
-    res.send(hotel)
+hotelesCtrl.getHotelId = async (req, res, next) => {
+    await Hotel.findById(req.params.id, (err, hotel) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Recuperado hotel por ID correctamente.',
+            elemento: hotel
+        });
+    });
 }
 
-hotelesCtrl.putHotelId = async (req,res) => {
-    await Hotel.findByIdAndUpdate(req.params.id, req.body)
-    res.json({status: 'Hotel actualizado correctamente.'})
+hotelesCtrl.putHotelId = async (req, res, next) => {
+    await Hotel.findByIdAndUpdate(req.params.id, req.body, (err, hotel) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Modificado hotel por ID correctamente.',
+            elemento: hotel
+        });
+    });
 }
 
-hotelesCtrl.deleteHotelId = async (req,res) => {
-    await Hotel.findByIdAndDelete(req.params.id)
-    res.json({status: 'Hotel eliminado de la BD correctamente.'})
-}
+hotelesCtrl.deleteHotelId = async (req, res, next) => {
+    await Hotel.findByIdAndDelete(req.params.id, (err, hotel) => {
+        if(err) return next(err);
 
-
-// URL -> /api/hoteles/disponible/:disponible
-hotelesCtrl.getHotelDisponible = async(req, res) => {
-    const hoteles = await Hotel.find({ "disponible": req.params.disponible })
-    res.send(hoteles)
-}
-
-
-
-// URL -> /api/hoteles/precio/:precio_noche
-
-hotelesCtrl.getHotelPrecio = async(req, res) => {
-    const hoteles = await Hotel.find({ "precio_noche": { $lte: req.params.precio_noche },
-        "disponible": true })
-    res.send(hoteles)
+        res.json({
+            result: 'Eliminado hotel por ID correctamente.',
+            elemento: hotel
+        });
+    });
 }
 
 
-// URL -> /api/hoteles/localidad/:localidad
+hotelesCtrl.getHotelesByLocPerEst = async(req, res, next) => {
+    await Hotel.find({ "localidad": req.params.localidad, "personas": { $gte: req.params.personas },
+    "estado": "DISPONIBLE" }, (err, hoteles) => {
+        if(err) return next(err);
 
-hotelesCtrl.getHotelLocalidad = async(req, res) => {
-    const hoteles = await Hotel.find({ "localidad": req.params.localidad,
-    "disponible": true })
-    res.send(hoteles)
-}
-
-// URL -> /api/hoteles/nombre/:nombre
-
-hotelesCtrl.getHotelNombre = async(req, res) => {
-    const hoteles = await Hotel.find({ "nombre": req.params.nombre,
-    "disponible": true })
-    res.send(hoteles)
+        res.json({
+            result: 'Búsqueda de hoteles por "localidad", "personas" y "estado=DISPONIBLE" realizada satisfactoriamente.',
+            elementos: hoteles
+        });
+    });
 }
 
 module.exports = hotelesCtrl;

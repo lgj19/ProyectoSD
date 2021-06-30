@@ -2,23 +2,19 @@ const { Router } = require('express')
 const router = Router()
 
 const hotelesCtrl = require('../controllers/hotelesController.js')
+const authJwt = require('../middlewares/authJwt.js')
 
 router.get('/', hotelesCtrl.saludoInicio)
 
-router.get('/hoteles', hotelesCtrl.getHoteles)
-router.post('/hoteles', hotelesCtrl.postHotel)
-router.put('/hoteles', hotelesCtrl.putHoteles)
-router.delete('/hoteles', hotelesCtrl.deleteHoteles)
+router.get('/hoteles', authJwt.verifyToken, hotelesCtrl.getHoteles)
+router.post('/hoteles', authJwt.verifyToken, hotelesCtrl.postHotel)
+router.put('/hoteles', authJwt.verifyToken, hotelesCtrl.putHoteles)
+router.delete('/hoteles', authJwt.verifyToken, hotelesCtrl.deleteHoteles)
 
-router.get('/hoteles/:id', hotelesCtrl.getHotelId)
-router.put('/hoteles/:id', hotelesCtrl.putHotelId)
-router.delete('/hoteles/:id', hotelesCtrl.deleteHotelId)
+router.get('/hoteles/:id', authJwt.verifyToken, hotelesCtrl.getHotelId)
+router.put('/hoteles/:id', authJwt.verifyToken, hotelesCtrl.putHotelId)
+router.delete('/hoteles/:id', authJwt.verifyToken, hotelesCtrl.deleteHotelId)
 
-
-router.get('/hoteles/precio/:precio_noche', hotelesCtrl.getHotelPrecio)
-router.get('/hoteles/nombre/:nombre', hotelesCtrl.getHotelNombre)
-router.get('/hoteles/localidad/:localidad', hotelesCtrl.getHotelLocalidad)
-
-router.all('/api/hoteles/disponible/:disponible', hotelesCtrl.getHotelDisponible)
+router.get('/hoteles/localidad/:localidad/personas/:personas', authJwt.verifyToken, hotelesCtrl.getHotelesByLocPerEst)
 
 module.exports = router;

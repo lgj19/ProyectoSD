@@ -6,34 +6,43 @@
     <div class="card-body">
 
         <div>
-            Parámetros seleccionados:
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Días
-                        </th>
-                        <th>
-                            Tipo de viaje
-                        </th>
-                        <th>
-                            Tipo de reserva
-                        </th>
-                        <th>
-                            Personas
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{this.reservasService.data.dias}}</td>
-                        <td>{{this.reservasService.data.tipoViaje}}</td>
-                        <td>{{this.strTipoReserva}}</td>
-                        <td>{{this.reservasService.data.personas}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h5>Parámetros seleccionados:</h5>
+            <div *ngIf="this.reservasService.data.dias==0; else tablaParams">
+                <p>No se ha realizado ninguna reserva. Para ello rellene el formulario.</p>
+            </div>
+            
+            <ng-template #tablaParams>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Días
+                            </th>
+                            <th>
+                                Tipo de viaje
+                            </th>
+                            <th>
+                                Tipo de reserva
+                            </th>
+                            <th>
+                                Personas
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{this.reservasService.data.dias}}</td>
+                            <td>{{this.reservasService.data.tipoViaje}}</td>
+                            <td>{{this.strTipoReserva}}</td>
+                            <td>{{this.reservasService.data.personas}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+            
         </div>
+        <br>
+
         <form #reservaForm="ngForm" (ngSubmit)="addForm(reservaForm)">
 
             <h5>Coches disponibles: </h5>

@@ -21,7 +21,6 @@ cochesCtrl.getCoches = async (req, res, next) => {
     await Coche.find((err, elementos) => {
         if(err) return next(err);
 
-        console.log(elementos);
         res.json({
             result: 'Coches recuperados correctamente.',
             elementos: elementos
@@ -47,9 +46,8 @@ cochesCtrl.putCoches = async(req, res, next) => {
     await Coche.updateMany({ }, req.body, (err, coches) => {
         if(err) return next(err);
 
-        console.log(coches);
         res.json({
-            result: 'OK',
+            result: 'Coches modificados correctamente.',
             elementos: coches
         });
     });
@@ -59,9 +57,8 @@ cochesCtrl.deleteCoches = async(req, res, next) => {
     await Coche.deleteMany((err, coches) => {
         if(err) return next();
 
-        console.log(coches);
         res.json({
-            result: 'OK',
+            result: 'Coches eliminados correctamente.',
             elementos: coches
         });
     });
@@ -76,7 +73,7 @@ cochesCtrl.getCocheId = async (req,res, next) => {
 
         console.log(coche);
         res.json({
-            result: 'OK',
+            result: 'Recuperar coche por ID correctamente.',
             elemento: coche
         });
     });
@@ -88,7 +85,7 @@ cochesCtrl.putCocheId = async (req,res, next) => {
 
         console.log(coche);
         res.json({
-            result: 'OK',
+            result: 'Modificado coche por ID correctamente.',
             elemento: coche
         });
     });
@@ -100,7 +97,7 @@ cochesCtrl.deleteCocheId = async (req,res, next) => {
 
         console.log(coche);
         res.json({
-            result: 'OK',
+            result: 'Eliminado coche por ID correctamente.',
             elemento: coche
         });
     });
