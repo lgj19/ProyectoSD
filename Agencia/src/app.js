@@ -28,6 +28,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use("/api/agencia", require('./routes/UsuarioRoutes.js'));
 app.use("/api/agencia", require('./routes/CocheRoutes.js'));
+app.use("/api/agencia", require('./routes/HotelesRoutes.js'));
+app.use("/api/agencia", require('./routes/vuelosRoutes.js'));
 app.use("/api/agencia/auth", require('./routes/AuthRoutes.js'));
 app.use("/api/agencia", require("./routes/PedidoRouter.js"))
 module.exports = app;

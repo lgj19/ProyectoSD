@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Coche } from '../models/coche';
 import { Pedido } from '../models/pedido';
+import { Hotel } from '../models/hotel';
+import { Vuelo } from '../models/vuelo';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,7 @@ export class ReservasService {
   URL_PEDIDOS = 'https://localhost:3000/api/agencia/pedidos';
 
   data = { //Datos que se rellenan del formulario
+    origen: '',
     destino: '',
     personas: '',
     fechaOrigen: new Date(),
@@ -21,7 +24,9 @@ export class ReservasService {
   };
 
   reservasCoches: Coche[] = []; //todos los coches recuperados tras el formulario de filtrado.
-  
+  reservasHoteles: Hotel[] = [];
+  reservasVuelosIda: Vuelo[] = [];
+  reservasVuelosVuelta: Vuelo[] = [];
   constructor(
     private http: HttpClient
   ) { }

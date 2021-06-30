@@ -10,102 +10,105 @@ const Vuelo = require('../models/Vuelo');
 
 // URL -> /api/
 
-vuelosCtrl.saludoInicio = (req, res) =>
+vuelosCtrl.saludoInicio = (req, res, next) =>
     res.send({'Title':'Bienvenido al proveedor de vuelos.'});
 
 
 // URL -> /api/vuelos/
 
-vuelosCtrl.getVuelos = async (req, res) => {
-    const vuelos = await Vuelo.find()
-    res.json(vuelos)
+vuelosCtrl.getVuelos = async (req, res, next) => {
+    await Vuelo.find((err, vuelos) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Vuelos recuperados correctamente.',
+            elementos: vuelos
+        });
+    });
 }
 
-vuelosCtrl.postVuelo = async(req,res) => {
+vuelosCtrl.postVuelo = async(req, res, next) => {
     const newVuelo = new Vuelo(req.body)
 
-    await newVuelo.save()
+    await newVuelo.save((err, vueloNuevo) => {
+        if(err) return next(err);
 
-    res.json({status: 'Vuelo guardado correctamente.'})
+        res.status(201).json({
+            result: 'OK',
+            elemento: vueloNuevo
+        });
+    });
 }
 
-vuelosCtrl.putVuelos = async(req, res) => {
-    await Vuelo.updateMany({ }, req.body);
-    res.json({status: 'Vuelos actualizados correctamente.'})
+vuelosCtrl.putVuelos = async(req, res, next) => {
+    await Vuelo.updateMany({ }, req.body, (err, vuelos) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'vuelos modificados correctamente.',
+            elementos: vuelos
+        });
+    });
 }
 
-vuelosCtrl.deleteVuelos = async(req, res) => {
-    await Vuelo.deleteMany();
-    res.json({status: 'Vuelos borrados correctamente.'})
+vuelosCtrl.deleteVuelos = async(req, res, next) => {
+    await Vuelo.deleteMany((err, vuelos) => {
+        if(err) return next();
+
+        res.json({
+            result: 'vuelos eliminados correctamente.',
+            elementos: vuelos
+        });
+    });
 }
 
 
 // URL -> /api/vuelos/:id
 
-vuelosCtrl.getVueloId = async (req,res) => {
-    const vuelo = await Vuelo.findById(req.params.id)
-    res.send(vuelo)
+vuelosCtrl.getVueloId = async (req, res, next) => {
+    await Vuelo.findById(req.params.id, (err, vuelo) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Recuperado vuelo por ID correctamente.',
+            elemento: vuelo
+        });
+    });
 }
 
-vuelosCtrl.putVueloId = async (req,res) => {
-    await Vuelo.findByIdAndUpdate(req.params.id, req.body)
-    res.json({status: 'Vuelo actualizado correctamente.'})
+vuelosCtrl.putVueloId = async (req, res, next) => {
+    await Vuelo.findByIdAndUpdate(req.params.id, req.body, (err, vuelo) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Modificado vuelo por ID correctamente.',
+            elemento: vuelo
+        });
+    });
 }
 
-vuelosCtrl.deleteVueloId = async (req,res) => {
-    await Vuelo.findByIdAndDelete(req.params.id)
-    res.json({status: 'Vuelo eliminado de la BD correctamente.'})
+vuelosCtrl.deleteVueloId = async (req, res, next) => {
+    await Vuelo.findByIdAndDelete(req.params.id, (err, vuelo) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Eliminado vuelo por ID correctamente.',
+            elemento: vuelo
+        });
+    });
 }
 
+vuelosCtrl.getVuelosByOriByDestByAsiByFecEst = async(req, res, next) => {
+    console.log(req.params.fecha)
+    await Vuelo.find({ "origen": req.params.origen, "destino": req.params.destino, "asientos": req.params.asientos, "fecha": req.params.fecha,
+    "estado": "DISPONIBLE" }, (err, vuelos) => {
+        if(err) return next(err);
 
-// URL -> /api/vuelos/disponible/:disponible
-vuelosCtrl.getVueloDisponible = async(req, res) => {
-    const vuelos = await Vuelo.find({ "disponible": req.params.disponible })
-    res.send(vuelos)
-}
-
-
-// URL -> /api/vuelos/empresa/:empresa
-
-vuelosCtrl.getVueloEmpresa = async(req, res) => {
-    const vuelos = await Vuelo.find({ "empresa": req.params.empresa,
-    "disponible": true })
-    res.send(vuelos)
-}
-
-// URL -> /api/vuelos/precio/:precio
-
-vuelosCtrl.getVueloPrecio = async(req, res) => {
-    const vuelos = await Vuelo.find({ "precio": { $lte: req.params.precio },
-        "disponible": true })
-    res.send(vuelos)
-}
-
-
-// URL -> /api/vuelos/origen/:origen
-
-vuelosCtrl.getVueloOrigen = async(req, res) => {
-    const vuelos = await Vuelo.find({ "origen": req.params.origen,
-    "disponible": true })
-    res.send(vuelos)
-}
-
-
-// URL -> /api/vuelos/destino/:destino
-
-vuelosCtrl.getVueloDestino = async(req, res) => {
-    const vuelos = await Vuelo.find({ "destino": req.params.destino,
-    "disponible": true })
-    res.send(vuelos)
-}
-
-
-// URL -> /api/coches/fecha/:fecha
-
-vuelosCtrl.getVueloFecha = async(req, res) => {
-    const vuelos = await Vuelo.find({ "fecha": req.params.fecha,
-    "disponible": true })
-    res.send(vuelos)
+        res.json({
+            result: 'Búsqueda de vuelos por origen, destino, asientos, fecha y estado=DISPONIBLE realizada satisfactoriamente.',
+            elementos: vuelos
+        });
+    });
 }
 
 

@@ -4,7 +4,10 @@
         <form #reservaForm="ngForm" (ngSubmit)="addForm(reservaForm)">
 
             <div class="form-group">
-                <label for="destino">Destino: </label>
+                <input type="text" class="form-control" name="origen" placeholder="Origen" [(ngModel)]="reservasService.data.origen">
+            </div>
+
+            <div class="form-group">
                 <input type="text" class="form-control" name="destino" placeholder="Destino" [(ngModel)]="reservasService.data.destino">
             </div>
             

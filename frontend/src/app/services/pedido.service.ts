@@ -17,5 +17,8 @@ export class PedidoService {
     return this.http.get<any>(`${this.URL_PEDIDO}/usuario`)
   }
 
+  deletePedidoUsuario(){
+    return this.http.delete<any>(`${this.URL_PEDIDO}/usuario`)
+  }
   
 }

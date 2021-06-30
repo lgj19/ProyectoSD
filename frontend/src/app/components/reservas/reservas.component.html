@@ -45,6 +45,8 @@
 
         <form #reservaForm="ngForm" (ngSubmit)="addForm(reservaForm)">
 
+                <!-- Coches -->
+
             <h5>Coches disponibles: </h5>
             <div *ngIf="reservasService.reservasCoches.length==0; else tablaCoches">
                 <p>No hay coches disponibles para el viaje con los parámetros indicados.</p>
@@ -84,14 +86,156 @@
                 </table>
             </ng-template>
             
+                <!-- Habitaciones -->
 
             <br><h5>Habitaciones de hotel disponibles: </h5>
 
+            <div *ngIf="reservasService.reservasHoteles.length==0; else tablaHoteles">
+                <p>No hay hoteles disponibles para el viaje con los parámetros indicados.</p>
+            </div>
 
-
-            <br><h5>Vuelos disponibles: </h5>
-
+            <ng-template  #tablaHoteles>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Selección
+                            </th>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                personas
+                            </th>
+                            <th>
+                                dormitorios
+                            </th>
+                            <th>
+                                metros cuadrados
+                            </th>
+                            <th>
+                                Precio/noche
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let hotel of reservasService.reservasHoteles">
+                            <td><input type="radio" [(ngModel)]="idHotelSelect" name="reservaHotelSelect" value="{{hotel._id}}" text-align="center"/></td>
+                            <td>{{hotel.nombre}}</td>
+                            <td> {{hotel.personas}}</td>
+                            <td> {{hotel.dormitorios}}</td>
+                            <td>{{hotel.m2}}</td>
+                            <td>{{hotel.precio}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+                        
             
+                <!-- Vuelos -->
+            
+            <br><h5>Vuelos de ida disponibles: </h5>
+     
+                                      <!-- Vuelos de ida -->
+
+            <div *ngIf="reservasService.reservasVuelosIda.length==0; else tablaVuelosIda">
+                <p>No hay vuelos de ida disponibles para el viaje con los parámetros indicados.</p>
+            </div>
+
+            <ng-template  #tablaVuelosIda>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Selección
+                            </th>
+                            <th>
+                                Empresa
+                            </th>
+                            <th>
+                                Origen
+                            </th>
+                            <th>
+                                Destino
+                            </th>
+                            <th>
+                                fecha de salida
+                            </th>
+                            <th>
+                                asientos
+                            </th>
+                            <th>
+                                Precio
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let vueloIda of reservasService.reservasVuelosIda">
+                            <td><input type="radio" [(ngModel)]="idVueloIdaSelect" name="reservaVueloIdaSelect" value="{{vueloIda._id}}" text-align="center"/></td>
+                            <td>{{vueloIda.empresa}}</td>
+                            <td> {{vueloIda.origen}}</td>
+                            <td> {{vueloIda.destino}}</td>
+                            <td>{{vueloIda.fecha}}</td>
+                            <td>{{vueloIda.precio}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+
+                                        <!-- Vuelos de vuelta -->
+
+            <br><h5>Vuelos de vuelta disponibles: </h5>
+
+            <div *ngIf="reservasService.reservasVuelosVuelta.length==0; else tablaVuelosVuelta">
+                <p>No hay vuelos de ida disponibles para el viaje con los parámetros indicados.</p>
+            </div>
+
+            <ng-template  #tablaVuelosVuelta>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Selección
+                            </th>
+                            <th>
+                                Empresa
+                            </th>
+                            <th>
+                                Origen
+                            </th>
+                            <th>
+                                Destino
+                            </th>
+                            <th>
+                                fecha de salida
+                            </th>
+                            <th>
+                                asientos
+                            </th>
+                            <th>
+                                Precio
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let vueloVuelta of reservasService.reservasVuelosVuelta">
+                            <td><input type="radio" [(ngModel)]="idVueloVueltaSelect" name="reservaVueloVueltaSelect" value="{{vueloVuelta._id}}" text-align="center"/></td>
+                            <td>{{vueloVuelta.empresa}}</td>
+                            <td> {{vueloVuelta.origen}}</td>
+                            <td> {{vueloVuelta.destino}}</td>
+                            <td>{{vueloVuelta.fecha}}</td>
+                            <td>{{vueloVuelta.precio}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+
 
             <button class="btn btn-primary mr-2 mt-4">Reservar</button>
 

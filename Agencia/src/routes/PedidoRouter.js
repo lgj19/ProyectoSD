@@ -9,6 +9,7 @@ router.post('/pedidos', authJwt.verifyToken, pedidoCtrl.postPedido)
 
 router.get('/pedidos/usuario', authJwt.verifyToken,  pedidoCtrl.getPedidoUsuario)
 router.put('/pedidos/usuario', authJwt.verifyToken,  pedidoCtrl.putPedidoUsuario)
+router.delete('/pedidos/usuario', authJwt.verifyToken,  pedidoCtrl.deletePedidoUsuario)
 
 router.get('/pedidos/:id', authJwt.verifyToken,  pedidoCtrl.getPedido)
 router.put('/pedidos/:id', authJwt.verifyToken,  pedidoCtrl.putPedido)

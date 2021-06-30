@@ -51,16 +51,15 @@ export class CocheService {
     return this.http.get<any>(`${this.URL_API_AGENCIA_COCHE}/localidad/${localidad}/asientos/${asientos}`);
   }
 
-  cambiarAReservado(cocheId: string){
+  cambiarEstado(cocheId: string, estado: string){
     this.getCoche(cocheId).subscribe(
        res => {
-         res.elemento.estado = 'RESERVADO';
+         res.elemento.estado = estado;
          this.putCoche(res.elemento).subscribe(
-           res => console.log('modificación del coche a RESERVADO.'),
+           res => console.log(`modificación del coche a ${estado}.`),
            err => console.log(err)
          )
       });
-    
   }
 
 }

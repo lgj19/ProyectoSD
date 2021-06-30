@@ -19,6 +19,8 @@ import { CocheComponent } from './components/coche/coche.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarroComponent } from './components/carro/carro.component';
 import { PagoComponent } from './components/pago/pago.component';
+import { HotelComponent } from './components/hotel/hotel.component';
+import { VueloComponent } from './components/vuelo/vuelo.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { PagoComponent } from './components/pago/pago.component';
     UsuarioComponent,
     CocheComponent,
     CarroComponent,
-    PagoComponent
+    PagoComponent,
+    HotelComponent,
+    VueloComponent
   ],
   imports: [
     BrowserModule,

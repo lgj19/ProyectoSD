@@ -2,32 +2,76 @@
 
 <div class="card">
     <div class="card-body">
-        <ng-container *ngIf=" this.pedido._id != ''; else noPedido">
-            <table class="table table-striped" >
-                <br><h5>{{this.pedido.dias}} días de viaje en {{this.coche.localidad}}</h5><br>
+        <ng-container *ngIf=" this.pedido.estado != ''; else noPedido">
+            <br><h5>{{this.pedido.dias}} días de viaje</h5><br>
+            <table class="table table-striped" *ngIf=" coche.precio != 0">
+                <h6>Coche: </h6>
                 <tbody>
-                    <tr *ngIf=" coche.precio != 0">
-                        <td>Coche</td>
-                        <td>Marca: {{this.coche.marca}}</td>
-                        <td>Modelo: {{this.coche.modelo}}</td>
-                        <td>Asientos: {{this.coche.asientos}}</td>
-                        <td>Precio/día: {{this.coche.precio}}€</td>
+                    <tr>
+                        <th>Marca: </th> <th>Modelo</th> <th>Asientos</th> <th>Precio/día</th>
                     </tr>
-                    <tr *ngIf=" coche.precio != 0">
-                        <td>Vuelo</td>
-                    </tr>
-                    <tr *ngIf=" coche.precio != 0">
-                        <td>Hotel</td>
+                    <tr>
+                        <td>{{this.coche.marca}}</td><td>{{this.coche.modelo}}</td><td>{{this.coche.asientos}}</td>
+                        <td>{{this.coche.precio}}€</td>
                     </tr>
                 </tbody>
             </table>
+
+            <br>
+
+            <table class="table table-striped" *ngIf=" hotel.precio != ''">
+                <h6>Hotel: </h6>
+                <tbody>
+                    <tr>
+                        <th>Nombre</th> <th>Personas</th><th>Dormitorios</th><th>Metros cuadrados</th><th>Precio/noche</th>
+                    </tr>
+                    <tr>
+                        <td>{{this.hotel.nombre}}</td><td>{{this.hotel.personas}}</td><td>{{this.hotel.dormitorios}}</td>
+                        <td>{{this.hotel.m2}}</td><td>{{this.hotel.precio}}€</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br>
+
+            <table class="table table-striped" *ngIf=" vueloIda.precio != ''">
+                <h6>Vuelo de Ida: </h6>
+                <tbody>
+                    <tr>
+                        <th>Empresa</th><th>Asientos</th><th>Origen</th><th>Destino</th><th>Fecha</th><th>Precio</th>
+                    </tr>
+                    <tr>
+                        <td>{{this.vueloIda.empresa}}</td><td>{{this.vueloIda.asientos}}</td><td>{{this.vueloIda.origen}}</td>
+                        <td>{{this.vueloIda.destino}}</td><td>{{this.vueloIda.fecha}}</td><td>{{this.vueloIda.precio}}€</td>
+                    </tr>
+                </tbody>
+            </table>
+                    
+            <br>
+
+            <table class="table table-striped" *ngIf=" vueloVuelta.precio != ''">
+                <h6>Vuelo de Vuelta: </h6>
+                <tbody>
+                    <tr>
+                        <th>Empresa</th><th>Asientos</th><th>Origen</th><th>Destino</th><th>Fecha</th><th>Precio</th>
+                    </tr>
+                    <tr *ngIf=" vueloVuelta.precio != ''">
+                        <td>{{this.vueloVuelta.empresa}}</td><td>{{this.vueloVuelta.asientos}}</td><td>{{this.vueloVuelta.origen}}</td>
+                        <td>{{this.vueloVuelta.destino}}</td><td>{{this.vueloVuelta.fecha}}</td><td>{{this.vueloVuelta.precio}}€</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br><h5>Precio total: {{this.precioTotal}}€</h5>
+            <button class="btn btn-primary ml-5 mr-2 mt-3 mb-1" (click)="comprar()">Comprar</button>
+            <button class="btn btn-secondary  mr-5 mt-3 mb-1" (click)="deshacer()">Deshacer</button>
+
         </ng-container>
-        <br><h5>Precio total: {{this.precioTotal}}€</h5>
+
+        <ng-template #noPedido>
+            <p>No se ha realizado ningún pedido por el momento. Realice la reserva primero.</p>
+        </ng-template>
     </div>
-
-    <ng-template #noPedido>
-        <p>No se ha realizado ningún pedido por el momento. Realice la reserva primero.</p>
-    </ng-template>
-
-    <button class="btn btn-primary ml-5 mr-5 mt-3 mb-1" (click)="comprar()">Comprar</button>
 </div>
+
+

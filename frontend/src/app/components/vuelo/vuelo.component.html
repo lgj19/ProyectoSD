@@ -1,0 +1,100 @@
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="card">
+            <div class="card-body">
+                <form #vuelosForm="ngForm" (ngSubmit)="addVuelo(vuelosForm)">
+
+                    <input type="hidden" name="_id" [(ngModel)]="vueloService.vueloSelected._id">
+                    <input type="hidden" name="estado" [(ngModel)]="vueloService.vueloSelected.estado">
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="empresa" placeholder="Empresa" [(ngModel)]="vueloService.vueloSelected.empresa">
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="asientos" placeholder="Asientos de la oferta" [(ngModel)]="vueloService.vueloSelected.asientos">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="precio" placeholder="Precio de la oferta" [(ngModel)]="vueloService.vueloSelected.precio"> 
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="origen" placeholder="Origen" [(ngModel)]="vueloService.vueloSelected.origen"> 
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="destino" placeholder="destino" [(ngModel)]="vueloService.vueloSelected.destino">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="date" class="form-control" name="fecha" placeholder="fecha" [(ngModel)]="vueloService.vueloSelected.fecha">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="estado" placeholder="Estado" [(ngModel)]="vueloService.vueloSelected.estado">
+                    </div>
+
+                    <button class="btn btn-primary mr-2 mt-4">Agregar</button>
+                    <button class="btn btn-secondary mt-4"  (click)="resetForm(vuelosForm)">Limpiar</button>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Empresa
+                    </th>
+                    <th>
+                        Asientos
+                    </th>
+                    <th>
+                        Origen
+                    </th>
+                    <th>
+                        Destino
+                    </th>
+                    <th>
+                        Precio
+                    </th>
+                    <th>
+                        Fecha
+                    </th>
+                    <th>
+                        ESTADO
+                    </th>
+                    <th>
+                        Operaciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let vuelo of vueloService.vuelos">
+                    <td>{{vuelo.empresa}}</td>
+                    <td> {{vuelo.asientos}}</td>
+                    <td>{{vuelo.origen}}</td>
+                    <td> {{vuelo.destino}}</td>
+                    <td>{{vuelo.precio}}</td>
+                    <td>{{vuelo.fecha}}</td>
+                    <td>{{vuelo.estado}}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" (click)="editVuelo(vuelo)">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteVuelo(vuelo._id!)">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

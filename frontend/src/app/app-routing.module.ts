@@ -12,6 +12,8 @@ import { ReservasComponent } from './components/reservas/reservas.component';
 import { AuthGuard } from './auth.guard';
 import { CarroComponent } from './components/carro/carro.component';
 import { PagoComponent } from './components/pago/pago.component';
+import { HotelComponent } from './components/hotel/hotel.component';
+import { VueloComponent } from './components/vuelo/vuelo.component';
 
 const routes: Routes = [
   {
@@ -52,11 +54,23 @@ const routes: Routes = [
   },
   {
     path: 'admin/usuario',
-    component: UsuarioComponent
+    component: UsuarioComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'admin/coches',
-    component: CocheComponent
+    component: CocheComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/hoteles',
+    component: HotelComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/vuelos',
+    component: VueloComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
