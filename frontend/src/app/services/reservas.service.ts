@@ -15,6 +15,7 @@ export class ReservasService {
     personas: '',
     fechaOrigen: new Date(),
     fechaDestino:new Date(),
+    dias:0,
     tipoViaje: '', //Ida y vuelta, ida, vuelta
     tipoReserva: [false, false, false], //[coche, vuelo, hotel]
   };
@@ -27,6 +28,10 @@ export class ReservasService {
 
   createReserva(pedido: Pedido){
     return this.http.post<any>(this.URL_PEDIDOS, pedido);
+  }
+
+  putReserva(pedido: Pedido){
+    return this.http.put<any>(`${this.URL_PEDIDOS}/usuario`, pedido)
   }
 
 }

@@ -4,21 +4,77 @@
 
 <div class="card">
     <div class="card-body">
-    
+
+        <div>
+            Parámetros seleccionados:
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Días
+                        </th>
+                        <th>
+                            Tipo de viaje
+                        </th>
+                        <th>
+                            Tipo de reserva
+                        </th>
+                        <th>
+                            Personas
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{this.reservasService.data.dias}}</td>
+                        <td>{{this.reservasService.data.tipoViaje}}</td>
+                        <td>{{this.strTipoReserva}}</td>
+                        <td>{{this.reservasService.data.personas}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <form #reservaForm="ngForm" (ngSubmit)="addForm(reservaForm)">
+
             <h5>Coches disponibles: </h5>
-            <div *ngIf="reservasService.reservasCoches.length==0">
-                <p>No hay coches disponibles para el viaje.</p>
+            <div *ngIf="reservasService.reservasCoches.length==0; else tablaCoches">
+                <p>No hay coches disponibles para el viaje con los parámetros indicados.</p>
             </div>
+
+            <ng-template  #tablaCoches>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Selección
+                            </th>
+                            <th>
+                                Marca
+                            </th>
+                            <th>
+                                Modelo
+                            </th>
+                            <th>
+                                Asientos
+                            </th>
+                            <th>
+                                Precio/día
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let coche of reservasService.reservasCoches">
+                            <td><input type="radio" [(ngModel)]="idCocheSelect" name="reservaCocheSelect" value="{{coche._id}}" text-align="center"/></td>
+                            <td>{{coche.marca}}</td>
+                            <td> {{coche.modelo}}</td>
+                            <td> {{coche.asientos}}</td>
+                            <td>{{coche.precio}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
             
-            <div>
-                <ul class="list-group">
-                      <li class="list-group-item"  *ngFor="let coche of reservasService.reservasCoches">
-                        <input type="radio" [(ngModel)]="idCocheSelect" name="reservaCocheSelect" value="{{coche._id}}"/> 
-                        {{coche.localidad}}, {{coche.marca}}, {{coche.modelo}}, {{coche.asientos}}
-                      </li>
-                </ul>
-            </div>
 
             <br><h5>Habitaciones de hotel disponibles: </h5>
 

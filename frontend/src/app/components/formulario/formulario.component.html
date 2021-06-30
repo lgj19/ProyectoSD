@@ -12,6 +12,14 @@
                 <input type="number" class="form-control" name="personas" placeholder="Personas" [(ngModel)]="reservasService.data.personas">
             </div>
 
+            <label> 
+                Fechas del viaje: 
+                <div *ngIf="this.errorFechas()" class="alert alert-warning" role="alert">
+                    La fecha de inicio debe ser ANTERIOR a la fecha final.
+                </div>
+            </label>
+            
+
             <div class="form-group">
                 <input type="date" class="form-control" name="fechaOrigen" placeholder="Fecha de Origen (dd/mm/yyyy)" [(ngModel)]="reservasService.data.fechaOrigen"> 
             </div>
@@ -20,10 +28,13 @@
                 <input type="date" class="form-control" name="fechaDestino" placeholder="Fecha de Destino (dd/mm/yyyy)" [(ngModel)]="reservasService.data.fechaDestino"> 
             </div>
 
-            <label> Tipo de viaje: </label>
-            <div *ngIf="reservasService.data.tipoViaje == ''" class="alert alert-warning" role="alert">
-                Es necesario seleccionar un tipo de viaje.
-            </div>
+            <label>
+                Tipo de viaje: 
+                <div *ngIf="reservasService.data.tipoViaje == ''" class="alert alert-warning" role="alert">
+                    Es necesario seleccionar un tipo de viaje.
+                </div>
+            </label>
+            
             <div>
                 <ul class="list-group">
                       <li class="list-group-item"  *ngFor="let item of tiposViaje">
@@ -34,10 +45,13 @@
             </div>
 
                        <!-- Reservas -->
-            <br><label> Tipo de Reserva: </label>
-            <div *ngIf="!reservasService.data.tipoReserva.includes(true)" class="alert alert-warning" role="alert">
-                Es necesario seleccionar al menos un tipo de reserva.
-            </div>
+            <label><br>
+                Tipo de Reserva:
+                <div *ngIf="!reservasService.data.tipoReserva.includes(true)" class="alert alert-warning" role="alert">
+                    Es necesario seleccionar al menos un tipo de reserva.
+                </div>
+            </label>
+            
             <div>
                 <li class="list-group-item">
                     <input

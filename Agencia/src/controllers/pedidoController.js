@@ -78,11 +78,27 @@ pedidosCtrl.getPedidoUsuario = async (req, res, next) => {
         if(err) return next(err);
 
         res.json({
-            result: 'Pedidos recuperados correctamente con el ID del usuario.',
+            result: 'Pedido recuperado correctamente con el ID del usuario.',
             elemento: pedido
         });
     });
 }
 
+
+pedidosCtrl.putPedidoUsuario = async (req, res, next) => {
+    const userId = req.userId;
+    await Pedido.findOneAndUpdate({idUsuario: userId}, 
+        {
+            $set: { idCoche: req.body.idCoche, idVuelo: req.body.idVuelo, idHotel: req.body.idHotel}
+        }
+    , (err, pedido) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Pedido modificado correctamente con el ID del usuario.',
+            elemento: pedido
+        });
+    });
+}
 
 module.exports = pedidosCtrl;

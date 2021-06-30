@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const pedidosSchema = new Schema({
-    dias: {type: Number, required: true},
+    dias: {type: Number},
     idCoche: {type: String},
     idVuelo: {type: String},
     idHotel: {type: String},

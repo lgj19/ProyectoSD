@@ -15,14 +15,6 @@ router.get('/coches/:id', authJwt.verifyToken, cochesCtrl.getCocheId)
 router.put('/coches/:id', authJwt.verifyToken,  cochesCtrl.putCocheId)
 router.delete('/coches/:id', authJwt.verifyToken,  cochesCtrl.deleteCocheId)
 
-
-router.get('/coches/precio/:precio',  cochesCtrl.getCochePrecio)
-router.get('/coches/marca/:marca',  cochesCtrl.getCocheMarca)
-router.get('/coches/localidad/:localidad', cochesCtrl.getCocheLocalidad)
-router.get('/coches/modelo/:modelo',  cochesCtrl.getCocheModelo)
-router.get('/coches/asientos/:asientos',  cochesCtrl.getCocheAsientos)
-router.get('/coches/disponible/:disponible',  cochesCtrl.getCocheDisponible)
-
 router.get('/coches/localidad/:localidad/asientos/:asientos', authJwt.verifyToken,  cochesCtrl.getCochesByLocAsiEst)
 
 module.exports = router;

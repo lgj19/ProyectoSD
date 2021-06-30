@@ -15,14 +15,23 @@ import { Router } from '@angular/router';
 export class ReservasComponent implements OnInit {
 
   idCocheSelect = '';
-  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVuelo: '', estado: 'RESERVADO'};
+  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVuelo: '', estado: 'RESERVADO', dias: 0};
+  strTipoReserva: string[] = [];
+
   constructor(
     public reservasService: ReservasService,
     private cocheService: CocheService,
     private router: Router
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if(this.reservasService.data.tipoReserva[0])
+      this.strTipoReserva.push('Coche');
+    if(this.reservasService.data.tipoReserva[1])
+      this.strTipoReserva.push('Vuelo');
+    if(this.reservasService.data.tipoReserva[2])
+      this.strTipoReserva.push('Hotel')
+   }
 
   addForm(form: NgForm){
     //validarFormulario
@@ -30,11 +39,11 @@ export class ReservasComponent implements OnInit {
     //crear el pedido y modificar estado de los productos
     if(this.idCocheSelect != ''){
       this.pedido.idCoche = this.idCocheSelect;
-      //console.log('coche ID:' + this.idCocheSelect)
       this.cocheService.cambiarAReservado(this.idCocheSelect);
     }
-    this.reservasService.createReserva(this.pedido).subscribe(
-      res => console.log('Reserva efectuada.'),
+
+    this.reservasService.putReserva(this.pedido).subscribe( 
+      res => console.log('Reserva modificada.'),
       err => console.log(err)
     )
     

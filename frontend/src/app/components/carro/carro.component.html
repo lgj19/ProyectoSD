@@ -4,30 +4,20 @@
     <div class="card-body">
         <ng-container *ngIf=" this.pedido._id != ''; else noPedido">
             <table class="table table-striped" >
+                <br><h5>{{this.pedido.dias}} días de viaje en {{this.coche.localidad}}</h5><br>
                 <tbody>
                     <tr *ngIf=" coche.precio != 0">
                         <td>Coche</td>
-                        <td>{{this.coche.marca}}</td>
-                        <td> {{this.coche.modelo}}</td>
-                        <td>{{this.coche.localidad}}</td>
-                        <td> {{this.coche.asientos}}</td>
-                        <td>{{this.coche.precio}}€</td>
+                        <td>Marca: {{this.coche.marca}}</td>
+                        <td>Modelo: {{this.coche.modelo}}</td>
+                        <td>Asientos: {{this.coche.asientos}}</td>
+                        <td>Precio/día: {{this.coche.precio}}€</td>
                     </tr>
                     <tr *ngIf=" coche.precio != 0">
                         <td>Vuelo</td>
-                        <td>{{this.coche.marca}}</td>
-                        <td> {{this.coche.modelo}}</td>
-                        <td>{{this.coche.localidad}}</td>
-                        <td> {{this.coche.asientos}}</td>
-                        <td>{{this.coche.precio}}€</td>
                     </tr>
                     <tr *ngIf=" coche.precio != 0">
                         <td>Hotel</td>
-                        <td>{{this.coche.marca}}</td>
-                        <td> {{this.coche.modelo}}</td>
-                        <td>{{this.coche.localidad}}</td>
-                        <td> {{this.coche.asientos}}</td>
-                        <td>{{this.coche.precio}}€</td>
                     </tr>
                 </tbody>
             </table>
