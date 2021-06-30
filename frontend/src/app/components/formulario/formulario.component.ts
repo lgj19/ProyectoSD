@@ -27,6 +27,7 @@ export class FormularioComponent implements OnInit {
   
   addForm(form: NgForm){
 
+    
     if(this.reservasService.data.tipoReserva[0]){ //Coches
       this.cocheService.getCochesByLocByAsi(this.reservasService.data.destino, Number(this.reservasService.data.personas)).subscribe(
         res => {
@@ -34,6 +35,14 @@ export class FormularioComponent implements OnInit {
         },
         err => console.log(err)
       )
+    }
+
+    if(this.reservasService.data.tipoReserva[1]){ //Vuelos?
+
+    }
+
+    if(this.reservasService.data.tipoReserva[2]){ //Hoteles?
+
     }
       
     this.router.navigate(['/reservas'])

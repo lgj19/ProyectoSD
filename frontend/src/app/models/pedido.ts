@@ -1,5 +1,5 @@
 export interface Pedido {
-    idUsuario: string,
+    idUsuario: String,
     idCoche: string,
     idHotel: string,
     idVuelo: string,

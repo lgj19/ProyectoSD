@@ -1,1 +1,43 @@
-<p>carro works!</p>
+
+
+<div class="card">
+    <div class="card-body">
+        <ng-container *ngIf=" this.pedido._id != ''; else noPedido">
+            <table class="table table-striped" >
+                <tbody>
+                    <tr *ngIf=" coche.precio != 0">
+                        <td>Coche</td>
+                        <td>{{this.coche.marca}}</td>
+                        <td> {{this.coche.modelo}}</td>
+                        <td>{{this.coche.localidad}}</td>
+                        <td> {{this.coche.asientos}}</td>
+                        <td>{{this.coche.precio}}€</td>
+                    </tr>
+                    <tr *ngIf=" coche.precio != 0">
+                        <td>Vuelo</td>
+                        <td>{{this.coche.marca}}</td>
+                        <td> {{this.coche.modelo}}</td>
+                        <td>{{this.coche.localidad}}</td>
+                        <td> {{this.coche.asientos}}</td>
+                        <td>{{this.coche.precio}}€</td>
+                    </tr>
+                    <tr *ngIf=" coche.precio != 0">
+                        <td>Hotel</td>
+                        <td>{{this.coche.marca}}</td>
+                        <td> {{this.coche.modelo}}</td>
+                        <td>{{this.coche.localidad}}</td>
+                        <td> {{this.coche.asientos}}</td>
+                        <td>{{this.coche.precio}}€</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+        <br><h5>Precio total: {{this.precioTotal}}€</h5>
+    </div>
+
+    <ng-template #noPedido>
+        <p>No se ha realizado ningún pedido por el momento. Realice la reserva primero.</p>
+    </ng-template>
+
+    <button class="btn btn-primary ml-5 mr-5 mt-3 mb-1" (click)="comprar()">Comprar</button>
+</div>

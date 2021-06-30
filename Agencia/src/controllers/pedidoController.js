@@ -22,7 +22,6 @@ pedidosCtrl.getPedidos = async (req, res, next) => {
 
 pedidosCtrl.postPedido = async (req, res, next) => {
     var newPedido = new Pedido(req.body)
-    console.log(req.userId)
     newPedido.idUsuario = req.userId;
 
     await newPedido.save((err, nuevoPedido) => {
@@ -73,13 +72,13 @@ pedidosCtrl.getPedido = async (req, res, next) => {
 }
 
 
-pedidosCtrl.getPedidoUsuarioId = async (req, res, next) => {
-    await Pedido.find({idUsuario: req.params.usuid}, (err, pedido) => {
+pedidosCtrl.getPedidoUsuario = async (req, res, next) => {
+    const userId = req.userId;
+    await Pedido.findOne({idUsuario: userId}, (err, pedido) => {
         if(err) return next(err);
 
-        console.log(pedido);
         res.json({
-            result: 'Pedido recuperado correctamente con el ID del usuario.',
+            result: 'Pedidos recuperados correctamente con el ID del usuario.',
             elemento: pedido
         });
     });
