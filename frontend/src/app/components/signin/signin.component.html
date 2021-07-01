@@ -1,16 +1,25 @@
 <div class="row">
     <div class="col-md-4 mx-auto">
+        <div class="alert alert-danger" role="alert" *ngIf="usuErr && passErr"> Usuario y Contraseña Incorrectas. </div>
+        <div class="alert alert-danger" role="alert" *ngIf="passErr && !usuErr"> Contraseña Incorrecta. </div>
+
         <div class="card">
             <div class="card-header">
                 SignIn
             </div>
             <div class="card-body">
-                <form (submit)="signIn()">
+                <form [formGroup]="myForm" novalidate (submit)="signIn()">
                     <div class="form-group">
-                        <input type="text"  [(ngModel)]="user.usuario" name="usuario" class="form-control" placeholder="Nombre de Usuario" required>
+                        <input type="text" name="usuario" class="form-control"  formControlName="usuario" placeholder="Nombre de Usuario" [ngClass]="{'is-invalid': usuario.errors && (usuario.touched || usuario.dirty), 'is-valid':usuario.valid}" >
+                        <div class="invalid-feedback" >
+                            <strong *ngIf="usuario.errors?.required">Nombre de usuario requerido</strong>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="password"  [(ngModel)]="user.password" name="password" class="form-control" placeholder="Contraseña" required>
+                        <input type="password" name="password" class="form-control" formControlName="password" placeholder="Contraseña" [ngClass]="{'is-invalid': password.errors && (password.touched || password.dirty), 'is-valid':password.valid}">
+                        <div class="invalid-feedback" >
+                            <strong *ngIf="password.errors?.required">Contraseña requerida</strong>
+                        </div>
                     </div>
                     <button  type="submit" class="btn btn-primary btn-block">
                         Loguearse

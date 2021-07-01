@@ -11,6 +11,16 @@ const Role = require('../models/Role')
 authCtrl.signUp = async(req, res, next) => {
     const {nombre, apellidos, email, usuario, password, roles} = req.body;
 
+    const userUsuFound = await Usuario.findOne({ usuario: usuario });
+    const userEmailFound = await Usuario.findOne({email: email});
+
+    if(userUsuFound != null) return res.status(400).json({message:"ERROR: Este nombre de usuario ya existe. Por favor, cámbielo.", type:"Usuario"});
+    if(userEmailFound != null) return res.status(400).json({message:"ERROR: Este email ya existe. Por favor, cámbielo.", type:"Email"});
+    
+    if(nombre == null) return res.status(400).json({message:"Error: Es necesario introducir un nombre", type:"Nombre"})
+    if(apellidos == null) return res.status(400).json({message:"Error: Es necesario introducir apellidos", type:"Apellidos"})
+    if(password == null) return res.status(400).json({message:"Error: Es necesario introducir un password", type:"Password"})
+
     const nuevoUsuario = new Usuario({
         nombre, apellidos, email, usuario, roles,
         password: await Usuario.encryptPassword(password) //Encriptamos
@@ -30,24 +40,24 @@ authCtrl.signUp = async(req, res, next) => {
         expiresIn: 86400
     })
 
-    res.json(token)
+    res.json({message: `OK. SignUp correcto. Token del usuario: ${token}`})
 }
 authCtrl.signIn = async(req, res, next) => {
     const userFound = await Usuario.findOne({usuario: req.body.usuario})
         .populate("roles");
-    if(!userFound) return res.status(401).json({message:"User not found."});
+    if(!userFound) return res.status(401).json({message:"ERROR: User not found.", type:"Usuario"});
 
     //Comprobamos la contraseña
     const matchPassword = await Usuario.comparePassword(req.body.password, userFound.password);
 
-    if(!matchPassword) return res.status(401).json({token: null, message: "Invalid password"});
+    if(!matchPassword) return res.status(401).json({message: "ERROR: Invalid password", type:"Password"});
 
     //Creamos el token
     const token = jwt.sign({id: userFound._id}, config.SECRET, { 
         expiresIn: 86400
     });
 
-    res.json({token})
+    res.status(200).json({message: `OK. SignIn correcto. Token del usuario: ${token} `})
 }
 
 module.exports = authCtrl;

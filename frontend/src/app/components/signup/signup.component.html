@@ -1,29 +1,52 @@
 <div class="row">
     <div class="col-md-4 mx-auto">
+
+        <div class="alert alert-danger" role="alert" *ngIf="errUsuExist"> Nombre de usuario ya existente. </div>
+        <div class="alert alert-danger" role="alert" *ngIf="errEmailExist"> Email ya existente. </div>
+
+
         <div class="card">
             <div class="card-header">
                 SignUp
             </div>
             <div class="card-body">
-                <form (submit)="signUp()">
-                    <div class="div form-group">
-                        <input type="text" [(ngModel)]="user.nombre" name="nombre" class="form-control" placeholder="Nombre" required>
-                    </div>
+                <form [formGroup]="myForm" novalidate (submit)="signUp()">
                     <div class="form-group">
-                        <input type="text"  [(ngModel)]="user.apellidos" name="apellidos" class="form-control" placeholder="Apellidos" required>
+                        <input type="text" name="nombre" class="form-control" formControlName="nombre" placeholder="Nombre" [ngClass]="{'is-invalid': nombre.errors && (nombre.touched || nombre.dirty), 'is-valid':nombre.valid}">
+                        <div class="invalid-feedback" >
+                            <strong *ngIf="usuario.errors?.required">Nombre requerido</strong>
+                        </div>
                     </div>
+                   
                     <div class="form-group">
-                        <input type="text"  [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email" required>
+                        <input type="text" name="apellidos" class="form-control" formControlName="apellidos" placeholder="Apellidos" [ngClass]="{'is-invalid': apellidos.errors && (apellidos.touched || apellidos.dirty), 'is-valid':apellidos.valid}">
+                        <div class="invalid-feedback" >
+                            <strong *ngIf="usuario.errors?.required">Apellidos requeridos</strong>
+                        </div>
                     </div>
+                    
                     <div class="form-group">
-                        <input type="text"  [(ngModel)]="user.usuario" name="usuario" class="form-control" placeholder="Nombre de Usuario" required>
+                        <input type="text" name="email" class="form-control" formControlName="email" placeholder="Email" [ngClass]="{'is-invalid': email.errors && (email.touched || email.dirty), 'is-valid':email.valid}">
+                        <div class="invalid-feedback" >
+                            <strong *ngIf="usuario.errors?.required">Email requerido</strong>
+                        </div>
                     </div>
+                    
                     <div class="form-group">
-                        <input type="password"  [(ngModel)]="user.password" name="password" class="form-control" placeholder="Contraseña" required>
+                        <input type="text" name="usuario" class="form-control"  formControlName="usuario" placeholder="Nombre de Usuario" [ngClass]="{'is-invalid': usuario.errors && (usuario.touched || usuario.dirty), 'is-valid':usuario.valid}">
+                        <div class="invalid-feedback" >
+                            <strong *ngIf="usuario.errors?.required">Nombre de usuario requerido</strong>
+                        </div>
                     </div>
-                    <button  type="submit" class="btn btn-primary btn-block">
-                        Registrarse
-                    </button>
+                    
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" formControlName="password" placeholder="Contraseña" [ngClass]="{'is-invalid': password.errors && (password.touched || password.dirty), 'is-valid':password.valid}">
+                        <div class="invalid-feedback" >
+                            <strong *ngIf="password.errors?.required">Contraseña requerida</strong>
+                        </div>
+                    </div>
+                    
+                    <button  type="submit" class="btn btn-primary btn-block">Registrarse</button>
                 </form>
             </div>
         </div>

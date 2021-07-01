@@ -6,6 +6,7 @@ const Usuario = require('../models/Usuario');
 
 //Controladores de la API
 
+
 // URL -> /api/agencia/usuario
 
 usuarioCtrl.getUsuarios = async (req, res, next) => {
