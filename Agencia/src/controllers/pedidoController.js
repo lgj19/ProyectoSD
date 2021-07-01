@@ -25,8 +25,13 @@ pedidosCtrl.postPedido = async (req, res, next) => {
     newPedido.idUsuario = req.userId;
 
     await newPedido.save((err, nuevoPedido) => {
-        if(err) return next(err);
-
+        //if(err) return next(err);
+        if(err){
+            res.status(400).json({
+                result: 'Ya existe un pedido.'
+            })
+            return;
+        }
         console.log(nuevoPedido);
         res.status(201).json({
             result: 'Pedido guardado correctamente.',

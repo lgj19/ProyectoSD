@@ -6,11 +6,11 @@ const pedidosSchema = new Schema({
     idVueloIda: {type: String},
     idVueloVuelta: {type: String},
     idHotel: {type: String},
-    idUsuario: {type: String, required: true},
+    idUsuario: {type: String, unique: true},
     estado:{type:String, required: true} //RESERVADO, COMPRADO.
 }, {
     timestamps: true,
     versionKey: false
 })
 
-module.exports = model("Pedido", pedidosSchema);
+module.exports = model("Pedidos", pedidosSchema);

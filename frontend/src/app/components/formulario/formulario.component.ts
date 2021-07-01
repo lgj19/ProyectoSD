@@ -82,10 +82,13 @@ export class FormularioComponent implements OnInit {
     this.recuperarCoches();
     this.recuperarHoteles();
     this.recuperarVuelos();
-    
+
     this.reservasService.createReserva(this.pedido).subscribe( //Crea pedido con usuario.
       res => console.log(res.result),
-      err => console.error(err)
+      err => {
+        console.error(err);
+        this.router.navigate(['/carro'])
+      }
     )
    
     this.router.navigate(['/reservas'])

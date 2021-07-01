@@ -1,6 +1,7 @@
+<h3>Formulario para ver las reservas</h3>
 <div class="card">
     <div class="card-body">
-    
+
         <form [formGroup]="myForm" novalidate (submit)="addForm()">
 
             <div class="form-group">
@@ -24,20 +25,21 @@
                 </div>
             </div>
 
-            <label> Fechas del viaje: 
-                <label class="alert alert-warning" role="alert" *ngIf="errFecha"> La fecha de inicio no puede ser mayor ni igual que la final. </label>
-            </label>
-            
 
             <div class="form-group">
-                <input type="date" class="form-control" formControlName="fechaOrigen" name="fechaOrigen" placeholder="Fecha de Origen (dd/mm/yyyy)"  [ngClass]="{'is-invalid': fechaOrigenF.errors && (fechaOrigenF.touched || fechaOrigenF.dirty), 'is-valid':fechaOrigenF.valid}"> 
+                <label for="fechaOrigen">Fecha de inicio:    
+                    <label class="alert alert-warning" role="alert" *ngIf="errFecha"> La fecha de inicio no puede ser mayor ni igual que la final. </label>            
+                    <input type="date" class="form-control" formControlName="fechaOrigen" name="fechaOrigen" placeholder="Fecha de Origen (dd/mm/yyyy)"  [ngClass]="{'is-invalid': fechaOrigenF.errors && (fechaOrigenF.touched || fechaOrigenF.dirty), 'is-valid':fechaOrigenF.valid}"> 
+                </label>
                 <div class="invalid-feedback" >
                     <strong *ngIf="fechaOrigenF.errors?.required">Fecha de inicio del viaje requerido</strong>
                 </div>
             </div>
 
             <div class="form-group">
-                <input type="date" class="form-control" name="fechaDestino"  formControlName="fechaDestino" placeholder="Fecha de Destino (dd/mm/yyyy)" [ngClass]="{'is-invalid': fechaDestinoF.errors && (fechaDestinoF.touched || fechaDestinoF.dirty), 'is-valid':fechaDestinoF.valid}"> 
+                <label for="fechaDestino">Fecha fin:
+                    <input type="date" class="form-control" name="fechaDestino"  formControlName="fechaDestino" placeholder="Fecha de Destino (dd/mm/yyyy)" [ngClass]="{'is-invalid': fechaDestinoF.errors && (fechaDestinoF.touched || fechaDestinoF.dirty), 'is-valid':fechaDestinoF.valid}"> 
+                </label>
                 <div class="invalid-feedback" >
                     <strong *ngIf="fechaDestinoF.errors?.required">Fecha final del viaje requerido</strong>
                 </div>
