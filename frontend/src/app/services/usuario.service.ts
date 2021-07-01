@@ -13,7 +13,12 @@ export class UsuarioService {
 
   usuarios: Usuario[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+  }
+
+  getAdminRole(){
+    return this.http.get<any>(this.URL_API_AGENCIA_USUARIO + '/adminRole')
+  }
 
   //CRUD basic
 

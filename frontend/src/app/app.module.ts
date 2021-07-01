@@ -21,6 +21,7 @@ import { CarroComponent } from './components/carro/carro.component';
 import { PagoComponent } from './components/pago/pago.component';
 import { HotelComponent } from './components/hotel/hotel.component';
 import { VueloComponent } from './components/vuelo/vuelo.component';
+import { MatListModule } from '@angular/material/list'; 
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { VueloComponent } from './components/vuelo/vuelo.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatListModule
   ],
   providers: [
     AuthGuard,

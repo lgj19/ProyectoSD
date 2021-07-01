@@ -76,7 +76,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let coche of reservasService.reservasCoches">
-                            <td><input type="radio" [(ngModel)]="idCocheSelect" name="reservaCocheSelect" value="{{coche._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="pedido.idCoche" name="reservaCocheSelect" value="{{coche._id}}" text-align="center"/></td>
                             <td>{{coche.marca}}</td>
                             <td> {{coche.modelo}}</td>
                             <td> {{coche.asientos}}</td>
@@ -89,7 +89,6 @@
                 <!-- Habitaciones -->
 
             <br><h5>Habitaciones de hotel disponibles: </h5>
-
             <div *ngIf="reservasService.reservasHoteles.length==0; else tablaHoteles">
                 <p>No hay hoteles disponibles para el viaje con los parámetros indicados.</p>
             </div>
@@ -122,7 +121,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let hotel of reservasService.reservasHoteles">
-                            <td><input type="radio" [(ngModel)]="idHotelSelect" name="reservaHotelSelect" value="{{hotel._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="pedido.idHotel" name="reservaHotelSelect" value="{{hotel._id}}" text-align="center"/></td>
                             <td>{{hotel.nombre}}</td>
                             <td> {{hotel.personas}}</td>
                             <td> {{hotel.dormitorios}}</td>
@@ -137,7 +136,6 @@
                 <!-- Vuelos -->
             
             <br><h5>Vuelos de ida disponibles: </h5>
-     
                                       <!-- Vuelos de ida -->
 
             <div *ngIf="reservasService.reservasVuelosIda.length==0; else tablaVuelosIda">
@@ -175,11 +173,12 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let vueloIda of reservasService.reservasVuelosIda">
-                            <td><input type="radio" [(ngModel)]="idVueloIdaSelect" name="reservaVueloIdaSelect" value="{{vueloIda._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="pedido.idVueloIda" name="reservaVueloIdaSelect" value="{{vueloIda._id}}" text-align="center"/></td>
                             <td>{{vueloIda.empresa}}</td>
                             <td> {{vueloIda.origen}}</td>
                             <td> {{vueloIda.destino}}</td>
                             <td>{{vueloIda.fecha}}</td>
+                            <td>{{vueloIda.asientos}}</td>
                             <td>{{vueloIda.precio}}</td>
                         </tr>
                     </tbody>
@@ -189,7 +188,7 @@
                                         <!-- Vuelos de vuelta -->
 
             <br><h5>Vuelos de vuelta disponibles: </h5>
-
+            
             <div *ngIf="reservasService.reservasVuelosVuelta.length==0; else tablaVuelosVuelta">
                 <p>No hay vuelos de ida disponibles para el viaje con los parámetros indicados.</p>
             </div>
@@ -225,11 +224,12 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let vueloVuelta of reservasService.reservasVuelosVuelta">
-                            <td><input type="radio" [(ngModel)]="idVueloVueltaSelect" name="reservaVueloVueltaSelect" value="{{vueloVuelta._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="pedido.idVueloVuelta" name="reservaVueloVueltaSelect" value="{{vueloVuelta._id}}" text-align="center"/></td>
                             <td>{{vueloVuelta.empresa}}</td>
                             <td> {{vueloVuelta.origen}}</td>
                             <td> {{vueloVuelta.destino}}</td>
                             <td>{{vueloVuelta.fecha}}</td>
+                            <td>{{vueloVuelta.asientos}}</td>
                             <td>{{vueloVuelta.precio}}</td>
                         </tr>
                     </tbody>

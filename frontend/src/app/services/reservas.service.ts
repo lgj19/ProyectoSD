@@ -31,12 +31,19 @@ export class ReservasService {
     private http: HttpClient
   ) { }
 
+  getPedidoUsuario(){
+    return this.http.get<any>(`${this.URL_PEDIDOS}/usuario`)
+  }
+
   createReserva(pedido: Pedido){
     return this.http.post<any>(this.URL_PEDIDOS, pedido);
   }
-
+  
   putReserva(pedido: Pedido){
     return this.http.put<any>(`${this.URL_PEDIDOS}/usuario`, pedido)
   }
 
+  deletePedidoUsuario(){
+    return this.http.delete<any>(`${this.URL_PEDIDOS}/usuario`)
+  }
 }

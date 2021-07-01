@@ -15,6 +15,7 @@ import { PagoComponent } from './components/pago/pago.component';
 import { HotelComponent } from './components/hotel/hotel.component';
 import { VueloComponent } from './components/vuelo/vuelo.component';
 
+
 const routes: Routes = [
   {
     path: '',

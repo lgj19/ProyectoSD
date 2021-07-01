@@ -2,10 +2,17 @@
 const usuarioCtrl = {};
 //const { rawListeners } = require('../app');
 const Usuario = require('../models/Usuario');
+const Role = require('../models/Role')
 
 
 //Controladores de la API
 
+usuarioCtrl.adminRole = async(req, res, next) => {
+    const adminRol = await Role.findOne({name: "admin"});
+    return res.status(200).json({
+        response: adminRol._id
+    })
+}
 
 // URL -> /api/agencia/usuario
 

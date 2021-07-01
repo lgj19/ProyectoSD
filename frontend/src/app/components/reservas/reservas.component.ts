@@ -15,11 +15,8 @@ import { VueloService } from 'src/app/services/vuelo.service';
 })
 export class ReservasComponent implements OnInit {
 
-  idCocheSelect = '';
-  idHotelSelect = '';
-  idVueloIdaSelect = '';
-  idVueloVueltaSelect = '';
   pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta: '', estado: 'RESERVADO', dias: 0};
+  
   strTipoReserva: string[] = [];
 
   constructor(
@@ -35,8 +32,7 @@ export class ReservasComponent implements OnInit {
    }
 
   addForm(form: NgForm){
-    //validarFormulario
-    
+
     //crear el pedido y modificar estado de los productos
     this.seleccionarCoche();
     this.seleccionarHotel();
@@ -49,35 +45,32 @@ export class ReservasComponent implements OnInit {
   }
   
 
+
   hacerReserva(){
     this.reservasService.putReserva(this.pedido).subscribe( 
-      res => console.log('Reserva modificada.'),
-      err => console.log(err)
+      res => console.log(res.status, res.elemento),
+      err => console.error(err)
     )
   }
 
   seleccionarCoche(){
-    if(this.idCocheSelect != ''){
-      this.pedido.idCoche = this.idCocheSelect;
-      this.cocheService.cambiarEstado(this.idCocheSelect, 'RESERVADO');
-    }
+    if(this.pedido.idCoche != '')
+      this.cocheService.cambiarEstado(this.pedido.idCoche, 'RESERVADO');
   }
 
   seleccionarHotel(){
-    if(this.idHotelSelect != ''){
-      this.pedido.idHotel = this.idHotelSelect;
-      this.hotelService.cambiarEstado(this.idHotelSelect, 'RESERVADO');
+    if(this.pedido.idHotel != ''){
+      this.hotelService.cambiarEstado(this.pedido.idHotel, 'RESERVADO');
     }
   }
 
   seleccionarVuelo(){
-    if(this.idVueloIdaSelect != ''){
-      this.pedido.idVueloIda = this.idVueloIdaSelect;
-      this.vueloService.cambiarEstado(this.idVueloIdaSelect, 'RESERVADO');
+    if(this.pedido.idVueloIda != ''){
+      this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'RESERVADO');
     }
-    if(this.idVueloVueltaSelect != ''){
-      this.pedido.idVueloVuelta = this.idVueloVueltaSelect;
-      this.vueloService.cambiarEstado(this.idVueloVueltaSelect, 'RESERVADO');
+
+    if(this.pedido.idVueloVuelta != ''){
+      this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'RESERVADO');
     }
   }
 

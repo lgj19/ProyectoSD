@@ -16,7 +16,7 @@ authCtrl.signUp = async(req, res, next) => {
 
     if(userUsuFound != null) return res.status(400).json({message:"ERROR: Este nombre de usuario ya existe. Por favor, cámbielo.", type:"Usuario"});
     if(userEmailFound != null) return res.status(400).json({message:"ERROR: Este email ya existe. Por favor, cámbielo.", type:"Email"});
-    
+
     if(nombre == null) return res.status(400).json({message:"Error: Es necesario introducir un nombre", type:"Nombre"})
     if(apellidos == null) return res.status(400).json({message:"Error: Es necesario introducir apellidos", type:"Apellidos"})
     if(password == null) return res.status(400).json({message:"Error: Es necesario introducir un password", type:"Password"})
@@ -57,7 +57,7 @@ authCtrl.signIn = async(req, res, next) => {
         expiresIn: 86400
     });
 
-    res.status(200).json({message: `OK. SignIn correcto. Token del usuario: ${token} `})
+    res.status(200).json({message: `OK. SignIn correcto. Token del usuario: ${token} `, token: token})
 }
 
 module.exports = authCtrl;
