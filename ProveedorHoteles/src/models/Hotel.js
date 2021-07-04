@@ -7,7 +7,7 @@ const hotelesSchema = new Schema({
     personas:{type: Number, required: true},
     dormitorios:{type: Number, required: true},
     m2: {type: Number, required: true},
-    estado: {type: String, required: true} 
+    fechasReservadas: [[{type: String}, {type: String}]]
 }, {
     timestamps: true,
     versionKey: false

@@ -54,14 +54,6 @@ export class VueloService {
 
 
   cambiarEstado(vueloId: string, estado: string){
-    this.getVuelo(vueloId).subscribe(
-       res => {
-         res.elemento.estado = estado;
-         this.putVuelo(res.elemento).subscribe(
-           res => console.log(`modificación del vuelo a ${estado}.`),
-           err => console.log(err)
-         )
-      });
-    
+    return this.http.put<any>(`${this.URL_API_AGENCIA_VUELO}/${vueloId}/cambiarEstado`, {estado})
   }
 }

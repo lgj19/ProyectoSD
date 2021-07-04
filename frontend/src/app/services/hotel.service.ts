@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Hotel } from '../models/hotel';
+import { FechaService } from './fecha.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,11 @@ export class HotelService {
 
   URL_API_AGENCIA_HOTEL = 'https://localhost:3000/api/agencia/hoteles';
 
-  hotelSelected: Hotel = { nombre: '', localidad:'', personas:'', precio:'', dormitorios:'', m2:'', estado: 'DISPONIBLE' };
+  hotelSelected: Hotel = { nombre: '', localidad:'', personas:'', precio:'', dormitorios:'', m2:'', fechasReservadas: [['', '']] };
 
   hoteles: Hotel[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private fechaService: FechaService) { }
 
 
   getHoteles() {
@@ -50,15 +51,15 @@ export class HotelService {
     return this.http.get<any>(`${this.URL_API_AGENCIA_HOTEL}/localidad/${localidad}/personas/${personas}`);
   }
 
-  cambiarEstado(hotelId: string, estado: string){
-    this.getHotel(hotelId).subscribe(
-       res => {
-         res.elemento.estado = estado;
-         this.putHotel(res.elemento).subscribe(
-           res => console.log(`modificación del hotel a ${estado}.`),
-           err => console.log(err)
-         )
-      });
-    
+  putFechasReserva(_id: string, fechas: [string, string]){
+    return this.http.put<any>(`${this.URL_API_AGENCIA_HOTEL}/${_id}/fechasReservadas`, {fechas: fechas});
+  }
+
+  EliminarHotelesConFechasReservadas(hoteles: Hotel[], inicio: string, fin: string){
+    for(let i=0; i<hoteles.length; i++)
+    hoteles[i].fechasReservadas.forEach(fecha => {
+        if(this.fechaService.between(fecha, inicio, fin))
+        hoteles.splice(i, 1);
+      });      
   }
 }

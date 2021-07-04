@@ -11,7 +11,8 @@ router.get('/coches/:id', authJwt.verifyToken, cochesCtrl.getCoche)
 router.put('/coches/:id', authJwt.verifyToken, cochesCtrl.putCoches)
 router.delete('/coches/:id', [authJwt.verifyToken, authJwt.isAdmin], cochesCtrl.deleteCoches)
 
-router.get('/coches/localidad/:localidad/asientos/:asientos', authJwt.verifyToken, cochesCtrl.getCochesByAsiLocEst)
+router.put('/coches/:id/fechasReservadas', authJwt.verifyToken, cochesCtrl.putFechasReservadas)
+router.get('/coches/localidad/:localidad/asientos/:asientos', authJwt.verifyToken, cochesCtrl.getCochesByAsiLoc)
 
 
 module.exports = router;

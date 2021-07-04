@@ -23,6 +23,7 @@ export class ReservasService {
     tipoReserva: [false, false, false], //[coche, vuelo, hotel]
   };
 
+  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta: '', estado: 'RESERVADO', dias: 0, fechaInicio:'', fechaFin:''};
   reservasCoches: Coche[] = []; //todos los coches recuperados tras el formulario de filtrado.
   reservasHoteles: Hotel[] = [];
   reservasVuelosIda: Vuelo[] = [];

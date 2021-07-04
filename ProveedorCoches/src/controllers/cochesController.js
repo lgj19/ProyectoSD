@@ -34,7 +34,6 @@ cochesCtrl.postCoche = async(req,res, next) => {
     await newCoche.save((err, cocheNuevo) => {
         if(err) return next(err);
 
-        console.log(cocheNuevo);
         res.status(201).json({
             result: 'OK',
             elemento: cocheNuevo
@@ -71,7 +70,6 @@ cochesCtrl.getCocheId = async (req,res, next) => {
     await Coche.findById(req.params.id, (err, coche) => {
         if(err) return next(err);
 
-        console.log(coche);
         res.json({
             result: 'Recuperar coche por ID correctamente.',
             elemento: coche
@@ -83,7 +81,6 @@ cochesCtrl.putCocheId = async (req,res, next) => {
     await Coche.findByIdAndUpdate(req.params.id, req.body, (err, coche) => {
         if(err) return next(err);
 
-        console.log(coche);
         res.json({
             result: 'Modificado coche por ID correctamente.',
             elemento: coche
@@ -95,7 +92,6 @@ cochesCtrl.deleteCocheId = async (req,res, next) => {
     await Coche.findByIdAndDelete(req.params.id, (err, coche) => {
         if(err) return next(err);
 
-        console.log(coche);
         res.json({
             result: 'Eliminado coche por ID correctamente.',
             elemento: coche
@@ -103,16 +99,29 @@ cochesCtrl.deleteCocheId = async (req,res, next) => {
     });
 }
 
-// /coches/localidad/:localidad/asientos/:asientos
+cochesCtrl.putFechasReservadas = async (req,res, next) => {
+    const fechas = req.body.fechas
 
-cochesCtrl.getCochesByLocAsiEst = async(req, res) => {
-    await Coche.find({ "localidad": req.params.localidad, "asientos": { $gte: req.params.asientos },
-    "estado": "DISPONIBLE" }, (err, coches) => {
+    Coche.findByIdAndUpdate(req.params.id, {$push: { fechasReservadas: fechas}},
+        (err, coche) => {
         if(err) return next(err);
 
-        console.log(coches);
         res.json({
-            result: 'Búsqueda de coches por "localidad", "asientos" y "estado=DISPONIBLE" realizada satisfactoriamente.',
+            result: 'fechasReservadas introducidas correctamente.',
+            elemento: coche
+        });
+    });
+}
+
+// /coches/localidad/:localidad/asientos/:asientos/fechaIni/:fechaIni/fechaFin/:fechaFin
+
+cochesCtrl.getCochesByLocAsi = async(req, res) => {
+    await Coche.find({ "localidad": req.params.localidad, "asientos": { $gte: req.params.asientos }},
+     (err, coches) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Búsqueda de coches por "localidad", "asientos" y en una fecha no reservada, realizada satisfactoriamente.',
             elementos: coches
         });
     });

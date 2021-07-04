@@ -6,6 +6,9 @@ const authJwt = require('../middlewares/authJwt.js')
 
 router.get('/', hotelesCtrl.saludoInicio)
 
+router.put('/hoteles/:id/fechasReservadas', authJwt.verifyToken, hotelesCtrl.putFechasReservadas)
+
+
 router.get('/hoteles', authJwt.verifyToken, hotelesCtrl.getHoteles)
 router.post('/hoteles', authJwt.verifyToken, hotelesCtrl.postHotel)
 router.put('/hoteles', authJwt.verifyToken, hotelesCtrl.putHoteles)
@@ -15,6 +18,6 @@ router.get('/hoteles/:id', authJwt.verifyToken, hotelesCtrl.getHotelId)
 router.put('/hoteles/:id', authJwt.verifyToken, hotelesCtrl.putHotelId)
 router.delete('/hoteles/:id', authJwt.verifyToken, hotelesCtrl.deleteHotelId)
 
-router.get('/hoteles/localidad/:localidad/personas/:personas', authJwt.verifyToken, hotelesCtrl.getHotelesByLocPerEst)
+router.get('/hoteles/localidad/:localidad/personas/:personas', authJwt.verifyToken, hotelesCtrl.getHotelesByLocPer)
 
 module.exports = router;

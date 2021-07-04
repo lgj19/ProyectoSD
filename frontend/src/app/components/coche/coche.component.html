@@ -8,7 +8,6 @@
                 <form #cochesForm="ngForm" (ngSubmit)="addCoche(cochesForm)">
 
                     <input type="hidden" name="_id" [(ngModel)]="cocheService.cocheSelected._id">
-                    <input type="hidden" name="estado" [(ngModel)]="cocheService.cocheSelected.estado">
 
                     <div class="form-group">
                         <input type="text" class="form-control" name="marca" placeholder="Marca" [(ngModel)]="cocheService.cocheSelected.marca">
@@ -28,10 +27,6 @@
 
                     <div class="form-group">
                         <input type="text" class="form-control" name="localidad" placeholder="Localidad" [(ngModel)]="cocheService.cocheSelected.localidad">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="estado" placeholder="Estado" [(ngModel)]="cocheService.cocheSelected.estado">
                     </div>
 
                     <button class="btn btn-primary mr-2 mt-4">Agregar</button>

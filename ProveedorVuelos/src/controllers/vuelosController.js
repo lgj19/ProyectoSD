@@ -14,6 +14,37 @@ vuelosCtrl.saludoInicio = (req, res, next) =>
     res.send({'Title':'Bienvenido al proveedor de vuelos.'});
 
 
+//URL -> /api/vuelos/:id/cambiarEstado/:estado
+/**
+ * 
+ * @param {*} req.params.estado Debe ser DISPONIBLE, RESERVADO, COMPRADO.
+ */
+ vuelosCtrl.cambiarEstado = async (req, res, next) => {
+    const estado = req.body.estado;
+    const id = req.params.id;
+    console.log(estado)
+    
+    if(estado != 'DISPONIBLE' && estado != 'RESERVADO' && estado != 'COMPRADO'){
+        res.status(400).json({
+            result: "ERROR. El estado debe ser: DISPONIBLE, RESERVADO o COMPRADO."
+        })
+        return;
+    }
+
+    await Vuelo.findByIdAndUpdate(id, {estado: estado}, (err, vuelo) => {
+        if(err){
+            res.status(500).json({
+                result: "Error del servidor al intentar cambiar el estado."
+            });
+            return;
+        }
+        res.json({
+            result: "Vuelo con estado modificado.",
+            elemento: vuelo
+        })
+    })
+}
+
 // URL -> /api/vuelos/
 
 vuelosCtrl.getVuelos = async (req, res, next) => {

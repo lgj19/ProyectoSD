@@ -156,7 +156,7 @@ hotelesCtrl.deleteHotel = async (req, res, next) => {
 }
 
 
-hotelesCtrl.getHotelesByLocPerEst = async (req, res, next) => {
+hotelesCtrl.getHotelesByLocPer = async (req, res, next) => {
     const localidad = req.params.localidad;
     const personas = req.params.personas;
     const URL = `${URL_WS_HOTELES}/localidad/${localidad}/personas/${personas}`;
@@ -183,5 +183,36 @@ hotelesCtrl.getHotelesByLocPerEst = async (req, res, next) => {
         next(error.status);
     });
 }
+
+hotelesCtrl.putFechasReservadas = async (req, res, next) => {
+    const elId = req.params.id;
+    const fechas = req.body.fechas;
+    const URL = `${URL_WS_HOTELES}/${elId}/fechasReservadas/`;
+
+    fetch(URL, {
+        method: 'PUT',
+        body: JSON.stringify({fechas: fechas}),
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        },
+        agent: httpsAgent
+    })
+    .then( (resp) => {
+        if(resp.status == 200)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: 'Introducidas nuevas fechas reservadas en la habitación de hotel.',
+            elemento: json.elemento
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
+
 
 module.exports = hotelesCtrl;

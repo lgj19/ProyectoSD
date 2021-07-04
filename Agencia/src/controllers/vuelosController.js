@@ -213,4 +213,35 @@ vuelosCtrl.getVuelosByOriByDestByAsiByFecEst = async (req, res, next) => {
     });
 }
 
+
+vuelosCtrl.cambiarVueloEstado = async (req, res, next) => {
+    const elId = req.params.id;
+    const elEstado = req.body;
+    const URL = `${URL_WS_VUELOS}/${elId}/cambiarEstado`;
+
+    fetch(URL, {
+        method: 'PUT',
+        body: JSON.stringify(req.body),
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        },
+        agent: httpsAgent
+    })
+    .then( (resp) => {
+        if(resp.status == 200)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: json.result,
+            elemento: json.elemento
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
+
 module.exports = vuelosCtrl;

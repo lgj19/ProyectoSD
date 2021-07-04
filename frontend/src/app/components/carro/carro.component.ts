@@ -16,9 +16,9 @@ import { VueloService } from 'src/app/services/vuelo.service';
 })
 export class CarroComponent implements OnInit {
 
-  pedido: Pedido = {idVueloIda:'', idVueloVuelta:'', idHotel:'', idCoche:'', idUsuario:'', estado:'', _id:'', dias: 0};
-  coche: Coche = {localidad:'', precio:0, asientos:0, marca:'', modelo:'', estado:'', _id:''};
-  hotel: Hotel = { nombre: '', localidad:'', personas:'', precio:'', dormitorios:'', m2:'', estado: 'DISPONIBLE' };
+  pedido: Pedido = {idVueloIda:'', idVueloVuelta:'', idHotel:'', idCoche:'', idUsuario:'', estado:'', _id:'', dias: 0, fechaInicio:'', fechaFin:''};
+  coche: Coche = {localidad:'', precio:0, asientos:0, marca:'', modelo:'', fechasReservadas: [['', '']], _id:''};
+  hotel: Hotel = { nombre: '', localidad:'', personas:'', precio:'', dormitorios:'', m2:'',  fechasReservadas: [['', '']] };
   vueloIda: Vuelo = { empresa: '', origen:'', destino:'', precio:'', fecha:'', asientos:'', estado: 'DISPONIBLE' };
   vueloVuelta: Vuelo = { empresa: '', origen:'', destino:'', precio:'', fecha:'', asientos:'', estado: 'DISPONIBLE' };
 
@@ -120,9 +120,9 @@ export class CarroComponent implements OnInit {
 
   cambiarProductosADisponibles(){
     if(this.pedido.idCoche != '')
-      this.cocheService.cambiarEstado(this.pedido.idCoche, 'DISPONIBLE');
+      //TODO Eliminar fechas de la reserva?????
     if(this.pedido.idHotel != '')
-      this.hotelService.cambiarEstado(this.pedido.idHotel, 'DISPONIBLE');
+      //TODO Eliminar fechas de la reserva?????
     if(this.pedido.idVueloIda != '')
       this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'DISPONIBLE');
     if(this.pedido.idVueloVuelta != '')

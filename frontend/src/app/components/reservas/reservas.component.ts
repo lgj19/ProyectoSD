@@ -15,8 +15,8 @@ import { VueloService } from 'src/app/services/vuelo.service';
 })
 export class ReservasComponent implements OnInit {
 
-  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta: '', estado: 'RESERVADO', dias: 0};
-  
+  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta: '', estado: 'RESERVADO', dias: 0, fechaInicio:'', fechaFin:''};
+  fechas: [string, string] = ['','']
   strTipoReserva: string[] = [];
 
   constructor(
@@ -34,12 +34,12 @@ export class ReservasComponent implements OnInit {
   addForm(form: NgForm){
 
     //crear el pedido y modificar estado de los productos
+    this.fechas = [String(this.reservasService.data.fechaOrigen), String(this.reservasService.data.fechaDestino)];
     this.seleccionarCoche();
     this.seleccionarHotel();
     this.seleccionarVuelo();
-
     this.hacerReserva();
-    
+
     this.router.navigate(['/pago']);
 
   }
@@ -54,23 +54,37 @@ export class ReservasComponent implements OnInit {
   }
 
   seleccionarCoche(){
-    if(this.pedido.idCoche != '')
-      this.cocheService.cambiarEstado(this.pedido.idCoche, 'RESERVADO');
+    if(this.pedido.idCoche != ''){
+      
+      this.cocheService.putFechasReserva(this.pedido.idCoche, this.fechas).subscribe(
+        res => console.log(res),
+        err => console.log(err)
+      )
+    }
   }
 
   seleccionarHotel(){
     if(this.pedido.idHotel != ''){
-      this.hotelService.cambiarEstado(this.pedido.idHotel, 'RESERVADO');
+      this.hotelService.putFechasReserva(this.pedido.idHotel, this.fechas).subscribe(
+        res => console.log(res),
+        err => console.log(err)
+      )    
     }
   }
 
   seleccionarVuelo(){
     if(this.pedido.idVueloIda != ''){
-      this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'RESERVADO');
+      this.vueloService.cambiarEstado(this.pedido.idVueloIda, "RESERVADO").subscribe(
+        res => console.log(res),
+        err => console.log(err)
+      )
     }
 
     if(this.pedido.idVueloVuelta != ''){
-      this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'RESERVADO');
+      this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, "RESERVADO").subscribe(
+        res => console.log(res),
+        err => console.log(err)
+      )
     }
   }
 

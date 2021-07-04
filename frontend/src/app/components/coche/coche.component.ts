@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CocheService } from '../../services/coche.service';
 import { NgForm} from '@angular/forms'
 import { Coche } from 'src/app/models/coche';
+import { FechaService } from 'src/app/services/fecha.service';
 
 @Component({
   selector: 'app-coche',
@@ -10,7 +11,8 @@ import { Coche } from 'src/app/models/coche';
 })
 export class CocheComponent implements OnInit {
 
-  constructor(public cocheService: CocheService) { }
+  constructor(public cocheService: CocheService,
+      private fechaService: FechaService) { }
 
   ngOnInit(): void {
     this.getCoches();

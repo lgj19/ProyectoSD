@@ -14,6 +14,7 @@ router.get('/vuelos/:id', authJwt.verifyToken, vuelosCtrl.getVueloId)
 router.put('/vuelos/:id', authJwt.verifyToken, vuelosCtrl.putVueloId)
 router.delete('/vuelos/:id', authJwt.verifyToken, vuelosCtrl.deleteVueloId)
 
+router.put('/vuelos/:id/cambiarEstado', authJwt.verifyToken, vuelosCtrl.cambiarEstado)
 router.get('/vuelos/origen/:origen/destino/:destino/asientos/:asientos/fecha/:fecha', authJwt.verifyToken, vuelosCtrl.getVuelosByOriByDestByAsiByFecEst)
 
 module.exports = router;

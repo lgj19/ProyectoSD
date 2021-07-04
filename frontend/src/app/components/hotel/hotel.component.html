@@ -7,7 +7,6 @@
                 <form #hotelesForm="ngForm" (ngSubmit)="addHotel(hotelesForm)">
 
                     <input type="hidden" name="_id" [(ngModel)]="hotelService.hotelSelected._id">
-                    <input type="hidden" name="estado" [(ngModel)]="hotelService.hotelSelected.estado">
 
                     <div class="form-group">
                         <input type="text" class="form-control" name="nombre" placeholder="Nombre" [(ngModel)]="hotelService.hotelSelected.nombre">
@@ -31,10 +30,6 @@
 
                     <div class="form-group">
                         <input type="text" class="form-control" name="localidad" placeholder="Localidad" [(ngModel)]="hotelService.hotelSelected.localidad">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="estado" placeholder="Estado" [(ngModel)]="hotelService.hotelSelected.estado">
                     </div>
 
                     <button class="btn btn-primary mr-2 mt-4">Agregar</button>
@@ -69,9 +64,6 @@
                         metros cuadrados
                     </th>
                     <th>
-                        ESTADO
-                    </th>
-                    <th>
                         Operaciones
                     </th>
                 </tr>
@@ -84,7 +76,6 @@
                     <td> {{hotel.dormitorios}}</td>
                     <td>{{hotel.precio}}</td>
                     <td>{{hotel.m2}}</td>
-                    <td>{{hotel.estado}}</td>
                     <td>
                         <button class="btn btn-secondary btn-sm" (click)="editHotel(hotel)">
                             <i class="material-icons">edit</i>

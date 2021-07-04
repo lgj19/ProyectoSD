@@ -1,5 +1,7 @@
 export interface Pedido {
     dias: number,
+    fechaInicio: string,
+    fechaFin: string,
     idUsuario: String,
     idCoche: string,
     idHotel: string,

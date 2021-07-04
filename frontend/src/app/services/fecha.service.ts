@@ -17,10 +17,18 @@ export class FechaService {
   errorFechas(inicio: Date, fin: Date): boolean{
     const start = moment(inicio);
     const end = moment(fin);
+    return end.isSameOrBefore(start)
+  }
 
-    const result = Number(end) - Number(start);
+  between(fechas: [string, string], inicio: string, fin: string){
+    const start = moment(inicio);
+    const end = moment(fin);
+    const dates = [moment(fechas[0]), moment(fechas[1])];
 
-    return (result <= 0)
+    if(dates[0].isBetween(start, end) || dates[1].isBetween(start, end))
+      return true; 
+    return false;
+
   }
 
 }

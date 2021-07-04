@@ -4,7 +4,7 @@ export interface Hotel {
     precio: string,
     dormitorios: string,
     personas: string,
-    estado: string,
+    fechasReservadas: [[string, string]] 
     m2: string,
     _id?: string,
     createdAt?: string,

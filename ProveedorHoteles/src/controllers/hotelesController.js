@@ -14,6 +14,20 @@ hotelesCtrl.saludoInicio = (req, res) =>
     res.send({'Title':'Bienvenido al proveedor de hoteles.'});
 
 
+hotelesCtrl.putFechasReservadas = async (req,res, next) => {
+    const fechas = req.body.fechas
+
+    Hotel.findByIdAndUpdate(req.params.id, {$push: { fechasReservadas: fechas}},
+        (err, hotel) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'fechasReservadas introducidas correctamente.',
+            elemento: hotel
+        });
+    });
+}
+
 // URL -> /api/hoteles/
 
 hotelesCtrl.getHoteles = async (req, res, next) => {
@@ -99,13 +113,13 @@ hotelesCtrl.deleteHotelId = async (req, res, next) => {
 }
 
 
-hotelesCtrl.getHotelesByLocPerEst = async(req, res, next) => {
-    await Hotel.find({ "localidad": req.params.localidad, "personas": { $gte: req.params.personas },
-    "estado": "DISPONIBLE" }, (err, hoteles) => {
+hotelesCtrl.getHotelesByLocPer = async(req, res, next) => {
+    await Hotel.find({ "localidad": req.params.localidad, "personas": { $gte: req.params.personas }},
+     (err, hoteles) => {
         if(err) return next(err);
 
         res.json({
-            result: 'Búsqueda de hoteles por "localidad", "personas" y "estado=DISPONIBLE" realizada satisfactoriamente.',
+            result: 'Búsqueda de hoteles por "localidad" y"personas" realizada satisfactoriamente.',
             elementos: hoteles
         });
     });

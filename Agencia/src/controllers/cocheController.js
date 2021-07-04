@@ -127,6 +127,36 @@ cochesCtrl.putCoches = async (req, res, next) => {
     });
 }
 
+cochesCtrl.putFechasReservadas = async (req, res, next) => {
+    const elId = req.params.id;
+    const fechas = req.body.fechas;
+    const URL = `${URL_WS_COCHES}/${elId}/fechasReservadas/`;
+
+    fetch(URL, {
+        method: 'PUT',
+        body: JSON.stringify({fechas: fechas}),
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': req.headers.authorization
+        },
+        agent: httpsAgent
+    })
+    .then( (resp) => {
+        if(resp.status == 200)
+            return resp.json();
+        throw Error(resp.status);
+    })
+    .then( json => {
+        res.json({
+            result: 'Introducidas nuevas fechas reservadas en el coche.',
+            elemento: json.elemento
+        });
+    })
+    .catch((error) => {
+        next(error.status);
+    });
+}
+
 cochesCtrl.deleteCoches = async (req, res, next) => {
     const elId = req.params.id;
     const URL = `${URL_WS_COCHES}/${elId}`;
@@ -156,7 +186,7 @@ cochesCtrl.deleteCoches = async (req, res, next) => {
 }
 
 
-cochesCtrl.getCochesByAsiLocEst = async (req, res, next) => {
+cochesCtrl.getCochesByAsiLoc = async (req, res, next) => {
     const localidad = req.params.localidad;
     const asientos = req.params.asientos;
     const URL = `${URL_WS_COCHES}/localidad/${localidad}/asientos/${asientos}`;
@@ -175,7 +205,7 @@ cochesCtrl.getCochesByAsiLocEst = async (req, res, next) => {
     })
     .then( json => {
         res.json({
-            result: 'Coches DISPONIBLES del proveedor filtrados por: LOCALIDAD y ASIENTOS recuperados correctamente.',
+            result: 'Coches del proveedor filtrados por: LOCALIDAD y ASIENTOS recuperados correctamente.',
             elementos: json.elementos,
         });
     })

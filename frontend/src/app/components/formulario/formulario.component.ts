@@ -8,6 +8,7 @@ import { Pedido } from 'src/app/models/pedido';
 import { FechaService } from 'src/app/services/fecha.service';
 import { HotelService } from 'src/app/services/hotel.service';
 import { VueloService } from 'src/app/services/vuelo.service';
+import { relativeTimeThreshold } from 'moment';
 
 @Component({
   selector: 'app-formulario',
@@ -32,7 +33,7 @@ export class FormularioComponent implements OnInit {
   tiposViaje =[{name: "Ida y vuelta", value: "Ida y vuelta"}, {name: "Ida", value: "Ida"}, {name: "Vuelta", value: "Vuelta"}];
   tiposReserva =[{name: "Coche", value: "Coche"}, {name: "Vuelo", value: "Vuelo"}, {name: "Hotel  ", value: "Hotel"}];
 
-  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta:'', estado: 'RESERVADO', dias: 0};
+  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta:'', estado: 'RESERVADO', dias: 0, fechaInicio:'', fechaFin:''};
  
   constructor
   (private cocheService: CocheService,public reservasService: ReservasService, private fechaService: FechaService,
@@ -83,17 +84,20 @@ export class FormularioComponent implements OnInit {
     this.recuperarHoteles();
     this.recuperarVuelos();
 
-    this.reservasService.createReserva(this.pedido).subscribe( //Crea pedido con usuario.
-      res => console.log(res.result),
-      err => {
-        console.error(err);
-        this.router.navigate(['/carro'])
-      }
-    )
+    this.crearReserva();
    
     this.router.navigate(['/reservas'])
   }
 
+  crearReserva(){
+    this.reservasService.createReserva(this.pedido).subscribe( //Crea pedido con usuario.
+      res => console.log(res.result),
+      err => {
+        console.error(err);
+        this.router.navigate(['/formulario'])
+      }
+    )
+  }
 
   comprobarValidacion(): boolean {
     var ret = true;
@@ -138,36 +142,48 @@ export class FormularioComponent implements OnInit {
     this.reservasService.data.fechaOrigen = this.fechaOrigenF.value;
     this.reservasService.data.fechaDestino = this.fechaDestinoF.value;
     this.reservasService.data.tipoViaje = this.tipoViajeF.value;
+    this.reservasService.data.tipoReserva[0] = (this.tipoCocheF.value) ? true : false;
+    this.reservasService.data.tipoReserva[1] = (this.tipoVueloF.value) ? true : false;
+    this.reservasService.data.tipoReserva[2] = (this.tipoHotelF.value) ? true : false;
 
     this.pedido.dias = 
     this.reservasService.data.dias = 
     this.fechaService.calcularDias(this.reservasService.data.fechaOrigen, this.reservasService.data.fechaDestino);
-
-    this.reservasService.data.tipoReserva[0] = (this.tipoCocheF.value) ? true : false;
-    this.reservasService.data.tipoReserva[1] = (this.tipoVueloF.value) ? true : false;
-    this.reservasService.data.tipoReserva[2] = (this.tipoHotelF.value) ? true : false;
+    this.pedido.fechaInicio = String(this.reservasService.data.fechaOrigen);
+    this.pedido.fechaFin = String(this.reservasService.data.fechaDestino);
   }
 
 
 
   recuperarCoches(){
     if(this.reservasService.data.tipoReserva[0]){ //Coches
-      this.cocheService.getCochesByLocByAsi(this.reservasService.data.destino, Number(this.reservasService.data.personas)).subscribe(
+      this.cocheService.getCochesByLocByAsi(this.reservasService.data.destino, Number(this.reservasService.data.personas))
+      .subscribe(
         res => {
-          console.log(res.result, res.elementos)
-          this.reservasService.reservasCoches = res.elementos; // selecciono los elementos
+          console.log(res.result)
+          // selecciono los elementos
+          this.reservasService.reservasCoches = res.elementos; 
+          //Quito los productos con las fechas ya reservadas
+          this.cocheService.EliminarCochesConFechasReservadas(this.reservasService.reservasCoches, this.pedido.fechaInicio, this.pedido.fechaFin);
         },
         err => console.error(err)
       )
+
+      
+      
     }
   }
 
   recuperarHoteles(){
     if(this.reservasService.data.tipoReserva[2]){ //Hoteles
-      this.hotelService.getHotelesByLocByPer(this.reservasService.data.destino, Number(this.reservasService.data.personas)).subscribe(
+      this.hotelService.getHotelesByLocByPer(this.reservasService.data.destino, Number(this.reservasService.data.personas))
+      .subscribe(
         res => {
-          console.log(res.result, res.elementos)
+          console.log(res.result)
+          // selecciono los elementos
           this.reservasService.reservasHoteles = res.elementos;
+          //Quito los productos con las fechas ya reservadas
+          this.hotelService.EliminarHotelesConFechasReservadas(this.reservasService.reservasHoteles, this.pedido.fechaInicio, this.pedido.fechaFin);
         },
         err => console.error(err)
       )
@@ -194,7 +210,7 @@ export class FormularioComponent implements OnInit {
                   String(this.reservasService.data.fechaOrigen),
                   Number(this.reservasService.data.personas)).subscribe(
       res => {
-        console.log(res.result, res.elementos)
+        console.log(res.result)
         this.reservasService.reservasVuelosIda = res.elementos; // selecciono los elementos
       },
       err => console.error(err)
@@ -206,7 +222,7 @@ export class FormularioComponent implements OnInit {
                   String(this.reservasService.data.fechaDestino), 
                   Number(this.reservasService.data.personas)).subscribe(
       res => {
-        console.log(res.result, res.elementos)
+        console.log(res.result)
         this.reservasService.reservasVuelosVuelta = res.elementos; // selecciono los elementos
       },
       err => console.error(err)
