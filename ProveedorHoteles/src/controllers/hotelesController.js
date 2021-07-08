@@ -125,4 +125,25 @@ hotelesCtrl.getHotelesByLocPer = async(req, res, next) => {
     });
 }
 
+// /hoteles/fechaIni/:fechaIni/fechaFin/:fechaFin
+/**
+ * Actualiza las fechas Reservadas de un coche
+ * @param {*} req las fechas de inicio y fin; el id.
+ * @param {*} res result, elementos
+ */
+ hotelesCtrl.UpdateFechasReservadasById = async(req, res) => {
+    const fechas = [req.params.fechaIni, req.params.fechaFin];
+    const id = req.params.id;
+
+    await Hotel.findByIdAndUpdate( id, {$pull: {fechasReservadas: {$in: fechas}}},
+     (err, hotel) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Eliminación de fechas de reserva para un hotel realizada satisfactoriamente.',
+            elementos: hotel
+        });
+    });
+}
+
 module.exports = hotelesCtrl;

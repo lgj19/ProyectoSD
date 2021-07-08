@@ -1,4 +1,4 @@
-<h3>Carro de compra</h3>
+<h3>Carro de Compra</h3>
 
 <div class="card">
     <div class="card-body">
@@ -62,15 +62,51 @@
                 </tbody>
             </table>
 
-            <br><h5>Precio total: {{this.precioTotal}}€</h5>
-            <button class="btn btn-primary ml-5 mr-2 mt-3 mb-1" (click)="comprar()">Comprar</button>
-            <button class="btn btn-secondary  mr-5 mt-3 mb-1" (click)="deshacer()">Deshacer</button>
+            <br><h5>Precio total: </h5> <h4>{{this.precioTotal}}€</h4>
+            <button class="btn btn-primary ml-5 mr-2 mt-3 mb-1" (click)="pasarAlPago()">Pasar al pago</button>
+            <button class="btn btn-secondary  mr-5 mt-3 mb-1" (click)="deshacer()">Deshacer el pedido</button>
 
         </ng-container>
 
         <ng-template #noPedido>
             <p>No se ha realizado ningún pedido por el momento. Realice la reserva primero.</p>
         </ng-template>
+    </div>
+</div>
+
+<br>
+<h3 *ngIf="this.fasePago">Fase de Pago</h3>
+<br>
+
+<div class="card" *ngIf="this.fasePago">
+    <div class="card-body">
+
+        <form [formGroup]="myForm" novalidate (submit)="addForm()">
+        
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="numTarjeta" name="numTarjeta" placeholder="Número de Tarjeta: XXXX-XXXX-XXXX-XXXX" [ngClass]="{'is-invalid': numTarjetaF.errors && (numTarjetaF.touched || numTarjetaF.dirty), 'is-valid':numTarjetaF.valid}">
+                <div class="invalid-feedback" >
+                    <strong *ngIf="numTarjetaF.errors?.required">Número de tarjeta requerido</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="number" class="form-control" formControlName="numSecretoTarjeta" name="numSecretoTarjeta" placeholder="Número secreto de Tarjeta: YYY" [ngClass]="{'is-invalid': numSecretoTarjetaF.errors && (numSecretoTarjetaF.touched || numSecretoTarjetaF.dirty), 'is-valid':numSecretoTarjetaF.valid}">
+                <div class="invalid-feedback" >
+                    <strong *ngIf="numSecretoTarjetaF.errors?.required">Número secreto de tarjeta requerido</strong>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" class="form-control" name="titular" formControlName="titular" placeholder="Titular de la Tarjeta" [ngClass]="{'is-invalid': titularF.errors && (titularF.touched || titularF.dirty), 'is-valid':titularF.valid}">
+                <div class="invalid-feedback" >
+                    <strong *ngIf="titularF.errors?.required">Nombre del titular requerido</strong>
+                </div>
+            </div>
+
+            <button class="btn btn-primary ml-5 mr-2 mt-3 mb-1" (click)="comprar()">Comprar</button>
+        </form>
+
     </div>
 </div>
 

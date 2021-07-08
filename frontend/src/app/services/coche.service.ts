@@ -56,6 +56,10 @@ export class CocheService {
     return this.http.put<any>(`${this.URL_API_AGENCIA_COCHE}/${_id}/fechasReservadas`, {fechas: fechas});
   }
 
+  updateFechasReservadasById(_id: string, fechas: [string, string]){
+    return this.http.put<any>(`${this.URL_API_AGENCIA_COCHE}/${_id}/fechaIni/${fechas[0]}/fechaFin/${fechas[1]}`, {})
+  }
+
 
   EliminarCochesConFechasReservadas(coches: Coche[], inicio: string, fin: string){
     for(let i=0; i<coches.length; i++)

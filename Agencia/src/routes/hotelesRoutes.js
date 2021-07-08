@@ -13,5 +13,6 @@ router.delete('/hoteles/:id', [authJwt.verifyToken, authJwt.isAdmin], hotelesCtr
 
 router.put('/hoteles/:id/fechasReservadas', authJwt.verifyToken, hotelesCtrl.putFechasReservadas)
 router.get('/hoteles/localidad/:localidad/personas/:personas', authJwt.verifyToken, hotelesCtrl.getHotelesByLocPer)
+router.put('/hoteles/:id/fechaIni/:fechaIni/fechaFin/:fechaFin', authJwt.verifyToken, hotelesCtrl.updateFechasReservadasById);
 
 module.exports = router;

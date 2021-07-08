@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Coche } from 'src/app/models/coche';
 import { Hotel } from 'src/app/models/hotel';
@@ -16,6 +17,11 @@ import { VueloService } from 'src/app/services/vuelo.service';
 })
 export class CarroComponent implements OnInit {
 
+  myForm: FormGroup;
+  numTarjetaF: FormControl;
+  numSecretoTarjetaF: FormControl;
+  titularF: FormControl;
+
   pedido: Pedido = {idVueloIda:'', idVueloVuelta:'', idHotel:'', idCoche:'', idUsuario:'', estado:'', _id:'', dias: 0, fechaInicio:'', fechaFin:''};
   coche: Coche = {localidad:'', precio:0, asientos:0, marca:'', modelo:'', fechasReservadas: [['', '']], _id:''};
   hotel: Hotel = { nombre: '', localidad:'', personas:'', precio:'', dormitorios:'', m2:'',  fechasReservadas: [['', '']] };
@@ -24,19 +30,26 @@ export class CarroComponent implements OnInit {
 
   precioTotal: number = 0;
 
+  fasePago: Boolean = false;
+
   constructor(
-    public reservasService: ReservasService,
-    private cocheService: CocheService,
-    private hotelService: HotelService,
-    private vueloService: VueloService,
-    private router: Router
-  ) {
+    public reservasService: ReservasService, private cocheService: CocheService, private hotelService: HotelService,
+    private vueloService: VueloService, private router: Router, private fb: FormBuilder) 
+  {
+    this.numTarjetaF = new FormControl('',[Validators.required, Validators.minLength(19), Validators.maxLength(19)]);
+    this.numSecretoTarjetaF = new FormControl('',[Validators.required, Validators.min(1), Validators.max(999)]);
+    this.titularF = new FormControl('',[Validators.required, Validators.min(1)]);
 
-   }
+    this.myForm = this.fb.group({
+      numTarjeta: this.numTarjetaF, numSecretoTarjeta: this.numSecretoTarjetaF, titular: this.titularF
+    });
+  }
 
-  ngOnInit(): void { //ON THE FLY
+  ngOnInit(): void {
       this.recuperarPedido();
   }
+
+  addForm(){}
   
   recuperarPedido(){
       this.reservasService.getPedidoUsuario().subscribe(
@@ -106,23 +119,47 @@ export class CarroComponent implements OnInit {
     }
   }
 
+  pasarAlPago() {
+    this.fasePago = true;
+  }
+
   comprar(){
-    this.router.navigate(['/pago'])
+    //TODO REALIZAR COMPRA
   }
 
   deshacer(){
-    //Pasar productos a DISPONIBLE.
     this.cambiarProductosADisponibles();
-    //Eliminar pedido.
-    this.reservasService.deletePedidoUsuario().subscribe()
-    this.router.navigate(['/home'])
+    this.reservasService.deletePedidoUsuario().subscribe();
+    this.router.navigate(['/home']);
   }
 
   cambiarProductosADisponibles(){
-    if(this.pedido.idCoche != '')
-      //TODO Eliminar fechas de la reserva?????
-    if(this.pedido.idHotel != '')
-      //TODO Eliminar fechas de la reserva?????
+    this.eliminarFechaReservaCoche();
+    this.eliminarFechaReservaHotel();
+    this.eliminarEstadoReservadoVuelos();
+  }
+
+  eliminarFechaReservaCoche(){
+    if(this.pedido.idCoche != ''){
+      this.cocheService.updateFechasReservadasById(this.pedido.idCoche, [this.pedido.fechaInicio, this.pedido.fechaFin]).
+        subscribe(
+          res => console.log(res.result),
+          err => console.log(err)
+        );
+    }
+  }
+
+  eliminarFechaReservaHotel(){
+    if(this.pedido.idHotel != ''){
+      this.hotelService.updateFechasReservadasById(this.pedido.idHotel, [this.pedido.fechaInicio, this.pedido.fechaFin]).
+        subscribe(
+          res => console.log(res.result),
+          err => console.log(err)
+        );
+    }
+  }
+
+  eliminarEstadoReservadoVuelos(){
     if(this.pedido.idVueloIda != '')
       this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'DISPONIBLE');
     if(this.pedido.idVueloVuelta != '')

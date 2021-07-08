@@ -55,6 +55,10 @@ export class HotelService {
     return this.http.put<any>(`${this.URL_API_AGENCIA_HOTEL}/${_id}/fechasReservadas`, {fechas: fechas});
   }
 
+  updateFechasReservadasById(_id: string, fechas: [string, string]){
+    return this.http.put<any>(`${this.URL_API_AGENCIA_HOTEL}/${_id}/fechaIni/${fechas[0]}/fechaFin/${fechas[1]}`, {})
+  }
+
   EliminarHotelesConFechasReservadas(hoteles: Hotel[], inicio: string, fin: string){
     for(let i=0; i<hoteles.length; i++)
     hoteles[i].fechasReservadas.forEach(fecha => {

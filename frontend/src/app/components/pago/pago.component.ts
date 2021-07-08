@@ -9,7 +9,7 @@ export class PagoComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { //ON THE FLY
+    }
 
 }

@@ -40,7 +40,7 @@ export class ReservasComponent implements OnInit {
     this.seleccionarVuelo();
     this.hacerReserva();
 
-    this.router.navigate(['/pago']);
+    this.router.navigate(['/carro']);
 
   }
   

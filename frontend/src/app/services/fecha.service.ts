@@ -20,12 +20,20 @@ export class FechaService {
     return end.isSameOrBefore(start)
   }
 
+  /**
+   * Compara si dadas unas fechas reservadas, las fechas de inicio o fin se
+   * encuentran entre las reservadas
+   * @param fechas las fechas reservadas
+   * @param inicio la fecha de inicio
+   * @param fin la fecha de fin
+   * @returns true si está entre las fechas reservadas. Else false.
+   */
   between(fechas: [string, string], inicio: string, fin: string){
     const start = moment(inicio);
     const end = moment(fin);
     const dates = [moment(fechas[0]), moment(fechas[1])];
-
-    if(dates[0].isBetween(start, end) || dates[1].isBetween(start, end))
+    
+    if(start.isBetween(dates[0],dates[1]) || end.isBetween(dates[0], dates[1]))
       return true; 
     return false;
 

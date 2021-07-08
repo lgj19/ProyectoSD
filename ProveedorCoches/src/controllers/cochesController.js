@@ -113,7 +113,7 @@ cochesCtrl.putFechasReservadas = async (req,res, next) => {
     });
 }
 
-// /coches/localidad/:localidad/asientos/:asientos/fechaIni/:fechaIni/fechaFin/:fechaFin
+// /coches/localidad/:localidad/asientos/:asientos
 
 cochesCtrl.getCochesByLocAsi = async(req, res) => {
     await Coche.find({ "localidad": req.params.localidad, "asientos": { $gte: req.params.asientos }},
@@ -121,8 +121,29 @@ cochesCtrl.getCochesByLocAsi = async(req, res) => {
         if(err) return next(err);
 
         res.json({
-            result: 'Búsqueda de coches por "localidad", "asientos" y en una fecha no reservada, realizada satisfactoriamente.',
+            result: 'Búsqueda de coches por "localidad" y "asientos" , realizada satisfactoriamente.',
             elementos: coches
+        });
+    });
+}
+
+// /coches/fechaIni/:fechaIni/fechaFin/:fechaFin
+/**
+ * Actualiza las fechas Reservadas de un coche
+ * @param {*} req las fechas de inicio y fin; el id.
+ * @param {*} res result, elementos
+ */
+cochesCtrl.UpdateFechasReservadasById = async(req, res) => {
+    const fechas = [req.params.fechaIni, req.params.fechaFin];
+    const id = req.params.id;
+
+    await Coche.findByIdAndUpdate( id, {$pull: {fechasReservadas: {$in: fechas}}},
+     (err, coche) => {
+        if(err) return next(err);
+
+        res.json({
+            result: 'Eliminación de fechas de reserva para un coche realizada satisfactoriamente.',
+            elementos: coche
         });
     });
 }
