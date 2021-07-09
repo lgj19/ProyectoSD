@@ -85,16 +85,17 @@ export class FormularioComponent implements OnInit {
     this.recuperarVuelos();
 
     this.crearReserva();
-   
-    this.router.navigate(['/reservas'])
   }
 
   crearReserva(){
-    this.reservasService.createReserva(this.pedido).subscribe( //Crea pedido con usuario.
-      res => console.log(res.result),
+    this.reservasService.createReserva(this.pedido).subscribe(
+      res => {
+        console.log(res.result);
+        this.router.navigate(['/reservas']);
+      },
       err => {
-        console.error(err);
-        this.router.navigate(['/formulario'])
+        alert(err.error.status + ' ERROR. ' +  err.error.result);
+        this.router.navigate(['/formulario']);
       }
     )
   }

@@ -31,5 +31,6 @@ app.use("/api/agencia", require('./routes/CocheRoutes.js'));
 app.use("/api/agencia", require('./routes/HotelesRoutes.js'));
 app.use("/api/agencia", require('./routes/vuelosRoutes.js'));
 app.use("/api/agencia/auth", require('./routes/AuthRoutes.js'));
-app.use("/api/agencia", require("./routes/PedidoRouter.js"))
+app.use("/api/agencia", require("./routes/PedidoRouter.js"));
+app.use("/api/agencia", require("./routes/CuentasRoutes.js"));
 module.exports = app;

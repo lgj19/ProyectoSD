@@ -216,7 +216,6 @@ vuelosCtrl.getVuelosByOriByDestByAsiByFecEst = async (req, res, next) => {
 
 vuelosCtrl.cambiarVueloEstado = async (req, res, next) => {
     const elId = req.params.id;
-    const elEstado = req.body;
     const URL = `${URL_WS_VUELOS}/${elId}/cambiarEstado`;
 
     fetch(URL, {

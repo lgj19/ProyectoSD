@@ -47,4 +47,8 @@ export class ReservasService {
   deletePedidoUsuario(){
     return this.http.delete<any>(`${this.URL_PEDIDOS}/usuario`)
   }
+  cambiarEstado(idPedido: String, estado: String){
+    const body = {estado};
+    return this.http.put<any>(`${this.URL_PEDIDOS}/${idPedido}/cambiarEstado`, body)
+  }
 }

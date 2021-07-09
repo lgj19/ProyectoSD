@@ -27,7 +27,7 @@ authCtrl.signUp = async(req, res, next) => {
         
     })
 
-    if(roles){ //Si no es admin, se le asigna el de usuario.
+    if(roles){ //Se añaden los roles. Si no es admin, se le asigna el de usuario.
         const foundRoles = await Role.find({name: {$in: roles}})
         nuevoUsuario.roles = foundRoles.map(role => role._id)
     }else{
@@ -57,7 +57,10 @@ authCtrl.signIn = async(req, res, next) => {
         expiresIn: 86400
     });
 
-    res.status(200).json({message: `OK. SignIn correcto. Token del usuario: ${token} `, token: token})
+    res.json({message: `OK. SignIn correcto. Token del usuario: ${token} `, token: token})
+}
+authCtrl.isAdmin = async (req, res, next) => {
+    return true;
 }
 
 module.exports = authCtrl;

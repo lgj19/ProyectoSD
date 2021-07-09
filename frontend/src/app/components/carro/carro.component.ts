@@ -5,6 +5,7 @@ import { Coche } from 'src/app/models/coche';
 import { Hotel } from 'src/app/models/hotel';
 import { Pedido } from 'src/app/models/pedido';
 import { Vuelo } from 'src/app/models/vuelo';
+import { BancoService } from 'src/app/services/banco.service';
 import { CocheService } from 'src/app/services/coche.service';
 import { HotelService } from 'src/app/services/hotel.service';
 import { ReservasService } from 'src/app/services/reservas.service';
@@ -16,6 +17,9 @@ import { VueloService } from 'src/app/services/vuelo.service';
   styleUrls: ['./carro.component.css']
 })
 export class CarroComponent implements OnInit {
+
+  numRespCompra: Number = 0;
+  textRespCompra: String = '';
 
   myForm: FormGroup;
   numTarjetaF: FormControl;
@@ -34,7 +38,7 @@ export class CarroComponent implements OnInit {
 
   constructor(
     public reservasService: ReservasService, private cocheService: CocheService, private hotelService: HotelService,
-    private vueloService: VueloService, private router: Router, private fb: FormBuilder) 
+    private vueloService: VueloService, private router: Router, private fb: FormBuilder, private bancoService: BancoService) 
   {
     this.numTarjetaF = new FormControl('',[Validators.required, Validators.minLength(19), Validators.maxLength(19)]);
     this.numSecretoTarjetaF = new FormControl('',[Validators.required, Validators.min(1), Validators.max(999)]);
@@ -55,7 +59,7 @@ export class CarroComponent implements OnInit {
       this.reservasService.getPedidoUsuario().subscribe(
         res => {
           console.log(res)
-           if(res.elemento == null)
+           if(res.elemento == null || res.elemento.estado != 'RESERVADO')
             return;
            this.pedido = res.elemento;
            if(this.pedido.idCoche != '')
@@ -124,7 +128,31 @@ export class CarroComponent implements OnInit {
   }
 
   comprar(){
-    //TODO REALIZAR COMPRA
+    this.bancoService.actualizarMovimiento(this.numTarjetaF.value, this.numSecretoTarjetaF.value,
+      this.titularF.value, this.precioTotal).subscribe(
+        res =>{
+          console.log(res.status, res.result);
+          this.numRespCompra = res.status;
+          this.textRespCompra = res.result;
+          this.cambiarProductosAComprados();
+          this.router.navigate(['/compras'])
+        },
+
+        err => {
+          console.log(err.error.status, err.error.result)
+          this.numRespCompra = err.error.status; 
+          this.textRespCompra = err.error.result;
+        }
+    )
+    //TODO: Cambiar a página de productos adquiridos.
+  }
+
+  cambiarProductosAComprados(){
+    if(this.pedido.idVueloIda != '')
+      this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'COMPRADO').subscribe();
+    if(this.pedido.idVueloVuelta != '')
+      this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'COMPRADO').subscribe();
+    this.reservasService.cambiarEstado(this.pedido._id!, 'COMPRADO').subscribe();
   }
 
   deshacer(){

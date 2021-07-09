@@ -8,7 +8,7 @@ import { UsuarioService } from './usuario.service';
 })
 export class AuthService {
 
-private URL = 'https://localhost:3000/api/agencia'
+private URL = 'https://localhost:3000/api/agencia/auth'
 
   constructor(
     private http: HttpClient,
@@ -16,11 +16,11 @@ private URL = 'https://localhost:3000/api/agencia'
     ) { }
 
   signUp(user: any) {
-    return this.http.post<any>(this.URL + '/auth/signup', user);
+    return this.http.post<any>(this.URL + '/signup', user);
   }
 
   signIn(user: any) {
-    return this.http.post<any>(this.URL + '/auth/signin', user);
+    return this.http.post<any>(this.URL + '/signin', user);
   }
 
   loggedIn(){
@@ -34,5 +34,9 @@ private URL = 'https://localhost:3000/api/agencia'
   logout(){
     localStorage.removeItem('token');
     this.router.navigate(['/signin']);
+  }
+
+  isAdmin(){
+    return this.http.get<boolean>(this.URL + '/isAdmin')
   }
 }

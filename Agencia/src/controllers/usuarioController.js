@@ -14,6 +14,7 @@ usuarioCtrl.adminRole = async(req, res, next) => {
     })
 }
 
+
 // URL -> /api/agencia/usuario
 
 usuarioCtrl.getUsuarios = async (req, res, next) => {

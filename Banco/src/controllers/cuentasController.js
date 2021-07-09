@@ -2,53 +2,28 @@
 //Inicialización de variables
 const cuentasCtrl = {};
 const { json } = require('express');
-//const { rawListeners } = require('../app');
 const Cuentas = require('../models/Cuentas');
 
-cuentasCtrl.getCuenta = async (req, res, next) => {
-    await Cuentas.find({
-        nombre: req.params.nombre,
-        numTarjeta: req.params.numTarjeta,
-        numSecretoTarjeta: req.params.numSecretoTarjeta
-        }, 
-        (err) => {
-            if(err) 
-                res.status(400).json({status: "ERROR al introducir los datos bancarios.", error: err}); 
-            res.json({status: 'OK. Tarjeta válida.'});
-    });
-}
-
-cuentasCtrl.getTieneSaldo = async (req, res, next) => {
-    await Cuentas.find({
-        nombre: req.params.nombre,
-        numTarjeta: req.params.numTarjeta,
-        numSecretoTarjeta: req.params.numSecretoTarjeta,
-        saldo: { $gte: req.params.coste }
-        }, 
-        (err) => {
-            if(err) 
-                res.status(400).json({status: "ERROR. No tiene dinero suficiente en el banco.", error: err}); 
-            res.json({status: 'OK. Tarjeta válida.'});
-    });
-}
-
 cuentasCtrl.updateMovimiento = async (req, res, next) => {
-    await Cuentas.findOneAndUpdate(
+    const coste = req.body.coste
+    const precio = req.body.coste * -1;
+
+    Cuentas.findOneAndUpdate(
         {
-            nombre: body.nombre,
-            numTarjeta: body.numTarjeta,
-            numSecretoTarjeta: body.numSecretoTarjeta
+            nombre: req.body.nombre,
+            numTarjeta: req.body.numTarjeta,
+            numSecretoTarjeta: req.body.numSecretoTarjeta,
+            saldo: { $gte: coste }
         }, 
-        {
-            $set:{
-                $inc: { saldo: body.coste }, //datos.coste debe ser un valor negativo para restar.
-                $push: { moviemientos: [body.coste, saldo] }
-            }                
-        },
-        (err) => {
-            if(err) 
-                res.status(500).json({status: "ERROR. No tiene dinero suficiente en el banco.", error: err}); 
-            res.json({status: 'OK. Movimiento válido en la cuenta.'});
+        { $inc: { saldo: precio } },
+        (err, cuenta) => {
+            if(err){
+                return res.status(500).json({result: "ERROR. No se pudo buscar la cuenta.", error: err, status: 500}); 
+            }
+            else if(cuenta == null || cuenta.length == 0){
+                return res.status(400).json({result: "ERROR. No se puede realizar el pago con dicha tarjeta.", status: 400}); 
+            }
+            return res.status(200).json({result: 'OK. Compra realizada satisfactoriamente.', status: 200});
     });
 }
 

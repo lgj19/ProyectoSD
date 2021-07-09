@@ -27,7 +27,8 @@ pedidosCtrl.postPedido = async (req, res, next) => {
     await newPedido.save((err, nuevoPedido) => {
         if(err){
             res.status(401).json({
-                result: 'Ya existe un pedido para ese usuario.'
+                result: 'Ya tienes un pedido RESERVADO o COMPRADO.',
+                status: 401
             })
             return;
         }
@@ -112,6 +113,23 @@ pedidosCtrl.deletePedidoUsuario = async (req, res, next) => {
 
         res.json({
             result: 'Pedido eliminado correctamente con el ID del usuario.',
+            elemento: pedido
+        });
+    });
+}
+
+pedidosCtrl.cambiarPedidoEstado = async (req, res, next) => {
+    const id = req.params.id;
+    await Pedido.findByIdAndUpdate(id,{ $set: { estado: req.body.estado} }
+    , (err, pedido) => {
+        if(err)
+            res.status(err.status).json({
+                result: 'Error al cambiar el estado del pedido.',
+                elemento: pedido
+            });
+
+        res.json({
+            result: 'Pedido modificado correctamente con el ID del usuario.',
             elemento: pedido
         });
     });

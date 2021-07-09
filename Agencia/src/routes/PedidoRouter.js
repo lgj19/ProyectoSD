@@ -11,6 +11,8 @@ router.get('/pedidos/usuario', authJwt.verifyToken,  pedidoCtrl.getPedidoUsuario
 router.put('/pedidos/usuario', authJwt.verifyToken,  pedidoCtrl.putPedidoUsuario)
 router.delete('/pedidos/usuario', authJwt.verifyToken,  pedidoCtrl.deletePedidoUsuario)
 
+router.put('/pedidos/:id/cambiarEstado', authJwt.verifyToken, pedidoCtrl.cambiarPedidoEstado)
+
 router.get('/pedidos/:id', authJwt.verifyToken,  pedidoCtrl.getPedido)
 router.put('/pedidos/:id', authJwt.verifyToken,  pedidoCtrl.putPedido)
 router.delete('/pedidos/:id', authJwt.verifyToken,  pedidoCtrl.deletePedido)
