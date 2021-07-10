@@ -1,10 +1,10 @@
 const { Router } = require('express')
 const router = Router()
-
+const authJwt = require('../middlewares/authJwt.js')
 const agenciaCtrl = require('../controllers/agenciaController.js')
 
 
-router.get('/', agenciaCtrl.saludoInicio)
+router.put('/createReservation', authJwt.verifyToken, agenciaCtrl.createReservation)
 
 
 module.exports = router;

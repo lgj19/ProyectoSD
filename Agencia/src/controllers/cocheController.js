@@ -153,7 +153,7 @@ cochesCtrl.putFechasReservadas = async (req, res, next) => {
         });
     })
     .catch((error) => {
-        next(error.status);
+        next(error);
     });
 }
 
