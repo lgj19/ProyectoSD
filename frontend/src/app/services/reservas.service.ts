@@ -11,7 +11,7 @@ import { Vuelo } from '../models/vuelo';
 export class ReservasService {
 
   URL_PEDIDOS = 'https://localhost:3000/api/agencia/pedidos';
-
+  URL_AGENCIA = 'https://localhost:3000/api/agencia';
   data = { //Datos que se rellenan del formulario
     origen: '',
     destino: '',
@@ -31,6 +31,16 @@ export class ReservasService {
   constructor(
     private http: HttpClient
   ) { }
+
+  createReservaTransaction(idCoche: String, idHotel: String, idVueloIda: String, idVueloVuelta: String, fechasCoche: [String, String], fechasHotel: [String, String]){
+    const body = {idCoche, idHotel, idVueloIda, idVueloVuelta, fechasCoche, fechasHotel};
+    return this.http.put(`${this.URL_AGENCIA}/createReservation`, body);
+  }
+
+  createPurchaseTransaction(coste: Number, nombre: String, numTarjeta: String, numSecretoTarjeta: String, idVueloIda: String, idVueloVuelta: String, idPedido: String){
+    const body = {coste, nombre, numTarjeta, numSecretoTarjeta, idVueloIda, idVueloVuelta, idPedido}
+    return this.http.put(`${this.URL_AGENCIA}/createPurchase`, body)
+  }
 
   getPedidoUsuario(){
     return this.http.get<any>(`${this.URL_PEDIDOS}/usuario`)

@@ -62,10 +62,17 @@ export class CocheService {
 
 
   EliminarCochesConFechasReservadas(coches: Coche[], inicio: string, fin: string){
-    for(let i=0; i<coches.length; i++)
+    for(let i=0; i<coches.length; i++){
+      var found = false;
       coches[i].fechasReservadas.forEach(fecha => {
-        if(this.fechaService.between(fecha, inicio, fin))
-          coches.splice(i, 1);
+        if(this.fechaService.between(fecha, inicio, fin)){
+          found = true;
+          return;
+        }          
       });      
+      if(found) coches.splice(i, 1);
+    }
   }
+
+
 }

@@ -83,7 +83,7 @@ export class FormularioComponent implements OnInit {
     this.recuperarCoches();
     this.recuperarHoteles();
     this.recuperarVuelos();
-
+    this.router.navigate(['/reservas']);
     this.crearReserva();
   }
 

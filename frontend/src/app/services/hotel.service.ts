@@ -60,10 +60,14 @@ export class HotelService {
   }
 
   EliminarHotelesConFechasReservadas(hoteles: Hotel[], inicio: string, fin: string){
-    for(let i=0; i<hoteles.length; i++)
-    hoteles[i].fechasReservadas.forEach(fecha => {
-        if(this.fechaService.between(fecha, inicio, fin))
-        hoteles.splice(i, 1);
-      });      
+    for(let i=0; i<hoteles.length; i++){
+      var found = false;
+      hoteles[i].fechasReservadas.forEach(fecha => {
+          if(this.fechaService.between(fecha, inicio, fin)){
+            found = true;
+          }
+      });
+      if(found) hoteles.splice(i, 1);
+    }      
   }
 }

@@ -50,7 +50,7 @@ export class CarroComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.recuperarPedido();
+    this.recuperarPedido();
   }
 
   addForm(){}
@@ -128,7 +128,21 @@ export class CarroComponent implements OnInit {
   }
 
   comprar(){
-    this.bancoService.actualizarMovimiento(this.numTarjetaF.value, this.numSecretoTarjetaF.value,
+    this.reservasService.createPurchaseTransaction(this.precioTotal,this.titularF.value, this.numTarjetaF.value, this.numSecretoTarjetaF.value,
+      this.pedido.idVueloIda, this.pedido.idVueloVuelta, this.pedido._id!).subscribe(
+        (res: any) => {
+          console.log(res.status, res.result);
+          this.numRespCompra = res.status;
+          this.textRespCompra = res.result;
+          this.router.navigate(['/compras'])
+        },      
+        err => {
+          console.log(err.error.status, err.error.result)
+          this.numRespCompra = err.error.status; 
+          this.textRespCompra = err.error.result;
+    });
+
+   /* this.bancoService.actualizarMovimiento(this.numTarjetaF.value, this.numSecretoTarjetaF.value,
       this.titularF.value, this.precioTotal).subscribe(
         res =>{
           console.log(res.status, res.result);
@@ -144,7 +158,7 @@ export class CarroComponent implements OnInit {
           this.textRespCompra = err.error.result;
         }
     )
-    //TODO: Cambiar a página de productos adquiridos.
+    */
   }
 
   cambiarProductosAComprados(){
@@ -152,6 +166,7 @@ export class CarroComponent implements OnInit {
       this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'COMPRADO').subscribe();
     if(this.pedido.idVueloVuelta != '')
       this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'COMPRADO').subscribe();
+
     this.reservasService.cambiarEstado(this.pedido._id!, 'COMPRADO').subscribe();
   }
 
@@ -189,9 +204,15 @@ export class CarroComponent implements OnInit {
 
   eliminarEstadoReservadoVuelos(){
     if(this.pedido.idVueloIda != '')
-      this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'DISPONIBLE');
+      this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'DISPONIBLE').subscribe(
+        res => console.log(res.result),
+        err => console.log(err)
+      );
     if(this.pedido.idVueloVuelta != '')
-      this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'DISPONIBLE');
+      this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'DISPONIBLE').subscribe(
+        res => console.log(res.result),
+        err => console.log(err)
+      );
   }
 
 }
