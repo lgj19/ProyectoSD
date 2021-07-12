@@ -33,7 +33,7 @@ export class CarroComponent implements OnInit {
   vueloVuelta: Vuelo = { empresa: '', origen:'', destino:'', precio:'', fecha:'', asientos:'', estado: 'DISPONIBLE' };
 
   precioTotal: number = 0;
-
+  fechas: [string, string] = ['','']
   fasePago: Boolean = false;
 
   constructor(
@@ -58,7 +58,7 @@ export class CarroComponent implements OnInit {
   recuperarPedido(){
       this.reservasService.getPedidoUsuario().subscribe(
         res => {
-          console.log(res)
+          console.log(res.result)
            if(res.elemento == null || res.elemento.estado != 'RESERVADO')
             return;
            this.pedido = res.elemento;
@@ -69,7 +69,7 @@ export class CarroComponent implements OnInit {
            if(this.pedido.idHotel != '')
             this.recuperarHotel();
         },
-        err => console.log(err)
+        err => console.log(`Error ${err.status}. ${err.error.result}`)
       )
   }
 
@@ -79,9 +79,9 @@ export class CarroComponent implements OnInit {
         res => {
           this.coche = res.elemento;
           this.precioTotal += this.coche.precio * this.pedido.dias;
-          console.log(res)
+          console.log(res.result)
         },
-        err => console.log(err)
+        err => console.log(`Error ${err.status}. ${err.error.result}`)
       )
     }
   }
@@ -92,9 +92,9 @@ export class CarroComponent implements OnInit {
         res => {
           this.vueloIda = res.elemento;
           this.precioTotal += Number(this.vueloIda.precio);
-          console.log(res)
+          console.log(res.result)
         },
-        err => console.log(err)
+        err => console.log(`Error ${err.status}. ${err.error.result}`)
       )
     }
 
@@ -103,9 +103,9 @@ export class CarroComponent implements OnInit {
         res => {
           this.vueloVuelta = res.elemento;
           this.precioTotal += Number(this.vueloVuelta.precio);
-          console.log(res)
+          console.log(res.result)
         },
-        err => console.log(err)
+        err => console.log(`Error ${err.status}. ${err.error.result}`)
       )
     }
   }
@@ -114,11 +114,11 @@ export class CarroComponent implements OnInit {
     if(this.pedido.idHotel != ''){
       this.hotelService.getHotel(this.pedido.idHotel).subscribe(
         res => {
-          console.log(res)
+          console.log(res.result)
           this.hotel = res.elemento;
           this.precioTotal += Number(this.hotel.precio) * this.pedido.dias;
         },
-        err => console.log(err)
+        err => console.log(`Error ${err.status}. ${err.error.result}`)
       )
     }
   }
@@ -129,53 +129,37 @@ export class CarroComponent implements OnInit {
 
   comprar(){
     this.reservasService.createPurchaseTransaction(this.precioTotal,this.titularF.value, this.numTarjetaF.value, this.numSecretoTarjetaF.value,
-      this.pedido.idVueloIda, this.pedido.idVueloVuelta, this.pedido._id!).subscribe(
+      this.pedido.idVueloIda, this.pedido.idVueloVuelta, this.pedido._id!, this.pedido.idCoche, this.pedido.idHotel).subscribe(
         (res: any) => {
-          console.log(res.status, res.result);
+          console.log(res.result);
           this.numRespCompra = res.status;
           this.textRespCompra = res.result;
           this.router.navigate(['/compras'])
         },      
         err => {
-          console.log(err.error.status, err.error.result)
+          alert(`Error ${err.status}. ${err.error.result}`)
           this.numRespCompra = err.error.status; 
           this.textRespCompra = err.error.result;
     });
-
-   /* this.bancoService.actualizarMovimiento(this.numTarjetaF.value, this.numSecretoTarjetaF.value,
-      this.titularF.value, this.precioTotal).subscribe(
-        res =>{
-          console.log(res.status, res.result);
-          this.numRespCompra = res.status;
-          this.textRespCompra = res.result;
-          this.cambiarProductosAComprados();
-          this.router.navigate(['/compras'])
-        },
-
-        err => {
-          console.log(err.error.status, err.error.result)
-          this.numRespCompra = err.error.status; 
-          this.textRespCompra = err.error.result;
-        }
-    )
-    */
-  }
-
-  cambiarProductosAComprados(){
-    if(this.pedido.idVueloIda != '')
-      this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'COMPRADO').subscribe();
-    if(this.pedido.idVueloVuelta != '')
-      this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'COMPRADO').subscribe();
-
-    this.reservasService.cambiarEstado(this.pedido._id!, 'COMPRADO').subscribe();
   }
 
   deshacer(){
-    this.cambiarProductosADisponibles();
-    this.reservasService.deletePedidoUsuario().subscribe();
-    this.router.navigate(['/home']);
+    //this.cambiarProductosADisponibles();
+    //this.reservasService.deletePedidoUsuario().subscribe();
+    this.fechas = [this.pedido.fechaInicio, this.pedido.fechaFin];
+    this.reservasService.eliminateReservationTransaction(this.pedido, this.fechas).subscribe(
+      (res: any) => {
+        console.log(res.result);
+        this.numRespCompra = res.status;
+        this.textRespCompra = res.result;
+        this.router.navigate(['/home']);
+      },
+      err => {
+        alert(`Error ${err.status}. ${err.error.result}`)
+      }
+    )
   }
-
+/*
   cambiarProductosADisponibles(){
     this.eliminarFechaReservaCoche();
     this.eliminarFechaReservaHotel();
@@ -187,7 +171,9 @@ export class CarroComponent implements OnInit {
       this.cocheService.updateFechasReservadasById(this.pedido.idCoche, [this.pedido.fechaInicio, this.pedido.fechaFin]).
         subscribe(
           res => console.log(res.result),
-          err => console.log(err)
+          err => {
+            console.error(`Error ${err.status}. ${err.error.result}`);
+          }
         );
     }
   }
@@ -197,7 +183,9 @@ export class CarroComponent implements OnInit {
       this.hotelService.updateFechasReservadasById(this.pedido.idHotel, [this.pedido.fechaInicio, this.pedido.fechaFin]).
         subscribe(
           res => console.log(res.result),
-          err => console.log(err)
+          err => {
+            console.error(`Error ${err.status}. ${err.error.result}`);
+          }
         );
     }
   }
@@ -206,13 +194,17 @@ export class CarroComponent implements OnInit {
     if(this.pedido.idVueloIda != '')
       this.vueloService.cambiarEstado(this.pedido.idVueloIda, 'DISPONIBLE').subscribe(
         res => console.log(res.result),
-        err => console.log(err)
+        err => {
+          console.error(`Error ${err.status}. ${err.error.result}`);
+        }
       );
     if(this.pedido.idVueloVuelta != '')
       this.vueloService.cambiarEstado(this.pedido.idVueloVuelta, 'DISPONIBLE').subscribe(
         res => console.log(res.result),
-        err => console.log(err)
+        err => {
+          console.error(`Error ${err.status}. ${err.error.result}`);
+        }
       );
   }
-
+*/
 }

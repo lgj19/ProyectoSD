@@ -32,9 +32,7 @@ export class FechaService {
     const start = moment(inicio);
     const end = moment(fin);
     const dates = [moment(fechas[0]), moment(fechas[1])];
-    console.log(`Inicio: ${start}, Fin: ${end}, Fechas: ${dates[0]} | ${dates[1]}`)
-    console.log(start.isBetween(dates[0],dates[1], undefined, "[]"));
-    console.log(end.isBetween(dates[0], dates[1], undefined, "[]"))
+    
     if(start.isBetween(dates[0],dates[1], undefined, "[]") || end.isBetween(dates[0], dates[1], undefined, "[]"))
       return true; 
     return false;

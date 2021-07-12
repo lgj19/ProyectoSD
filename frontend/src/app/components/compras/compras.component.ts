@@ -33,7 +33,7 @@ export class ComprasComponent implements OnInit {
   recuperarPedido(){
     this.reservasService.getPedidoUsuario().subscribe(
       res => {
-        console.log(res)
+        console.log(res.result)
          if(res.elemento == null || res.elemento.estado != 'COMPRADO')
           return;
          this.pedido = res.elemento;

@@ -5,17 +5,17 @@ const { json } = require('express');
 const Cuentas = require('../models/Cuentas');
 
 cuentasCtrl.updateMovimiento = async (req, res, next) => {
-    const coste = req.body.coste
-    const precio = req.body.coste * -1;
+    const saldoMin = req.body.saldoMin
+    const coste = req.body.coste;
 
     Cuentas.findOneAndUpdate(
         {
             nombre: req.body.nombre,
             numTarjeta: req.body.numTarjeta,
             numSecretoTarjeta: req.body.numSecretoTarjeta,
-            saldo: { $gte: coste }
+            saldo: { $gte: saldoMin }
         }, 
-        { $inc: { saldo: precio } },
+        { $inc: { saldo: coste } },
         (err, cuenta) => {
             if(err){
                 return res.status(500).json({result: "ERROR. No se pudo buscar la cuenta.", error: err, status: 500}); 

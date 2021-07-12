@@ -76,7 +76,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let coche of reservasService.reservasCoches">
-                            <td><input type="radio" [(ngModel)]="pedido.idCoche" name="reservaCocheSelect" value="{{coche._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="reservasService.pedido.idCoche" name="reservaCocheSelect" value="{{coche._id}}" text-align="center"/></td>
                             <td>{{coche.marca}}</td>
                             <td> {{coche.modelo}}</td>
                             <td> {{coche.asientos}}</td>
@@ -121,7 +121,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let hotel of reservasService.reservasHoteles">
-                            <td><input type="radio" [(ngModel)]="pedido.idHotel" name="reservaHotelSelect" value="{{hotel._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="reservasService.pedido.idHotel" name="reservaHotelSelect" value="{{hotel._id}}" text-align="center"/></td>
                             <td>{{hotel.nombre}}</td>
                             <td> {{hotel.personas}}</td>
                             <td> {{hotel.dormitorios}}</td>
@@ -173,7 +173,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let vueloIda of reservasService.reservasVuelosIda">
-                            <td><input type="radio" [(ngModel)]="pedido.idVueloIda" name="reservaVueloIdaSelect" value="{{vueloIda._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="reservasService.pedido.idVueloIda" name="reservaVueloIdaSelect" value="{{vueloIda._id}}" text-align="center"/></td>
                             <td>{{vueloIda.empresa}}</td>
                             <td> {{vueloIda.origen}}</td>
                             <td> {{vueloIda.destino}}</td>
@@ -224,7 +224,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let vueloVuelta of reservasService.reservasVuelosVuelta">
-                            <td><input type="radio" [(ngModel)]="pedido.idVueloVuelta" name="reservaVueloVueltaSelect" value="{{vueloVuelta._id}}" text-align="center"/></td>
+                            <td><input type="radio" [(ngModel)]="reservasService.pedido.idVueloVuelta" name="reservaVueloVueltaSelect" value="{{vueloVuelta._id}}" text-align="center"/></td>
                             <td>{{vueloVuelta.empresa}}</td>
                             <td> {{vueloVuelta.origen}}</td>
                             <td> {{vueloVuelta.destino}}</td>

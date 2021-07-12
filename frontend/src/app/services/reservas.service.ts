@@ -17,7 +17,7 @@ export class ReservasService {
     destino: '',
     personas: '',
     fechaOrigen: new Date(),
-    fechaDestino:new Date(),
+    fechaDestino: new Date(),
     dias:0,
     tipoViaje: '', //Ida y vuelta, ida, vuelta
     tipoReserva: [false, false, false], //[coche, vuelo, hotel]
@@ -32,14 +32,20 @@ export class ReservasService {
     private http: HttpClient
   ) { }
 
-  createReservaTransaction(idCoche: String, idHotel: String, idVueloIda: String, idVueloVuelta: String, fechasCoche: [String, String], fechasHotel: [String, String]){
-    const body = {idCoche, idHotel, idVueloIda, idVueloVuelta, fechasCoche, fechasHotel};
+  createReservaTransaction(pedido: Pedido, fechasCoche: [String, String], fechasHotel: [String, String]){
+    const body = {pedido, fechasCoche, fechasHotel};
     return this.http.put(`${this.URL_AGENCIA}/createReservation`, body);
   }
 
-  createPurchaseTransaction(coste: Number, nombre: String, numTarjeta: String, numSecretoTarjeta: String, idVueloIda: String, idVueloVuelta: String, idPedido: String){
-    const body = {coste, nombre, numTarjeta, numSecretoTarjeta, idVueloIda, idVueloVuelta, idPedido}
+  createPurchaseTransaction(coste: Number, nombre: String, numTarjeta: String, numSecretoTarjeta: String, idVueloIda: String, idVueloVuelta: String, idPedido: String
+    , idCoche: String, idHotel: String){
+    const body = {coste, nombre, numTarjeta, numSecretoTarjeta, idVueloIda, idVueloVuelta, idPedido, idCoche, idHotel}
     return this.http.put(`${this.URL_AGENCIA}/createPurchase`, body)
+  }
+
+  eliminateReservationTransaction(pedido: Pedido, fechas: [String, String]){
+    const body = {pedido: pedido, fechasCoche: fechas, fechasHotel: fechas};
+    return this.http.put(`${this.URL_AGENCIA}/eliminateReservation`, body);
   }
 
   getPedidoUsuario(){
@@ -57,6 +63,7 @@ export class ReservasService {
   deletePedidoUsuario(){
     return this.http.delete<any>(`${this.URL_PEDIDOS}/usuario`)
   }
+
   cambiarEstado(idPedido: String, estado: String){
     const body = {estado};
     return this.http.put<any>(`${this.URL_PEDIDOS}/${idPedido}/cambiarEstado`, body)

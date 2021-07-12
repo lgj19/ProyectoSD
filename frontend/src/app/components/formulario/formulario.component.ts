@@ -32,8 +32,6 @@ export class FormularioComponent implements OnInit {
 
   tiposViaje =[{name: "Ida y vuelta", value: "Ida y vuelta"}, {name: "Ida", value: "Ida"}, {name: "Vuelta", value: "Vuelta"}];
   tiposReserva =[{name: "Coche", value: "Coche"}, {name: "Vuelo", value: "Vuelo"}, {name: "Hotel  ", value: "Hotel"}];
-
-  pedido: Pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta:'', estado: 'RESERVADO', dias: 0, fechaInicio:'', fechaFin:''};
  
   constructor
   (private cocheService: CocheService,public reservasService: ReservasService, private fechaService: FechaService,
@@ -84,58 +82,8 @@ export class FormularioComponent implements OnInit {
     this.recuperarHoteles();
     this.recuperarVuelos();
     this.router.navigate(['/reservas']);
-    this.crearReserva();
   }
 
-  crearReserva(){
-    this.reservasService.createReserva(this.pedido).subscribe(
-      res => {
-        console.log(res.result);
-        this.router.navigate(['/reservas']);
-      },
-      err => {
-        alert(err.error.status + ' ERROR. ' +  err.error.result);
-        this.router.navigate(['/formulario']);
-      }
-    )
-  }
-
-  comprobarValidacion(): boolean {
-    var ret = true;
-    if(this.origenF.invalid){
-      this.origenF.markAsTouched();
-      ret = false;
-    }  
-    if(this.destinoF.invalid){
-      this.destinoF.markAsTouched();
-      ret = false;
-    }
-    if(this.fechaOrigenF.invalid){
-      this.fechaOrigenF.markAsTouched();
-      ret = false;
-    }
-    if(this.fechaDestinoF.invalid){
-      this.fechaDestinoF.markAsTouched();
-      ret = false;
-    }
-    if(this.personasF.invalid){
-      this.personasF.markAsTouched();
-      ret = false;
-    }
-    if(this.tipoViajeF.invalid){
-      this.tipoViajeF.markAsTouched();
-      ret = false;
-    }
-    if(this.errorFechas()){
-      ret=false
-      this.errFecha=true;
-    }else{
-      this.errFecha=false;
-    }
-    
-    return ret;      
-  }
-  
   rellenarDatos(){
     this.reservasService.data.origen = this.origenF.value;
     this.reservasService.data.destino = this.destinoF.value;
@@ -146,12 +94,12 @@ export class FormularioComponent implements OnInit {
     this.reservasService.data.tipoReserva[0] = (this.tipoCocheF.value) ? true : false;
     this.reservasService.data.tipoReserva[1] = (this.tipoVueloF.value) ? true : false;
     this.reservasService.data.tipoReserva[2] = (this.tipoHotelF.value) ? true : false;
-
-    this.pedido.dias = 
+    
+    this.reservasService.pedido.dias = 
     this.reservasService.data.dias = 
     this.fechaService.calcularDias(this.reservasService.data.fechaOrigen, this.reservasService.data.fechaDestino);
-    this.pedido.fechaInicio = String(this.reservasService.data.fechaOrigen);
-    this.pedido.fechaFin = String(this.reservasService.data.fechaDestino);
+    this.reservasService.pedido.fechaInicio = String(this.reservasService.data.fechaOrigen);
+    this.reservasService.pedido.fechaFin = String(this.reservasService.data.fechaDestino);
   }
 
 
@@ -165,7 +113,7 @@ export class FormularioComponent implements OnInit {
           // selecciono los elementos
           this.reservasService.reservasCoches = res.elementos; 
           //Quito los productos con las fechas ya reservadas
-          this.cocheService.EliminarCochesConFechasReservadas(this.reservasService.reservasCoches, this.pedido.fechaInicio, this.pedido.fechaFin);
+          this.cocheService.EliminarCochesConFechasReservadas(this.reservasService.reservasCoches, this.reservasService.pedido.fechaInicio, this.reservasService.pedido.fechaFin);
         },
         err => console.error(err)
       )
@@ -184,7 +132,7 @@ export class FormularioComponent implements OnInit {
           // selecciono los elementos
           this.reservasService.reservasHoteles = res.elementos;
           //Quito los productos con las fechas ya reservadas
-          this.hotelService.EliminarHotelesConFechasReservadas(this.reservasService.reservasHoteles, this.pedido.fechaInicio, this.pedido.fechaFin);
+          this.hotelService.EliminarHotelesConFechasReservadas(this.reservasService.reservasHoteles, this.reservasService.pedido.fechaInicio, this.reservasService.pedido.fechaFin);
         },
         err => console.error(err)
       )
@@ -231,7 +179,41 @@ export class FormularioComponent implements OnInit {
   }
 
 
-
+  comprobarValidacion(): boolean {
+    var ret = true;
+    if(this.origenF.invalid){
+      this.origenF.markAsTouched();
+      ret = false;
+    }  
+    if(this.destinoF.invalid){
+      this.destinoF.markAsTouched();
+      ret = false;
+    }
+    if(this.fechaOrigenF.invalid){
+      this.fechaOrigenF.markAsTouched();
+      ret = false;
+    }
+    if(this.fechaDestinoF.invalid){
+      this.fechaDestinoF.markAsTouched();
+      ret = false;
+    }
+    if(this.personasF.invalid){
+      this.personasF.markAsTouched();
+      ret = false;
+    }
+    if(this.tipoViajeF.invalid){
+      this.tipoViajeF.markAsTouched();
+      ret = false;
+    }
+    if(this.errorFechas()){
+      ret=false
+      this.errFecha=true;
+    }else{
+      this.errFecha=false;
+    }
+    
+    return ret;      
+  }
   
 
 }

@@ -21,9 +21,10 @@ pedidosCtrl.getPedidos = async (req, res, next) => {
 
 
 pedidosCtrl.postPedido = async (req, res, next) => {
-    var newPedido = new Pedido(req.body)
+    
+    var newPedido = new Pedido(req.body.pedido)
     newPedido.idUsuario = req.userId;
-
+    console.log(newPedido)
     await newPedido.save((err, nuevoPedido) => {
         if(err){
             res.status(401).json({
