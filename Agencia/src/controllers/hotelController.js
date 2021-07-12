@@ -6,7 +6,6 @@ const Hotel = require('../models/Hotel');
 const fetch = require('node-fetch');
 const https = require('https');
 
-const URL_WS_HOTELES = "https://localhost:3002/api/hoteles";
 
 //Controladores de la API
 
@@ -18,7 +17,7 @@ const httpsAgent = new https.Agent({
 
 hotelesCtrl.getHotel = async (req, res, next) => {
     const elId = req.params.id;
-    const URL = `${URL_WS_HOTELES}/${elId}`;
+    const URL = `${config.HTTPS_HOTEL}/${elId}`;
     fetch(URL, { 
         method: 'GET',
         headers: {
@@ -43,7 +42,7 @@ hotelesCtrl.getHotel = async (req, res, next) => {
 }
 
 hotelesCtrl.getHoteles = async (req, res, next) => {
-    const URL = `${URL_WS_HOTELES}`;
+    const URL = `${config.HTTPS_HOTEL}`;
 
     fetch(URL, { 
         method: 'GET',
@@ -70,7 +69,7 @@ hotelesCtrl.getHoteles = async (req, res, next) => {
 
 hotelesCtrl.postHotel = async (req, res, next) => {
     const elElemento = req.body;
-    const URL = `${URL_WS_HOTELES}`;
+    const URL = `${config.HTTPS_HOTEL}`;
 
     fetch(URL, {
         method: 'POST',
@@ -100,7 +99,7 @@ hotelesCtrl.postHotel = async (req, res, next) => {
 hotelesCtrl.putHotel = async (req, res, next) => {
     const elId = req.params.id;
     const elElemento = req.body;
-    const URL = `${URL_WS_HOTELES}/${elId}`;
+    const URL = `${config.HTTPS_HOTEL}/${elId}`;
 
     fetch(URL, {
         method: 'PUT',
@@ -129,7 +128,7 @@ hotelesCtrl.putHotel = async (req, res, next) => {
 
 hotelesCtrl.deleteHotel = async (req, res, next) => {
     const elId = req.params.id;
-    const URL = `${URL_WS_HOTELES}/${elId}`;
+    const URL = `${config.HTTPS_HOTEL}/${elId}`;
 
     fetch(URL, {
         method: 'DELETE',
@@ -159,7 +158,7 @@ hotelesCtrl.deleteHotel = async (req, res, next) => {
 hotelesCtrl.getHotelesByLocPer = async (req, res, next) => {
     const localidad = req.params.localidad;
     const personas = req.params.personas;
-    const URL = `${URL_WS_HOTELES}/localidad/${localidad}/personas/${personas}`;
+    const URL = `${config.HTTPS_HOTEL}/localidad/${localidad}/personas/${personas}`;
 
     fetch(URL, {
         method: 'GET',
@@ -187,7 +186,7 @@ hotelesCtrl.getHotelesByLocPer = async (req, res, next) => {
 hotelesCtrl.putFechasReservadas = async (req, res, next) => {
     const elId = req.params.id;
     const fechas = req.body.fechas;
-    const URL = `${URL_WS_HOTELES}/${elId}/fechasReservadas/`;
+    const URL = `${config.HTTPS_HOTEL}/${elId}/fechasReservadas/`;
 
     fetch(URL, {
         method: 'PUT',
@@ -218,7 +217,7 @@ hotelesCtrl.updateFechasReservadasById = async (req, res, next) => {
     const elId = req.params.id;
     const fechaIni = req.params.fechaIni;
     const fechaFin = req.params.fechaFin;
-    const URL = `${URL_WS_HOTELES}/${elId}/fechaIni/${fechaIni}/fechaFin/${fechaFin}`;
+    const URL = `${config.HTTPS_HOTEL}/${elId}/fechaIni/${fechaIni}/fechaFin/${fechaFin}`;
 
     fetch(URL, {
         method: 'PUT',

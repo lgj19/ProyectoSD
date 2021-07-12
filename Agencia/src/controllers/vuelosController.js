@@ -5,8 +5,6 @@ const { json } = require('express');
 const fetch = require('node-fetch');
 const https = require('https');
 
-const URL_WS_VUELOS = "https://localhost:3003/api/vuelos";
-
 //Controladores de la API
 
 const httpsAgent = new https.Agent({
@@ -17,7 +15,7 @@ const httpsAgent = new https.Agent({
 
 vuelosCtrl.getVuelo = async (req, res, next) => {
     const elId = req.params.id;
-    const URL = `${URL_WS_VUELOS}/${elId}`;
+    const URL = `${config.HTTPS_VUELO}/${elId}`;
     fetch(URL, { 
         method: 'GET',
         headers: {
@@ -42,7 +40,7 @@ vuelosCtrl.getVuelo = async (req, res, next) => {
 }
 
 vuelosCtrl.getVuelos = async (req, res, next) => {
-    const URL = `${URL_WS_VUELOS}`;
+    const URL = `${config.HTTPS_VUELO}`;
 
     fetch(URL, { 
         method: 'GET',
@@ -69,7 +67,7 @@ vuelosCtrl.getVuelos = async (req, res, next) => {
 
 vuelosCtrl.postVuelo = async (req, res, next) => {
     const elElemento = req.body;
-    const URL = `${URL_WS_VUELOS}`;
+    const URL = `${config.HTTPS_VUELO}`;
 
     fetch(URL, {
         method: 'POST',
@@ -99,7 +97,7 @@ vuelosCtrl.postVuelo = async (req, res, next) => {
 vuelosCtrl.putVuelo = async (req, res, next) => {
     const elId = req.params.id;
     const elElemento = req.body;
-    const URL = `${URL_WS_VUELOS}/${elId}`;
+    const URL = `${config.HTTPS_VUELO}/${elId}`;
 
     fetch(URL, {
         method: 'PUT',
@@ -128,7 +126,7 @@ vuelosCtrl.putVuelo = async (req, res, next) => {
 
 vuelosCtrl.deleteVuelo = async (req, res, next) => {
     const elId = req.params.id;
-    const URL = `${URL_WS_VUELOS}/${elId}`;
+    const URL = `${config.HTTPS_VUELO}/${elId}`;
 
     fetch(URL, {
         method: 'DELETE',
@@ -158,7 +156,7 @@ vuelosCtrl.deleteVuelo = async (req, res, next) => {
 vuelosCtrl.getVuelosByOriPerEst = async (req, res, next) => {
     const origen = req.params.origen;
     const asientos = req.params.asientos;
-    const URL = `${URL_WS_VUELOS}/origen/${origen}/asientos/${asientos}`;
+    const URL = `${config.HTTPS_VUELO}/origen/${origen}/asientos/${asientos}`;
 
     fetch(URL, {
         method: 'GET',
@@ -188,7 +186,7 @@ vuelosCtrl.getVuelosByOriByDestByAsiByFecEst = async (req, res, next) => {
     const origen = req.params.origen;
     const destino = req.params.destino;
     const asientos = req.params.asientos;
-    const URL = `${URL_WS_VUELOS}/origen/${origen}/destino/${destino}/asientos/${asientos}/fecha/${fecha}`;
+    const URL = `${config.HTTPS_VUELO}/origen/${origen}/destino/${destino}/asientos/${asientos}/fecha/${fecha}`;
 
     fetch(URL, {
         method: 'GET',
@@ -216,7 +214,7 @@ vuelosCtrl.getVuelosByOriByDestByAsiByFecEst = async (req, res, next) => {
 
 vuelosCtrl.cambiarVueloEstado = async (req, res, next) => {
     const elId = req.params.id;
-    const URL = `${URL_WS_VUELOS}/${elId}/cambiarEstado`;
+    const URL = `${config.HTTPS_VUELO}/${elId}/cambiarEstado`;
 
     fetch(URL, {
         method: 'PUT',

@@ -1,16 +1,7 @@
 const axios = require('axios').default;
 const https = require('https');
 
-const cochesCtrl = require("./cocheController");
-const hotelesCtrl = require("./hotelController");
-const pedidosCtrl = require("./pedidoController");
-const vuelosCtrl = require("./vuelosController");
 const agenciaCtrl = {}
-const HTTPS_AGENCIA = 'https://localhost:3000/api/agencia';
-const HTTPS_COCHE = 'https://localhost:3001/api/coches';
-const HTTPS_HOTEL = 'https://localhost:3002/api/hoteles';
-const HTTPS_VUELO = 'https://localhost:3003/api/vuelos';
-const HTTPS_BANCO = 'https://localhost:3004/api/Banco'
 
 
 agenciaCtrl.createReservation = async(req, res, next) => {
@@ -29,45 +20,45 @@ const fechasHotel = req.body.fechasHotel;
 var transOKBool = true;
 
     if(idCoche != '')
-        await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechasReservadas`,{ fechas: fechasCoche }).catch ((error) => {  // No se elimina nada.
+        await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechasReservadas`,{ fechas: fechasCoche }).catch ((error) => {  // No se elimina nada.
             res.status(500).json({result: "Error del servidor al reservar el alquiler del coche. Reserva deshecha."});
             transOKBool = false;
         });
 
     if(idHotel != '')
-        await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel }).catch (async () => {  //Eliminar fechas de reserva del COCHE.
+        await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel }).catch (async () => {  //Eliminar fechas de reserva del COCHE.
 
-            await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
+            await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
             res.status(500).json({result: "Error del servidor al reservar la habitación de hotel. Reserva deshecha."});
             transOKBool = false;
         });
 
     if(idVueloIda != '')
-        await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' }).catch (async () => {  //Eliminar fechas de reserva del COCHE y HOTEL.
+        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' }).catch (async () => {  //Eliminar fechas de reserva del COCHE y HOTEL.
 
-            await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
-            await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
+            await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
+            await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
             res.status(500).json({result: "Error del servidor al reservar el vuelo de ida. Reserva deshecha."});
             transOKBool = false;
         });
 
     if(idVueloVuelta != '')
-        await axiosInst.put(`${HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' }).catch (async () => {  //Eliminar fechas de reserva del COCHE, HOTEL y Vuelo Ida.
+        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' }).catch (async () => {  //Eliminar fechas de reserva del COCHE, HOTEL y Vuelo Ida.
 
-            await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
-            await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
-            await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' });
+            await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
+            await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
+            await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' });
             res.status(500).json({result: "Error del servidor al reservar el vuelo de vuelta. Reserva deshecha."});
             transOKBool = false;
         });
 
-    await axiosInst.post(`${HTTPS_AGENCIA}/pedidos`, { pedido })
+    await axiosInst.post(`${config.HTTPS_AGENCIA}/pedidos`, { pedido })
       .catch (async () => { //Eliminar fechas de reserva del COCHE, HOTEL, Vuelo Ida y Vuelo Vuelta.
 
-         await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
-         await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
-         await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' });
-         await axiosInst.put(`${HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'DISPONIBLE' });
+         await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
+         await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
+         await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' });
+         await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'DISPONIBLE' });
         res.status(500).json({result: "Error del servidor al realizar el pedido. Reserva deshecha."});
         transOKBool = false;
     });
@@ -99,21 +90,21 @@ agenciaCtrl.createPurchase = async( req, res, next) => {
     var transOKBool = true;
 
     if(idCoche != '')
-        await axiosInst.get(`${HTTPS_COCHE}/${idCoche}`)
+        await axiosInst.get(`${config.HTTPS_COCHE}/${idCoche}`)
         .catch(async() => {
             res.status(500).json({result: "Error del servidor al identificar el coche. Compra abortada."});
             transOKBool = false;
         });
 
     if(transOKBool && idHotel != '')
-        await axiosInst.get(`${HTTPS_HOTEL}/${idHotel}`)
+        await axiosInst.get(`${config.HTTPS_HOTEL}/${idHotel}`)
         .catch(async() => {
             res.status(500).json({result: "Error del servidor al identificar el hotel. Compra abortada."});
             transOKBool = false;
         });
 
     if(transOKBool)
-      await axiosInst.put(`${HTTPS_BANCO}/cuentas/updateMovimiento`, {coste, saldoMin, nombre, numTarjeta, numSecretoTarjeta})
+      await axiosInst.put(`${config.HTTPS_BANCO}/cuentas/updateMovimiento`, {coste, saldoMin, nombre, numTarjeta, numSecretoTarjeta})
         .catch( (error) => {
             if(error.response.status == 500)
                 res.status(error.response.status).json({result: "Error del servidor al realizar la compra. Compra abortada.", statusText: error.response.statusText});
@@ -123,29 +114,29 @@ agenciaCtrl.createPurchase = async( req, res, next) => {
         });
 
     if(idVueloIda != '' && transOKBool)
-        await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'COMPRADO' })
+        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'COMPRADO' })
         .catch (async () => {  
-            await axiosInst.put(`${HTTPS_BANCO}/cuentas/updateMovimiento`, {costeInverso, nombre, numTarjeta, numSecretoTarjeta})
+            await axiosInst.put(`${config.HTTPS_BANCO}/cuentas/updateMovimiento`, {costeInverso, nombre, numTarjeta, numSecretoTarjeta})
             res.status(500).json({result: "Error del servidor al reservar el vuelo de ida. Compra deshecha."});
             transOKBool = false;
 
         });
 
     if(idVueloVuelta != '' && transOKBool)
-        await axiosInst.put(`${HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'COMPRADO' })
+        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'COMPRADO' })
         .catch (async () => { 
-            await axiosInst.put(`${HTTPS_BANCO}/cuentas/updateMovimiento`, {costeInverso, nombre, numTarjeta, numSecretoTarjeta})
-            await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
+            await axiosInst.put(`${config.HTTPS_BANCO}/cuentas/updateMovimiento`, {costeInverso, nombre, numTarjeta, numSecretoTarjeta})
+            await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
             res.status(500).json({result: "Error del servidor al reservar el vuelo de vuelta. Compra deshecha."});
             transOKBool = false;
 
         });
 
     if(transOKBool)
-        await axiosInst.put(`${HTTPS_AGENCIA}/pedidos/${idPedido}/cambiarEstado`, { estado: 'COMPRADO' })
+        await axiosInst.put(`${config.HTTPS_AGENCIA}/pedidos/${idPedido}/cambiarEstado`, { estado: 'COMPRADO' })
             .catch (async () => {
-                await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
-                await axiosInst.put(`${HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' });
+                await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
+                await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' });
                 res.status(500).json({result: "Error del servidor al realizar el pedido. Reserva deshecha."});
                 transOKBool = false;
         });
@@ -171,47 +162,47 @@ agenciaCtrl.eliminateReservationTransaction = async (req, res, next) => {
     const idVueloVuelta = req.body.pedido.idVueloVuelta;
     var transOKBool = true;
 
-    await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`, {})
+    await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`, {})
       .catch(() => {
             res.status(500).json({result: "Error del servidor al deshacer la reserva del coche. Eliminación abortada."});
             transOKBool = false;
       });
 
     if(transOKBool)
-        await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`, {})
+        await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`, {})
             .catch(async (error) => {
-                await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
+                await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
                 res.status(error.response.status).json({result: "Error del servidor al deshacer la reserva del hotel. Eliminación abortada."});
                 transOKBool = false;
         });
 
     if(transOKBool)
-        await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' })
+        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' })
             .catch (async () => { 
-                await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
-                await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel});
+                await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
+                await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel});
                 res.status(500).json({result: "Error del servidor al deshacer la reserva del vuelo de ida. Eliminación abortada."});
                 transOKBool = false;
         });
 
     if(transOKBool)
-        await axiosInst.put(`${HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'DISPONIBLE' })
+        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'DISPONIBLE' })
             .catch (async () => { 
-                await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
-                await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel});
-                await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
+                await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
+                await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel});
+                await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
                 res.status(500).json({result: "Error del servidor al deshacer la reserva del vuelo de vuelta. Eliminación abortada."});
                 transOKBool = false;
         });
     
 
     if(transOKBool)
-        await axiosInst.delete(`${HTTPS_AGENCIA}/pedidos/usuario`)
+        await axiosInst.delete(`${config.HTTPS_AGENCIA}/pedidos/usuario`)
           .catch(async() => {
-            await axiosInst.put(`${HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
-            await axiosInst.put(`${HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel});
-            await axiosInst.put(`${HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
-            await axiosInst.put(`${HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' });
+            await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechasReservadas`, {fechas: fechasCoche});
+            await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel});
+            await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' });
+            await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' });
             res.status(500).json({result: "Error del servidor al deshacer la reserva del paquete del pedido. Eliminación abortada."});
             transOKBool = false;
         });

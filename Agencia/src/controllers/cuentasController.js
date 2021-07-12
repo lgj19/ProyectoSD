@@ -4,7 +4,6 @@ const { json } = require('express');
 const fetch = require('node-fetch');
 const https = require('https');
 
-const URL_WS_CUENTAS = "https://localhost:3004/api/Banco/cuentas";
 
 const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
@@ -16,7 +15,7 @@ const httpsAgent = new https.Agent({
 
 cuentasCtrl.updateMovimiento = async (req, res, next) => {
     const body = req.body;
-    const URL = `${URL_WS_CUENTAS}/updateMovimiento`;
+    const URL = `${config.HTTPS_BANCO_CUENTAS}/updateMovimiento`;
 
     fetch(URL, {
         method: 'PUT',

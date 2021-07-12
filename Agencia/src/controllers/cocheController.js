@@ -6,8 +6,6 @@ const Coche = require('../models/Coche');
 const fetch = require('node-fetch');
 const https = require('https');
 
-const URL_WS_COCHES = "https://localhost:3001/api/coches";
-
 //Controladores de la API
 
 const httpsAgent = new https.Agent({
@@ -18,7 +16,7 @@ const httpsAgent = new https.Agent({
 
 cochesCtrl.getCoche = async (req, res, next) => {
     const elId = req.params.id;
-    const URL = `${URL_WS_COCHES}/${elId}`;
+    const URL = `${config.HTTPS_COCHE}/${elId}`;
     fetch(URL, { 
         method: 'GET',
         headers: {
@@ -43,7 +41,7 @@ cochesCtrl.getCoche = async (req, res, next) => {
 }
 
 cochesCtrl.getCoches = async (req, res, next) => {
-    const URL = `${URL_WS_COCHES}`;
+    const URL = `${config.HTTPS_COCHE}`;
 
     fetch(URL, { 
         method: 'GET',
@@ -70,7 +68,7 @@ cochesCtrl.getCoches = async (req, res, next) => {
 
 cochesCtrl.postCoches = async (req, res, next) => {
     const elElemento = req.body;
-    const URL = `${URL_WS_COCHES}`;
+    const URL = `${config.HTTPS_COCHE}`;
 
     fetch(URL, {
         method: 'POST',
@@ -100,7 +98,7 @@ cochesCtrl.postCoches = async (req, res, next) => {
 cochesCtrl.putCoches = async (req, res, next) => {
     const elId = req.params.id;
     const elElemento = req.body;
-    const URL = `${URL_WS_COCHES}/${elId}`;
+    const URL = `${config.HTTPS_COCHE}/${elId}`;
 
     fetch(URL, {
         method: 'PUT',
@@ -130,7 +128,7 @@ cochesCtrl.putCoches = async (req, res, next) => {
 cochesCtrl.putFechasReservadas = async (req, res, next) => {
     const elId = req.params.id;
     const fechas = req.body.fechas;
-    const URL = `${URL_WS_COCHES}/${elId}/fechasReservadas/`;
+    const URL = `${config.HTTPS_COCHE}/${elId}/fechasReservadas/`;
 
     fetch(URL, {
         method: 'PUT',
@@ -159,7 +157,7 @@ cochesCtrl.putFechasReservadas = async (req, res, next) => {
 
 cochesCtrl.deleteCoches = async (req, res, next) => {
     const elId = req.params.id;
-    const URL = `${URL_WS_COCHES}/${elId}`;
+    const URL = `${config.HTTPS_COCHE}/${elId}`;
 
     fetch(URL, {
         method: 'DELETE',
@@ -189,7 +187,7 @@ cochesCtrl.deleteCoches = async (req, res, next) => {
 cochesCtrl.getCochesByAsiLoc = async (req, res, next) => {
     const localidad = req.params.localidad;
     const asientos = req.params.asientos;
-    const URL = `${URL_WS_COCHES}/localidad/${localidad}/asientos/${asientos}`;
+    const URL = `${config.HTTPS_COCHE}/localidad/${localidad}/asientos/${asientos}`;
 
     fetch(URL, {
         method: 'GET',
@@ -218,7 +216,7 @@ cochesCtrl.updateFechasReservadasById = async (req, res, next) => {
     const elId = req.params.id;
     const fechaIni = req.params.fechaIni;
     const fechaFin = req.params.fechaFin;
-    const URL = `${URL_WS_COCHES}/${elId}/fechaIni/${fechaIni}/fechaFin/${fechaFin}`;
+    const URL = `${config.HTTPS_COCHE}/${elId}/fechaIni/${fechaIni}/fechaFin/${fechaFin}`;
 
     fetch(URL, {
         method: 'PUT',
