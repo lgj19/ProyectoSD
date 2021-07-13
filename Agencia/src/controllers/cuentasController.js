@@ -3,7 +3,7 @@ const cuentasCtrl = {};
 const { json } = require('express');
 const fetch = require('node-fetch');
 const https = require('https');
-
+const config = require('../config')
 
 const httpsAgent = new https.Agent({
     rejectUnauthorized: false,

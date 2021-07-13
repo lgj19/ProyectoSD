@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ReservasComponent implements OnInit {
 
   errTransaction: boolean = false;
+  errExisteReserva: boolean = false;
 
   fechas: [string, string] = ['','']
   strTipoReserva: string[] = [];
@@ -25,13 +26,25 @@ export class ReservasComponent implements OnInit {
     this.mostrarReservasSeleccionadas();
    }
 
+
   async addForm(form: NgForm){
 
-    //crear el pedido y modificar estado de los productos
-    this.fechas = [String(this.reservasService.data.fechaOrigen), String(this.reservasService.data.fechaDestino)];
-    this.createReservaTrans();
-    
+      this.reservasService.getPedidoUsuario().subscribe(
+        res => {
+          if(res.elemento != null && res.elemento._id != ''){ //Si tiene un pedido, abortar.
+            this.errExisteReserva = true;
+            alert("Ya tiene un pedido en marcha.");
+            return;
+          }
+          else{ //Si no tiene pedido, crear reserva.
+            this.fechas = [String(this.reservasService.data.fechaOrigen), String(this.reservasService.data.fechaDestino)];
+            this.createReservaTrans();
+          }
+        }
+      )
   }
+
+  
   
   createReservaTrans(){
     this.reservasService.createReservaTransaction(this.reservasService.pedido,
