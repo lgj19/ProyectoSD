@@ -1,0 +1,11 @@
+[
+    {"nombre": "Hotel Casa Blanca", "localidad": "Valencia","precio": 50, "personas": 2, "dormitorios": 2, "m2": 80, "fechasReservadas": []},
+    {"nombre": "Hotel NH", "localidad": "Valencia","precio": 30, "personas": 1, "dormitorios": 1, "m2": 50, "fechasReservadas": []},
+    {"nombre": "Hotel Casa Blanca", "localidad": "Valencia","precio": 75, "personas": 4, "dormitorios": 3, "m2": 120, "fechasReservadas": []},
+    {"nombre": "Hotel Casa Blanca", "localidad": "Alicante","precio": 50, "personas": 2, "dormitorios": 2, "m2": 80, "fechasReservadas": []},
+    {"nombre": "Hotel NH", "localidad": "Alicante","precio": 30, "personas": 1, "dormitorios": 1, "m2": 50, "fechasReservadas": []},
+    {"nombre": "Hotel Casa Blanca", "localidad": "Alicante","precio": 75, "personas": 4, "dormitorios": 3, "m2": 120, "fechasReservadas": []},
+    {"nombre": "Hotel Casa Blanca", "localidad": "Madrid","precio": 50, "personas": 2, "dormitorios": 2, "m2": 80, "fechasReservadas": []},
+    {"nombre": "Hotel NH", "localidad": "Madrid","precio": 30, "personas": 1, "dormitorios": 1, "m2": 50, "fechasReservadas": []},
+    {"nombre": "Hotel Casa Blanca", "localidad": "Madrid","precio": 75, "personas": 4, "dormitorios": 3, "m2": 120, "fechasReservadas": []}
+]

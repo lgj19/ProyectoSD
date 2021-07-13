@@ -1,0 +1,7 @@
+[
+    {"_id":{"$oid":"60dddf2cdb61a127d88361bf"},"roles":[{"$oid":"60d73731bcac4036c02beee4"},{"$oid":"60d73731bcac4036c02beee2"}],
+    "nombre":"admin","apellidos":"admin","email":"admin@admin.com","usuario":"admin","password":"$2a$10$Nn5daV/FslJJHCxc.qwMreQGLDJkcL9M3YXn3DO3Fm6qDncnV5U8q","createdAt":{"$date":"2021-07-01T15:28:44.923Z"},"updatedAt":{"$date":"2021-07-01T15:28:44.923Z"}},
+    
+    {"_id":{"$oid":"60e8820c1956ff243c4523fb"},"roles":[{"$oid":"60d73731bcac4036c02beee2"}],
+    "nombre":"lgj19","apellidos":"lgj19","email":"lgj19@alu.ua.es","usuario":"lgj19","password":"$2a$10$gPjz.oUZ91lfvNWai7nryuFkxJYVmOFVz6PQAgt/h/YKV4CvhuZ7.","createdAt":{"$date":"2021-07-09T17:06:20.151Z"},"updatedAt":{"$date":"2021-07-09T17:06:20.151Z"}}
+    ]

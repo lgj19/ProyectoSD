@@ -1,0 +1,5 @@
+[
+    {"nombre": "Luis Giron Juarez", "numTarjeta": "1234-5678-9012-3456", "numSecretoTarjeta": "123", "saldo": 100},
+    {"nombre": "Adam Brahim Garcia", "numTarjeta": "2341-5678-9012-3456", "numSecretoTarjeta": "231", "saldo": 100000},
+    {"nombre": "Juan Carlos Sanchez Sanchez", "numTarjeta": "3412-5678-9012-3456", "numSecretoTarjeta": "312", "saldo": 100000}
+]
