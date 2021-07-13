@@ -1,4 +1,4 @@
-#Puesta en marcha
+Puesta en marcha
 
 Para poner en marcha el sistema es necesario tener insalado mongoDB y NodeJS.
 
