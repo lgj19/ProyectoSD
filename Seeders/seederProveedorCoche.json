@@ -1,8 +1,8 @@
 [
-    { "fechasReservadas": [], "marca": "Tesla", "modelo": "Model S", "precio": 35, "asientos": "5", "localidad": "Valencia" },
-    { "fechasReservadas": [], "marca": "Jaguar", "modelo": "Unique", "precio": 20, "asientos": "2", "localidad": "Valencia" },
-    { "fechasReservadas": [], "marca": "Tesla", "modelo": "Model S", "precio": 35, "asientos": "5", "localidad": "Alicante" },
-    { "fechasReservadas": [], "marca": "Jaguar", "modelo": "Unique", "precio": 20, "asientos": "2", "localidad": "Alicante" },
-    { "fechasReservadas": [], "marca": "Tesla", "modelo": "Model S", "precio": 35, "asientos": "5", "localidad": "Madrid" },
-    { "fechasReservadas": [], "marca": "Jaguar", "modelo": "Unique", "precio": 20, "asientos": "2", "localidad": "Madrid" }
+    { "fechasReservadas": [], "marca": "Tesla", "modelo": "Model S", "precio": 35, "asientos": 5, "localidad": "Valencia" },
+    { "fechasReservadas": [], "marca": "Jaguar", "modelo": "Unique", "precio": 20, "asientos": 2, "localidad": "Valencia" },
+    { "fechasReservadas": [], "marca": "Tesla", "modelo": "Model S", "precio": 35, "asientos": 5, "localidad": "Alicante" },
+    { "fechasReservadas": [], "marca": "Jaguar", "modelo": "Unique", "precio": 20, "asientos": 2, "localidad": "Alicante" },
+    { "fechasReservadas": [], "marca": "Tesla", "modelo": "Model S", "precio": 35, "asientos": 5, "localidad": "Madrid" },
+    { "fechasReservadas": [], "marca": "Jaguar", "modelo": "Unique", "precio": 20, "asientos": 2, "localidad": "Madrid" }
 ]
