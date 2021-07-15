@@ -1,13 +1,7 @@
 [
     {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 120, "origen": "Alicante", "destino": "Valencia", "asientos": 2, "estado": "DISPONIBLE"},
-    {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 75, "origen": "Alicante", "destino": "Valencia", "asientos": 1, "estado": "DISPONIBLE"},
+    {"empresa": "Flys", "fecha": "2021-07-23", "precio": 75, "origen": "Alicante", "destino": "Valencia", "asientos": 2, "estado": "DISPONIBLE"},
 
     {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 120, "origen": "Valencia", "destino": "Alicante", "asientos": 2, "estado": "DISPONIBLE"},
-    {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 75, "origen": "Valencia", "destino": "Alicante", "asientos": 1, "estado": "DISPONIBLE"},
-
-    {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 120, "origen": "Alicante", "destino": "Madrid", "asientos": 2, "estado": "DISPONIBLE"},
-    {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 75, "origen": "Alicante", "destino": "Madrid", "asientos": 1, "estado": "DISPONIBLE"},
-
-    {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 120, "origen": "Madrid", "destino": "Alicante", "asientos": 2, "estado": "DISPONIBLE"},
-    {"empresa": "RyanAir", "fecha": "2021-07-23", "precio": 75, "origen": "Madrid", "destino": "Alicante", "asientos": 1, "estado": "DISPONIBLE"}
+    {"empresa": "Flys", "fecha": "2021-07-23", "precio": 75, "origen": "Valencia", "destino": "Alicante", "asientos": 2, "estado": "DISPONIBLE"}
 ]
