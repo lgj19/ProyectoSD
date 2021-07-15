@@ -10,8 +10,8 @@ import { Vuelo } from '../models/vuelo';
 })
 export class ReservasService {
 
-  URL_PEDIDOS = 'https://192.168.31.244:3000/api/agencia/pedidos';
-  URL_AGENCIA = 'https://192.168.31.244:3000/api/agencia';
+  URL_PEDIDOS = 'https://localhost:3000/api/agencia/pedidos';
+  URL_AGENCIA = 'https://localhost:3000/api/agencia';
   data = { //Datos que se rellenan del formulario
     origen: '',
     destino: '',

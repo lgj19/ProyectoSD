@@ -8,7 +8,7 @@ import { FechaService } from './fecha.service';
 })
 export class HotelService {
 
-  URL_API_AGENCIA_HOTEL = 'https://192.168.31.244:3000/api/agencia/hoteles';
+  URL_API_AGENCIA_HOTEL = 'https://localhost:3000/api/agencia/hoteles';
 
   hotelSelected: Hotel = { nombre: '', localidad:'', personas:'', precio:'', dormitorios:'', m2:'', fechasReservadas: [['', '']] };
 
