@@ -50,6 +50,11 @@ export class CarroComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.reservasService.pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta: '', estado: 'RESERVADO', dias: 0, fechaInicio:'', fechaFin:''};
+    this.reservasService.reservasCoches = [];
+    this.reservasService.reservasHoteles = [];
+    this.reservasService.reservasVuelosIda = [];
+    this.reservasService.reservasVuelosVuelta = [];
     this.recuperarPedido();
   }
 
@@ -152,6 +157,11 @@ export class CarroComponent implements OnInit {
         console.log(res.result);
         this.numRespCompra = res.status;
         this.textRespCompra = res.result;
+        this.reservasService.pedido = {idUsuario: '', idCoche: '', idHotel: '', idVueloIda: '', idVueloVuelta: '', estado: 'RESERVADO', dias: 0, fechaInicio:'', fechaFin:''};
+        this.reservasService.reservasCoches = [];
+        this.reservasService.reservasHoteles = [];
+        this.reservasService.reservasVuelosIda = [];
+        this.reservasService.reservasVuelosVuelta = [];
         this.router.navigate(['/home']);
       },
       err => {

@@ -40,7 +40,7 @@ authCtrl.signUp = async(req, res, next) => {
         expiresIn: 86400
     })
 
-    res.json({message: `OK. SignUp correcto. Token del usuario: ${token}`})
+    res.json({message: `OK. SignUp correcto. Token del usuario: ${token}`, token: token})
 }
 authCtrl.signIn = async(req, res, next) => {
     const userFound = await Usuario.findOne({usuario: req.body.usuario})

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class BancoService {
 
-  URL_API_BANCO = 'https://localhost:3000/api/agencia/cuentas';
+  URL_API_BANCO = 'https://192.168.31.244:3000/api/agencia/cuentas';
 
   constructor(private http: HttpClient) { }
 

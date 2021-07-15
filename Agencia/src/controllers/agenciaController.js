@@ -26,15 +26,15 @@ var transOKBool = true;
             transOKBool = false;
         });
 
-    if(idHotel != '')
+    if(idHotel != '' && transOKBool)
         await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechasReservadas`, {fechas: fechasHotel }).catch (async () => {  //Eliminar fechas de reserva del COCHE.
 
-            await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
+            await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
             res.status(500).json({result: "Error del servidor al reservar la habitación de hotel. Reserva deshecha."});
             transOKBool = false;
         });
 
-    if(idVueloIda != '')
+    if(idVueloIda != '' && transOKBool)
         await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'RESERVADO' }).catch (async () => {  //Eliminar fechas de reserva del COCHE y HOTEL.
 
             await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
@@ -43,8 +43,9 @@ var transOKBool = true;
             transOKBool = false;
         });
 
-    if(idVueloVuelta != '')
-        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' }).catch (async () => {  //Eliminar fechas de reserva del COCHE, HOTEL y Vuelo Ida.
+    if(idVueloVuelta != '' && transOKBool)
+        await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'RESERVADO' })
+        .catch (async () => {  //Eliminar fechas de reserva del COCHE, HOTEL y Vuelo Ida.
 
             await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
             await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
@@ -53,16 +54,17 @@ var transOKBool = true;
             transOKBool = false;
         });
 
-    await axiosInst.post(`${config.HTTPS_AGENCIA}/pedidos`, { pedido })
-      .catch (async () => { //Eliminar fechas de reserva del COCHE, HOTEL, Vuelo Ida y Vuelo Vuelta.
+    if(transOKBool)
+        await axiosInst.post(`${config.HTTPS_AGENCIA}/pedidos`, { pedido })
+        .catch (async () => { //Eliminar fechas de reserva del COCHE, HOTEL, Vuelo Ida y Vuelo Vuelta.
 
-         await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
-         await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
-         await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' });
-         await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'DISPONIBLE' });
-        res.status(500).json({result: "Error del servidor al realizar el pedido. Reserva deshecha."});
-        transOKBool = false;
-    });
+            await axiosInst.put(`${config.HTTPS_HOTEL}/${idHotel}/fechaIni/${fechasHotel[0]}/fechaFin/${fechasHotel[1]}`);
+            await axiosInst.put(`${config.HTTPS_COCHE}/${idCoche}/fechaIni/${fechasCoche[0]}/fechaFin/${fechasCoche[1]}`);
+            await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloIda}/cambiarEstado`, {estado: 'DISPONIBLE' });
+            await axiosInst.put(`${config.HTTPS_VUELO}/${idVueloVuelta}/cambiarEstado`, {estado: 'DISPONIBLE' });
+            res.status(500).json({result: "Error del servidor al realizar el pedido. Reserva deshecha."});
+            transOKBool = false;
+        });
 
     if(transOKBool)
         res.json({result: "Reserva creada correctamente."});

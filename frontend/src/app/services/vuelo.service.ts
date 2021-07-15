@@ -7,7 +7,7 @@ import { Vuelo } from '../models/vuelo';
 })
 export class VueloService {
 
-  URL_API_AGENCIA_VUELO = 'https://localhost:3000/api/agencia/vuelos';
+  URL_API_AGENCIA_VUELO = 'https://192.168.31.244:3000/api/agencia/vuelos';
 
   vueloSelected: Vuelo = { empresa: '', origen:'', destino:'', precio:'', fecha:'', asientos:'', estado: 'DISPONIBLE' };
   vueloIdaSelected: Vuelo = { empresa: '', origen:'', destino:'', precio:'', fecha:'', asientos:'', estado: 'DISPONIBLE' };

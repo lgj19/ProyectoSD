@@ -8,7 +8,7 @@ import { UsuarioService } from './usuario.service';
 })
 export class AuthService {
 
-private URL = 'https://localhost:3000/api/agencia/auth'
+private URL = 'https://192.168.31.244:3000/api/agencia/auth'
 
   constructor(
     private http: HttpClient,
